@@ -3,11 +3,13 @@ package registry
 import "backend/usecase"
 
 type UseCase struct {
-	SignUp usecase.SignUp
+	SignUp        usecase.SignUp
+	SignUpConfirm usecase.SignUpConfirm
 }
 
 func NewUseCase() UseCase {
 	return UseCase{
-		SignUp: usecase.NewSignUp(),
+		SignUp:        usecase.NewSignUp(),
+		SignUpConfirm: usecase.NewSignUpConfirm(),
 	}
 }

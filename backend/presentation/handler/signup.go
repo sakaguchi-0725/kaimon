@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"backend/core"
 	"backend/usecase"
 	"net/http"
 
@@ -32,7 +33,7 @@ func NewSignUp(uc usecase.SignUp) echo.HandlerFunc {
 func makeSignUpInput(c echo.Context) (usecase.SignUpInput, error) {
 	var req SignUpRequest
 	if err := c.Bind(&req); err != nil {
-		return usecase.SignUpInput{}, err
+		return usecase.SignUpInput{}, core.NewInvalidError(err)
 	}
 
 	return usecase.SignUpInput{

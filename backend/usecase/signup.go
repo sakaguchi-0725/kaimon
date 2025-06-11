@@ -13,14 +13,14 @@ type (
 		Password string
 	}
 
-	signUpImpl struct{}
+	signUpInteractor struct{}
 )
 
-func (s *signUpImpl) Execute(ctx context.Context, in SignUpInput) error {
+func (s *signUpInteractor) Execute(ctx context.Context, in SignUpInput) error {
 	// TODO: Implement sign up logic
 	return nil
 }
 
 func NewSignUp() SignUp {
-	return &signUpImpl{}
+	return &signUpInteractor{}
 }

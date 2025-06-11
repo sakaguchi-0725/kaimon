@@ -33,6 +33,7 @@ func (s *Server) MapRoutes(uc registry.UseCase) {
 	})
 
 	s.POST("/signup", handler.NewSignUp(uc.SignUp))
+	s.POST("/signup/confirm", handler.NewSignUpConfirm(uc.SignUpConfirm))
 }
 
 func (s *Server) Run() {

@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  title: Share Basket API
+  description: API for Share Basket application
+  version: 1.0.0
+servers:
+  - url: /api
+    description: API server
+paths:
+  /signup:
+    post:
+      summary: ユーザー登録
+      description: 新規ユーザーを作成します
+      operationId: signUp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+      responses:
+        '204':
+          description: ユーザー登録成功
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    BadRequest:
+      description: リクエスト不正
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 'BAD_REQUEST'
+            message: 'リクエストが不正です'
+    InternalServerError:
+      description: サーバーエラー
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 'INTERNAL_SERVER_ERROR'
+            message: 'サーバーエラーが発生しました'
+
+  schemas:
+    SignUpRequest:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          description: ユーザー名
+        email:
+          type: string
+          format: email
+          description: メールアドレス
+        password:
+          type: string
+          format: password
+          description: パスワード
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: エラーコード
+        message:
+          type: string
+          description: エラーメッセージ 

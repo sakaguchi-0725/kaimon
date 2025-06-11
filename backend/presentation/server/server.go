@@ -1,6 +1,8 @@
 package server
 
 import (
+	"backend/presentation/handler"
+	"backend/registry"
 	"context"
 	"fmt"
 	"log"
@@ -25,10 +27,12 @@ func New(addr uint16) *Server {
 	}
 }
 
-func (s *Server) MapRoutes() {
+func (s *Server) MapRoutes(uc registry.UseCase) {
 	s.GET("/health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{"status": "ok"})
 	})
+
+	s.POST("/signup", handler.NewSignUp(uc.SignUp))
 }
 
 func (s *Server) Run() {

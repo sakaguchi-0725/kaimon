@@ -31,3 +31,4 @@ Share Basketは、グループでの買い物リストを共有・管理する�
 - [画面遷移図](./docs/screen_transition.md)
 - [ドメインモデル図](./docs/domain_model.md)
 - [ユースケース図](./docs/usecase_diagram.md)
+- [API定義](./docs/openapi.yml)

@@ -29,4 +29,5 @@ Share Basketは、グループでの買い物リストを共有・管理する�
 詳細なドキュメントは [docs](./docs) ディレクトリにあります：
 
 - [画面遷移図](./docs/screen_transition.md)
-- [ドメインモデル図](./docs/domain_model.md) 
+- [ドメインモデル図](./docs/domain_model.md)
+- [ユースケース図](./docs/usecase_diagram.md)

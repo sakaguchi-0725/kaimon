@@ -103,6 +103,24 @@ paths:
           $ref: '#/components/responses/ExpiredCode'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /signup/resend-code:
+    post:
+      summary: 確認コード再送信
+      description: 会員登録時に使用する確認コードを再送信します
+      operationId: resendConfirmationCode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResendConfirmationCodeRequest'
+      responses:
+        '204':
+          description: 確認コード再送信成功
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   responses:
     BadRequest:
@@ -210,6 +228,15 @@ components:
         confirmationCode:
           type: string
           description: 確認コード
+    ResendConfirmationCodeRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: メールアドレス
     Error:
       type: object
       properties:

@@ -139,6 +139,29 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/InternalServerError'
+    post:
+      summary: グループ作成
+      description: 新しいグループを作成します
+      operationId: createGroup
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
+      responses:
+        '201':
+          description: グループ作成成功
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/GroupLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   responses:
     BadRequest:
@@ -168,6 +191,15 @@ components:
           example:
             code: 'UNAUTHORIZED'
             message: 'メールアドレスまたはパスワードが正しくありません'
+    GroupLimitExceeded:
+      description: グループ数制限超過
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 'GROUP_LIMIT_EXCEEDED'
+            message: 'グループ数の上限に達しています。プランをアップグレードすると、より多くのグループを作成できます。'
     InternalServerError:
       description: サーバーエラー
       content:
@@ -267,6 +299,17 @@ components:
         id:
           type: string
           description: グループID
+        name:
+          type: string
+          description: グループ名
+        description:
+          type: string
+          description: グループ説明
+    CreateGroupRequest:
+      type: object
+      required:
+        - name
+      properties:
         name:
           type: string
           description: グループ名

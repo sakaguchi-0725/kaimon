@@ -175,7 +175,7 @@ paths:
           $ref: '#/components/responses/GroupLimitExceeded'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /groups/{groupId}:
+  /groups/{id}:
     get:
       tags:
         - Group
@@ -185,7 +185,7 @@ paths:
         - bearerAuth: []
       parameters:
         - in: path
-          name: groupId
+          name: id
           description: グループID
           required: true
           schema:

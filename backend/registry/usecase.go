@@ -10,6 +10,7 @@ type UseCase struct {
 	ResetPassword          usecase.ResetPassword
 	ResetPasswordConfirm   usecase.ResetPasswordConfirm
 	VerifyToken            usecase.VerifyToken
+	GetJoinedGroups        usecase.GetJoinedGroups
 }
 
 func NewUseCase() UseCase {
@@ -21,5 +22,6 @@ func NewUseCase() UseCase {
 		ResetPassword:          usecase.NewResetPassword(),
 		ResetPasswordConfirm:   usecase.NewResetPasswordConfirm(),
 		VerifyToken:            usecase.NewVerifyToken(),
+		GetJoinedGroups:        usecase.NewGetJoinedGroups(),
 	}
 }

@@ -3,7 +3,6 @@ package handler
 import (
 	"backend/core"
 	"backend/usecase"
-	"errors"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -25,12 +24,7 @@ func NewGetJoinedGroups(usecase usecase.GetJoinedGroups) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := c.Request().Context()
 
-		userID := core.GetUserID(ctx)
-		if userID == "" {
-			return core.NewAppError(core.ErrUnauthorized, errors.New("userID is empty"))
-		}
-
-		groups, err := usecase.Execute(ctx, userID)
+		groups, err := usecase.Execute(ctx, core.GetUserID(ctx))
 		if err != nil {
 			return err
 		}

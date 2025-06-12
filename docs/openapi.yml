@@ -175,6 +175,50 @@ paths:
           $ref: '#/components/responses/GroupLimitExceeded'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /groups/{groupId}:
+    get:
+      tags:
+        - Group
+      summary: グループ詳細取得
+      description: 指定されたグループの詳細情報を取得します
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: groupId
+          description: グループID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: グループ詳細取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGroupResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: アクセス権限がありません
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 'FORBIDDEN'
+                message: 'このグループへのアクセス権限がありません'
+        '404':
+          description: グループが見つかりません
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                code: 'NOT_FOUND'
+                message: 'グループが見つかりません'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   responses:
     BadRequest:
@@ -338,6 +382,22 @@ components:
         message:
           type: string
           description: エラーメッセージ
+    GetGroupResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: グループID
+        name:
+          type: string
+          description: グループ名
+        description:
+          type: string
+          description: グループ説明
+        createdAt:
+          type: string
+          format: date-time
+          description: グループ作成日時
   securitySchemes:
     bearerAuth:
       type: http

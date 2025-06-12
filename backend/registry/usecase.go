@@ -9,6 +9,7 @@ type UseCase struct {
 	Login                  usecase.Login
 	ResetPassword          usecase.ResetPassword
 	ResetPasswordConfirm   usecase.ResetPasswordConfirm
+	VerifyToken            usecase.VerifyToken
 }
 
 func NewUseCase() UseCase {
@@ -19,5 +20,6 @@ func NewUseCase() UseCase {
 		Login:                  usecase.NewLogin(),
 		ResetPassword:          usecase.NewResetPassword(),
 		ResetPasswordConfirm:   usecase.NewResetPasswordConfirm(),
+		VerifyToken:            usecase.NewVerifyToken(),
 	}
 }

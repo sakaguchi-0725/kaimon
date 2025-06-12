@@ -6,12 +6,18 @@ info:
 servers:
   - url: /api
     description: API server
+tags:
+  - name: Auth
+    description: 認証関連のAPI
+  - name: Group
+    description: グループ関連のAPI
 paths:
   /signup:
     post:
+      tags:
+        - Auth
       summary: ユーザー登録
       description: 新規ユーザーを作成します
-      operationId: signUp
       requestBody:
         required: true
         content:
@@ -27,9 +33,10 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /signup/confirm:
     post:
+      tags:
+        - Auth
       summary: ユーザー登録確認
       description: 確認コードを使用してユーザー登録を完了します
-      operationId: signUpConfirm
       requestBody:
         required: true
         content:
@@ -47,9 +54,10 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /login:
     post:
+      tags:
+        - Auth
       summary: ログイン
       description: メールアドレスとパスワードでログインします
-      operationId: login
       requestBody:
         required: true
         content:
@@ -67,9 +75,10 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /reset-password:
     post:
+      tags:
+        - Auth
       summary: パスワードリセット
       description: パスワードリセット用のメールを送信します
-      operationId: resetPassword
       requestBody:
         required: true
         content:
@@ -85,9 +94,10 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /reset-password/confirm:
     post:
+      tags:
+        - Auth
       summary: パスワードリセット確認
       description: 確認コードを使用してパスワードリセットを確認します
-      operationId: resetPasswordConfirm
       requestBody:
         required: true
         content:
@@ -105,9 +115,10 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /signup/resend-code:
     post:
+      tags:
+        - Auth
       summary: 確認コード再送信
       description: 会員登録時に使用する確認コードを再送信します
-      operationId: resendConfirmationCode
       requestBody:
         required: true
         content:
@@ -123,9 +134,10 @@ paths:
           $ref: '#/components/responses/InternalServerError'
   /groups:
     get:
+      tags:
+        - Group
       summary: 参加しているグループ一覧取得
       description: ユーザーが参加しているグループの一覧を取得します
-      operationId: getJoinedGroups
       security:
         - bearerAuth: []
       responses:
@@ -140,9 +152,10 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
     post:
+      tags:
+        - Group
       summary: グループ作成
       description: 新しいグループを作成します
-      operationId: createGroup
       security:
         - bearerAuth: []
       requestBody:
@@ -158,7 +171,7 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '403':
+        '422':
           $ref: '#/components/responses/GroupLimitExceeded'
         '500':
           $ref: '#/components/responses/InternalServerError'

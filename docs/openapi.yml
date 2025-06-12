@@ -65,6 +65,24 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /reset-password:
+    post:
+      summary: パスワードリセット
+      description: パスワードリセット用のメールを送信します
+      operationId: resetPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '204':
+          description: パスワードリセットメール送信成功
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   responses:
     BadRequest:
@@ -150,6 +168,15 @@ components:
           type: string
           format: password
           description: パスワード
+    ResetPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: メールアドレス
     Error:
       type: object
       properties:

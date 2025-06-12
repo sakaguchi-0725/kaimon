@@ -44,6 +44,7 @@ func (s *Server) MapRoutes(uc registry.UseCase) {
 	groups.Use(middleware.AuthMiddleware(uc.VerifyToken))
 	groups.GET("", handler.NewGetJoinedGroups(uc.GetJoinedGroups))
 	groups.POST("", handler.NewCreateGroup(uc.CreateGroup))
+	groups.GET("/:id", handler.NewGetGroup(uc.GetGroup))
 }
 
 func (s *Server) Run() {

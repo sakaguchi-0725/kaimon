@@ -12,6 +12,7 @@ type UseCase struct {
 	VerifyToken            usecase.VerifyToken
 	GetJoinedGroups        usecase.GetJoinedGroups
 	CreateGroup            usecase.CreateGroup
+	GetGroup               usecase.GetGroup
 }
 
 func NewUseCase() UseCase {
@@ -25,5 +26,6 @@ func NewUseCase() UseCase {
 		VerifyToken:            usecase.NewVerifyToken(),
 		GetJoinedGroups:        usecase.NewGetJoinedGroups(),
 		CreateGroup:            usecase.NewCreateGroup(),
+		GetGroup:               usecase.NewGetGroup(),
 	}
 }

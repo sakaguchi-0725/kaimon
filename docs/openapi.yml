@@ -121,6 +121,24 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /groups:
+    get:
+      summary: 参加しているグループ一覧取得
+      description: ユーザーが参加しているグループの一覧を取得します
+      operationId: getJoinedGroups
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: グループ一覧取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetJoinedGroupsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   responses:
     BadRequest:
@@ -159,7 +177,6 @@ components:
           example:
             code: 'INTERNAL_SERVER_ERROR'
             message: 'サーバーエラーが発生しました'
-
   schemas:
     SignUpRequest:
       type: object
@@ -237,6 +254,25 @@ components:
           type: string
           format: email
           description: メールアドレス
+    GetJoinedGroupsResponse:
+      type: object
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/JoinedGroup'
+    JoinedGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          description: グループID
+        name:
+          type: string
+          description: グループ名
+        description:
+          type: string
+          description: グループ説明
     Error:
       type: object
       properties:
@@ -245,4 +281,8 @@ components:
           description: エラーコード
         message:
           type: string
-          description: エラーメッセージ 
+          description: エラーメッセージ
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer 

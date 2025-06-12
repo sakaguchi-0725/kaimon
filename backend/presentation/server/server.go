@@ -36,6 +36,7 @@ func (s *Server) MapRoutes(uc registry.UseCase) {
 	s.POST("/signup/confirm", handler.NewSignUpConfirm(uc.SignUpConfirm))
 	s.POST("/login", handler.NewLogin(uc.Login))
 	s.POST("/reset-password", handler.NewResetPassword(uc.ResetPassword))
+	s.POST("/reset-password/confirm", handler.NewResetPasswordConfirm(uc.ResetPasswordConfirm))
 }
 
 func (s *Server) Run() {

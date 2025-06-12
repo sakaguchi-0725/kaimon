@@ -83,6 +83,26 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /reset-password/confirm:
+    post:
+      summary: パスワードリセット確認
+      description: 確認コードを使用してパスワードリセットを確認します
+      operationId: resetPasswordConfirm
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordConfirmRequest'
+      responses:
+        '204':
+          description: パスワードリセット確認成功
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '410':
+          $ref: '#/components/responses/ExpiredCode'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   responses:
     BadRequest:
@@ -177,6 +197,19 @@ components:
           type: string
           format: email
           description: メールアドレス
+    ResetPasswordConfirmRequest:
+      type: object
+      required:
+        - email
+        - confirmationCode
+      properties:
+        email:
+          type: string
+          format: email
+          description: メールアドレス
+        confirmationCode:
+          type: string
+          description: 確認コード
     Error:
       type: object
       properties:

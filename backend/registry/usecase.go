@@ -14,6 +14,7 @@ type UseCase struct {
 	CreateGroup            usecase.CreateGroup
 	GetGroup               usecase.GetGroup
 	GetGroupMembers        usecase.GetGroupMembers
+	GetShoppingItems       usecase.GetShoppingItems
 }
 
 func NewUseCase() UseCase {
@@ -29,5 +30,6 @@ func NewUseCase() UseCase {
 		CreateGroup:            usecase.NewCreateGroup(),
 		GetGroup:               usecase.NewGetGroup(),
 		GetGroupMembers:        usecase.NewGetGroupMembers(),
+		GetShoppingItems:       usecase.NewGetShoppingItems(),
 	}
 }

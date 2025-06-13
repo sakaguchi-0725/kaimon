@@ -45,6 +45,7 @@ func (s *Server) MapRoutes(uc registry.UseCase) {
 	groups.GET("", handler.NewGetJoinedGroups(uc.GetJoinedGroups))
 	groups.POST("", handler.NewCreateGroup(uc.CreateGroup))
 	groups.GET("/:id", handler.NewGetGroup(uc.GetGroup))
+	groups.GET("/:id/members", handler.NewGetGroupMembers(uc.GetGroupMembers))
 }
 
 func (s *Server) Run() {

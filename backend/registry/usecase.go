@@ -13,6 +13,7 @@ type UseCase struct {
 	GetJoinedGroups        usecase.GetJoinedGroups
 	CreateGroup            usecase.CreateGroup
 	GetGroup               usecase.GetGroup
+	GetGroupMembers        usecase.GetGroupMembers
 }
 
 func NewUseCase() UseCase {
@@ -27,5 +28,6 @@ func NewUseCase() UseCase {
 		GetJoinedGroups:        usecase.NewGetJoinedGroups(),
 		CreateGroup:            usecase.NewCreateGroup(),
 		GetGroup:               usecase.NewGetGroup(),
+		GetGroupMembers:        usecase.NewGetGroupMembers(),
 	}
 }

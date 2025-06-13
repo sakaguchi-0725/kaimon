@@ -17,7 +17,7 @@ type Member struct {
 	Name     string `json:"name"`
 	Role     string `json:"role"`
 	Status   string `json:"status"`
-	JoinedAt string `json:"joined_at"`
+	JoinedAt string `json:"joinedAt"`
 }
 
 func NewGetGroupMembers(usecase usecase.GetGroupMembers) echo.HandlerFunc {

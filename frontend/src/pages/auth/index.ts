@@ -1,0 +1,5 @@
+export { default as LoginPage } from './ui/login-page.vue'
+export { default as SignupPage } from './ui/signup-page.vue'
+export { default as SignupConfirmPage } from './ui/signup-confirm-page.vue'
+export { default as ResetPassword } from './ui/reset-password.vue'
+export { default as ResetPasswordConfirm } from './ui/reset-password-confirm.vue'

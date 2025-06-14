@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useToastContainer } from '../lib/useToastContainer'
+import { useToastContainer } from '../lib/use-toast-container'
 import ErrorToast from './error-toast.vue'
 import SuccessToast from './success-toast.vue'
 

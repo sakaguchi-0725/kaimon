@@ -464,6 +464,9 @@ components:
           type: string
           description: グループ説明
     Error:
+      required:
+        - code
+        - message
       type: object
       properties:
         code:

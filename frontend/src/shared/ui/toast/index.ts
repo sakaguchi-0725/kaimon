@@ -1,4 +1,9 @@
 export { default as ToastContainer } from './ui/toast-container.vue'
 export * from './model'
-export { useToastManager } from './lib/useToastManager'
+export {
+  getToastContainerComponent,
+  setToastContainerRef,
+  showError,
+  showSuccess,
+} from './lib/toast-manager'
 export type { ToastContainerRef } from './model'

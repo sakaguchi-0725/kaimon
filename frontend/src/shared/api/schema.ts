@@ -563,9 +563,9 @@ export interface components {
     }
     Error: {
       /** @description エラーコード */
-      code?: string
+      code: string
       /** @description エラーメッセージ */
-      message?: string
+      message: string
     }
     GetGroupResponse: {
       /** @description グループID */

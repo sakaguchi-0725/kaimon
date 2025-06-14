@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { useToastManager } from '@/shared/ui/toast'
+import {
+  getToastContainerComponent,
+  setToastContainerRef,
+  showError,
+  showSuccess,
+} from '@/shared/ui/toast'
 import { onMounted, ref } from 'vue'
 
-const { getToastContainerComponent, setToastContainerRef, showError, showSuccess } =
-  useToastManager()
 const ToastContainerComponent = getToastContainerComponent()
 const toastContainerRef = ref(null)
 
@@ -13,13 +16,13 @@ onMounted(() => {
 
     // 3秒後にエラートーストを表示
     setTimeout(() => {
-      showError('エラーが発生しました。再試行してください。')
+      showError('トーストテスト', 'エラーが発生しました。再試行してください。')
 
       // エラーの1秒後に成功トーストを表示
       setTimeout(() => {
-        showSuccess('データが正常に保存されました。')
+        showSuccess(undefined, 'データが正常に保存されました。')
       }, 1000)
-    }, 3000)
+    }, 4000)
   }
 })
 </script>

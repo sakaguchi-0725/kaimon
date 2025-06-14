@@ -2,6 +2,7 @@ import createClient, { type Middleware } from 'openapi-fetch'
 import type { paths } from './schema'
 import type { ApiSchema } from './response'
 import { API_URL } from '../constants'
+import { showError } from '../ui/toast'
 
 // エラーレスポンスの型定義
 type ErrorResponse = ApiSchema<'Error'>
@@ -28,21 +29,23 @@ const errorMiddleware: Middleware = {
     }
 
     if (statusCode === 401) {
+      showError('認証エラー', '再度ログインしてください')
       window.location.href = '/login'
       return
     }
 
     if (statusCode === 500) {
+      showError('サーバーエラー', 'サーバーでエラーが発生しました')
       window.location.href = '/error/500'
       return
     }
 
     if (isErrorResponse(errorObj)) {
-      // TODO: toastを表示する処理
-      console.error(errorObj.message)
+      showError('エラーが発生しました', errorObj.message)
       return
     }
 
+    showError('予期せぬエラー', 'システムエラーが発生しました')
     window.location.href = '/error/500'
   },
 }

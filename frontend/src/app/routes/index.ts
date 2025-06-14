@@ -4,19 +4,10 @@ import {
   createMemoryHistory,
   type RouteRecordRaw,
 } from 'vue-router'
-import { h } from 'vue'
+import { getPublicRoutes } from './public-route'
+import { getPrivateRoutes } from './private-routes'
 
-const routes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    name: 'sample',
-    component: {
-      render() {
-        return h('h1', 'Hello World')
-      },
-    },
-  },
-]
+const routes: RouteRecordRaw[] = [...getPublicRoutes(), ...getPrivateRoutes()]
 
 export const createAppRouter = (type: 'web' | 'memory') => {
   const history = type === 'web' ? createWebHistory() : createMemoryHistory()

@@ -6,6 +6,7 @@ import {
   showSuccess,
 } from '@/shared/ui/toast'
 import { onMounted, ref } from 'vue'
+import { RouterView } from 'vue-router'
 
 const ToastContainerComponent = getToastContainerComponent()
 const toastContainerRef = ref(null)
@@ -29,7 +30,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <h1 class="text-3xl font-bold underline">Hello World</h1>
+    <RouterView />
     <ToastContainerComponent ref="toastContainerRef" />
   </div>
 </template>

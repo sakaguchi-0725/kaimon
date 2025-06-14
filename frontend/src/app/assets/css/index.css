@@ -1,1 +1,9 @@
 @import 'tailwindcss';
+
+@theme {
+  --color-primary: #f36c21;
+  --color-error: #fb2c36;
+  --color-error-light: #ffe2e2;
+  --color-success: #00bd7d;
+  --color-success-light: #cbfbf1;
+}

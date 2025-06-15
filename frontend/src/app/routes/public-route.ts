@@ -7,13 +7,20 @@ import {
 } from '@/pages/auth'
 import { WelcomePage } from '@/pages/welcome'
 import type { RouteRecordRaw } from 'vue-router'
+import { PublicLayout } from '../layout'
 
 export const getPublicRoutes = (): RouteRecordRaw[] => {
   return [
     {
       path: '/',
-      name: 'welcome',
-      component: WelcomePage,
+      component: PublicLayout,
+      children: [
+        {
+          path: '',
+          name: 'welcome',
+          component: WelcomePage,
+        },
+      ],
     },
     {
       path: '/login',

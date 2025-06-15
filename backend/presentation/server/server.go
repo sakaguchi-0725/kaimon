@@ -2,7 +2,7 @@ package server
 
 import (
 	"backend/presentation/handler"
-	"backend/presentation/middleware"
+	customMiddleware "backend/presentation/middleware"
 	"backend/registry"
 	"context"
 	"fmt"
@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 type Server struct {
@@ -29,6 +30,14 @@ func New(addr uint16) *Server {
 }
 
 func (s *Server) MapRoutes(uc registry.UseCase) {
+	s.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins:     []string{"http://localhost:5173"}, // TODO: 環境変数から取得する
+		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowCredentials: true,
+	}))
+
+	s.Use(middleware.Logger())
+
 	s.GET("/health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{"status": "ok"})
 	})
@@ -41,7 +50,7 @@ func (s *Server) MapRoutes(uc registry.UseCase) {
 	s.POST("/resend-confirmation-code", handler.NewResendConfirmationCode(uc.ResendConfirmationCode))
 
 	groups := s.Group("/groups")
-	groups.Use(middleware.AuthMiddleware(uc.VerifyToken))
+	groups.Use(customMiddleware.AuthMiddleware(uc.VerifyToken))
 	groups.GET("", handler.NewGetJoinedGroups(uc.GetJoinedGroups))
 	groups.POST("", handler.NewCreateGroup(uc.CreateGroup))
 	groups.GET("/:id", handler.NewGetGroup(uc.GetGroup))

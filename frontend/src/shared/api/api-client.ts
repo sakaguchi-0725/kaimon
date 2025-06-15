@@ -58,8 +58,8 @@ const instance = createClient<paths>({
 instance.use(errorMiddleware)
 
 export const client = {
-  get: instance.GET,
-  post: instance.POST,
-  put: instance.PUT,
-  delete: instance.DELETE,
+  GET: instance.GET,
+  POST: instance.POST,
+  PUT: instance.PUT,
+  DELETE: instance.DELETE,
 }

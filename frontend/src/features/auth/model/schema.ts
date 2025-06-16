@@ -10,3 +10,16 @@ export const loginSchema = z.object({
     .string({ required_error: validationMessages.required })
     .min(1, { message: validationMessages.required }),
 })
+
+export const signupSchema = z.object({
+  name: z
+    .string({ required_error: validationMessages.required })
+    .min(1, { message: validationMessages.required }),
+  email: z
+    .string({ required_error: validationMessages.required })
+    .email({ message: validationMessages.email })
+    .min(1, { message: validationMessages.required }),
+  password: z
+    .string({ required_error: validationMessages.required })
+    .min(1, { message: validationMessages.required }),
+})

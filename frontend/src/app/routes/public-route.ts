@@ -43,7 +43,7 @@ export const getPublicRoutes = (): RouteRecordRaw[] => {
           component: SignupPage,
         },
         {
-          path: '/signup-confirm',
+          path: '/signup/confirm',
           name: 'signup-confirm',
           meta: {
             title: 'アカウント登録確認',

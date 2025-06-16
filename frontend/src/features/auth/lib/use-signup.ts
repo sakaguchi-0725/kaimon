@@ -3,7 +3,7 @@ import { signupSchema, type SignupForm } from '../model'
 import { toTypedSchema } from '@vee-validate/zod'
 import { client } from '@/shared/api'
 import { useRouter } from 'vue-router'
-import { setSession } from './functions'
+import { setEmail } from './functions'
 
 export const useSignup = () => {
   const router = useRouter()
@@ -22,7 +22,7 @@ export const useSignup = () => {
     })
     if (error) return
 
-    setSession(values.email)
+    setEmail(values.email)
     router.push('/signup/confirm')
   })
 

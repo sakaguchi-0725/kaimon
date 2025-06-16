@@ -1,13 +1,13 @@
 const SESSION_KEY = 'email'
 
-export const setSession = (email: string) => {
+export const setEmail = (email: string) => {
   sessionStorage.setItem(SESSION_KEY, email)
 }
 
-export const getSession = () => {
+export const getEmail = () => {
   return sessionStorage.getItem(SESSION_KEY)
 }
 
-export const removeSession = () => {
+export const removeEmail = () => {
   sessionStorage.removeItem(SESSION_KEY)
 }

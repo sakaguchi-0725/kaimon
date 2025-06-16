@@ -6,6 +6,7 @@ const props = defineProps<{
   type: 'text' | 'email'
   placeholder?: string
   errorMessage?: string
+  disabled?: boolean
 }>()
 
 const model = defineModel({ required: true })
@@ -15,6 +16,7 @@ const classes = computed(() => ({
     true,
   'border-error': props.errorMessage !== undefined,
   'border-gray-400': props.errorMessage === undefined,
+  'bg-gray-100 cursor-not-allowed': props.disabled,
 }))
 </script>
 
@@ -30,6 +32,7 @@ const classes = computed(() => ({
       v-bind="$attrs"
       :class="classes"
       :placeholder="placeholder"
+      :disabled="props.disabled"
     />
     <p v-if="errorMessage" class="text-error">{{ errorMessage }}</p>
   </div>

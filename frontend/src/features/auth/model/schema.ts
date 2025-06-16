@@ -23,3 +23,9 @@ export const signupSchema = z.object({
     .string({ required_error: validationMessages.required })
     .min(1, { message: validationMessages.required }),
 })
+
+export const signupConfirmSchema = z.object({
+  code: z
+    .string({ required_error: validationMessages.required })
+    .min(1, { message: validationMessages.required }),
+})

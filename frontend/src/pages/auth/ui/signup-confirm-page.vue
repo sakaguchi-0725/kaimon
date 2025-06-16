@@ -1,7 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { SignupConfirmForm } from '@/features/auth'
+</script>
 
 <template>
-  <div>
-    <h1>Signup Confirm</h1>
-  </div>
+  <SignupConfirmForm />
 </template>

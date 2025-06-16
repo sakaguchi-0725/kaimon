@@ -2,6 +2,11 @@
 import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
 import { computed, ref } from 'vue'
 
+// 親からの属性継承を無効化
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<{
   id: string
   placeholder?: string
@@ -11,7 +16,11 @@ const props = defineProps<{
 const model = defineModel({ required: true })
 
 const isShow = ref(false)
-const toggleShow = () => (isShow.value = !isShow.value)
+
+const toggleShow = async (event: Event) => {
+  event.preventDefault()
+  isShow.value = !isShow.value
+}
 
 const icon = computed(() => (isShow.value ? EyeIcon : EyeSlashIcon))
 
@@ -31,14 +40,15 @@ const classes = computed(() => ({
     <div class="relative">
       <input
         :id="id"
-        :type="isShow ? 'text' : 'password'"
         v-model="model"
         v-bind="$attrs"
         :class="classes"
         :placeholder="placeholder"
+        :type="isShow ? 'text' : 'password'"
       />
       <button
-        @click="toggleShow"
+        type="button"
+        @click="toggleShow($event)"
         class="absolute inset-y-0 end-0 flex items-center px-3 cursor-pointer text-gray-400 focus:text-primary"
       >
         <component :is="icon" class="size-6" />

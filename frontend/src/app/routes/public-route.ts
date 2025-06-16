@@ -7,7 +7,7 @@ import {
 } from '@/pages/auth'
 import { WelcomePage } from '@/pages/welcome'
 import type { RouteRecordRaw } from 'vue-router'
-import { PublicLayout } from '../layout'
+import { AuthLayout, PublicLayout } from '../layout'
 
 export const getPublicRoutes = (): RouteRecordRaw[] => {
   return [
@@ -23,29 +23,35 @@ export const getPublicRoutes = (): RouteRecordRaw[] => {
       ],
     },
     {
-      path: '/login',
-      name: 'login',
-      component: LoginPage,
-    },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: SignupPage,
-    },
-    {
-      path: '/signup-confirm',
-      name: 'signup-confirm',
-      component: SignupConfirmPage,
-    },
-    {
-      path: '/reset-password',
-      name: 'reset-password',
-      component: ResetPassword,
-    },
-    {
-      path: '/reset-password-confirm',
-      name: 'reset-password-confirm',
-      component: ResetPasswordConfirm,
+      path: '',
+      component: AuthLayout,
+      children: [
+        {
+          path: '/login',
+          name: 'login',
+          component: LoginPage,
+        },
+        {
+          path: '/signup',
+          name: 'signup',
+          component: SignupPage,
+        },
+        {
+          path: '/signup-confirm',
+          name: 'signup-confirm',
+          component: SignupConfirmPage,
+        },
+        {
+          path: '/reset-password',
+          name: 'reset-password',
+          component: ResetPassword,
+        },
+        {
+          path: '/reset-password-confirm',
+          name: 'reset-password-confirm',
+          component: ResetPasswordConfirm,
+        },
+      ],
     },
   ]
 }

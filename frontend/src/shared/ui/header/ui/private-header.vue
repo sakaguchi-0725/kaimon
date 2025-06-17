@@ -10,7 +10,7 @@ defineProps<{
 </script>
 
 <template>
-  <BaseHeader>
+  <BaseHeader classes="shadow-[0_1px_2px_0_rgba(0,0,0,0.05)] shadow-gray-300">
     <div class="flex items-center justify-between w-full">
       <div class="w-10 flex items-center">
         <button
@@ -23,7 +23,7 @@ defineProps<{
         </button>
       </div>
 
-      <h1 class="text-xl font-medium text-center flex-1">{{ title }}</h1>
+      <h1 class="text-lg font-bold text-center flex-1">{{ title }}</h1>
 
       <div class="w-10"></div>
     </div>

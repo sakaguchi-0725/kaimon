@@ -23,11 +23,11 @@ export const getPublicRoutes = (): RouteRecordRaw[] => {
       ],
     },
     {
-      path: '',
+      path: '/auth',
       component: AuthLayout,
       children: [
         {
-          path: '/login',
+          path: 'login',
           name: 'login',
           meta: {
             title: 'ログイン',
@@ -35,7 +35,7 @@ export const getPublicRoutes = (): RouteRecordRaw[] => {
           component: LoginPage,
         },
         {
-          path: '/signup',
+          path: 'signup',
           name: 'signup',
           meta: {
             title: 'アカウント登録',
@@ -43,7 +43,7 @@ export const getPublicRoutes = (): RouteRecordRaw[] => {
           component: SignupPage,
         },
         {
-          path: '/signup/confirm',
+          path: 'signup/confirm',
           name: 'signup-confirm',
           meta: {
             title: 'アカウント登録確認',
@@ -51,7 +51,7 @@ export const getPublicRoutes = (): RouteRecordRaw[] => {
           component: SignupConfirmPage,
         },
         {
-          path: '/reset-password',
+          path: 'reset-password',
           name: 'reset-password',
           meta: {
             title: 'パスワードリセット',
@@ -59,7 +59,7 @@ export const getPublicRoutes = (): RouteRecordRaw[] => {
           component: ResetPasswordPage,
         },
         {
-          path: '/reset-password/confirm',
+          path: 'reset-password/confirm',
           name: 'reset-password-confirm',
           meta: {
             title: 'パスワードリセット確認',

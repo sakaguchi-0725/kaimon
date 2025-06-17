@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { RouterLink } from 'vue-router'
+</script>
 
 <template>
   <div class="py-12 text-center">
@@ -8,18 +10,18 @@
       リアルタイムで買い物状況を確認し、効率的な買い物をサポートします。
     </p>
     <div class="flex justify-center gap-4">
-      <a
-        href="/login"
+      <RouterLink
+        :to="{ name: 'login' }"
         class="bg-primary text-white px-6 py-2 rounded-md hover:bg-primary-dark transition-colors"
       >
         ログイン
-      </a>
-      <a
-        href="/signup"
+      </RouterLink>
+      <RouterLink
+        :to="{ name: 'signup' }"
         class="bg-white text-primary border border-primary px-6 py-2 rounded-md hover:bg-gray-100 transition-colors"
       >
         会員登録
-      </a>
+      </RouterLink>
     </div>
   </div>
 </template>

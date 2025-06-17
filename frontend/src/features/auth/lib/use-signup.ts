@@ -23,7 +23,7 @@ export const useSignup = () => {
     if (error) return
 
     setEmail(values.email)
-    router.push('/signup/confirm')
+    router.push({ name: 'signup-confirm' })
   })
 
   return {

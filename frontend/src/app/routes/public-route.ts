@@ -59,7 +59,7 @@ export const getPublicRoutes = (): RouteRecordRaw[] => {
           component: ResetPassword,
         },
         {
-          path: '/reset-password-confirm',
+          path: '/reset-password/confirm',
           name: 'reset-password-confirm',
           meta: {
             title: 'パスワードリセット確認',

@@ -1,7 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ResetPasswordForm } from '@/features/auth'
+</script>
 
 <template>
-  <div>
-    <h1>Reset Password</h1>
-  </div>
+  <ResetPasswordForm />
 </template>

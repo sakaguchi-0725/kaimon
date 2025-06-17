@@ -1,7 +1,7 @@
 import {
   LoginPage,
-  ResetPassword,
-  ResetPasswordConfirm,
+  ResetPasswordPage,
+  ResetPasswordConfirmPage,
   SignupConfirmPage,
   SignupPage,
 } from '@/pages/auth'
@@ -56,7 +56,7 @@ export const getPublicRoutes = (): RouteRecordRaw[] => {
           meta: {
             title: 'パスワードリセット',
           },
-          component: ResetPassword,
+          component: ResetPasswordPage,
         },
         {
           path: '/reset-password/confirm',
@@ -64,7 +64,7 @@ export const getPublicRoutes = (): RouteRecordRaw[] => {
           meta: {
             title: 'パスワードリセット確認',
           },
-          component: ResetPasswordConfirm,
+          component: ResetPasswordConfirmPage,
         },
       ],
     },

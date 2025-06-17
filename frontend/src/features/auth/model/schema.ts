@@ -36,3 +36,9 @@ export const resetPasswordSchema = z.object({
     .email({ message: validationMessages.email })
     .min(1, { message: validationMessages.required }),
 })
+
+export const resetPasswordConfirmSchema = z.object({
+  code: z
+    .string({ required_error: validationMessages.required })
+    .min(1, { message: validationMessages.required }),
+})

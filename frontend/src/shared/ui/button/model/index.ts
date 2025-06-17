@@ -10,7 +10,7 @@ export const SIZE_CLASSES: Record<ButtonSize, string> = {
 
 export const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'bg-primary text-white font-bold',
-  outline: 'bg-transparent text-gray-700 text-outline border border-primary',
+  outline: 'bg-transparent text-primary text-outline border border-primary',
 }
 
 export const DISABLED_CLASS = 'opacity-50 cursor-not-allowed'

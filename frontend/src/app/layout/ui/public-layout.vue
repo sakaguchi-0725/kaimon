@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BaseHeader } from '@/shared/ui/header'
+import { PublicHeader } from '@/shared/ui/header'
 import { ref, computed } from 'vue'
 import { RouterView } from 'vue-router'
 
@@ -51,7 +51,7 @@ const menuStyles = computed(() => {
 
 <template>
   <div class="flex flex-col min-h-screen">
-    <BaseHeader>
+    <PublicHeader>
       <!-- ハンバーガーボタン -->
       <button
         @click="toggleMenu"
@@ -81,7 +81,7 @@ const menuStyles = computed(() => {
           />
         </svg>
       </button>
-    </BaseHeader>
+    </PublicHeader>
 
     <!-- 統合されたメニュー (SP/PC共通) -->
     <div v-if="isMenuOpen" :class="menuStyles.container" :style="!isMobile ? { top: '4rem' } : {}">

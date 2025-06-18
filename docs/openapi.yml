@@ -508,15 +508,23 @@ components:
           type: string
           description: メンバー名
         role:
-          type: string
+          $ref: '#/components/schemas/MemberRole'
           description: メンバーの役割
         status:
-          type: string
+          $ref: '#/components/schemas/MemberStatus'
           description: メンバーのステータス
         joinedAt:
           type: string
           format: date-time
           description: メンバー参加日時
+    MemberRole:
+      type: string
+      description: メンバーの役割
+      enum: [admin, member]
+    MemberStatus:
+      type: string
+      description: メンバーのステータス
+      enum: [active, pending]
     GetShoppingItemsResponse:
       type: object
       properties:

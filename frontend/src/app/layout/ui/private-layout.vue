@@ -24,7 +24,7 @@ const onBack = () => {
   <div class="flex flex-col h-screen">
     <PrivateHeader :title="title" :is-back-button="isBackButton" @on-back="onBack" />
 
-    <main class="flex-1 overflow-y-auto mt-4">
+    <main class="flex-1 overflow-y-auto bg-white">
       <div class="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 pb-20">
         <RouterView />
       </div>

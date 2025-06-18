@@ -3,6 +3,8 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { GroupInfo, useGroupInfo } from '@/features/group'
 import { MemberList, useGetMember } from '@/features/member'
+import { FullWidthContainer } from '@/shared/ui/container'
+import { UserPlusIcon } from '@heroicons/vue/24/solid'
 
 const route = useRoute()
 const id = computed(() => {
@@ -15,8 +17,18 @@ const { members } = useGetMember(() => id.value)
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
-    <GroupInfo :group="group" :members="members" />
-    <MemberList :members="members" />
+  <div class="flex flex-col">
+    <FullWidthContainer>
+      <GroupInfo :group="group" :members="members" />
+    </FullWidthContainer>
+    <FullWidthContainer>
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-bold">メンバー</h3>
+        <button>
+          <UserPlusIcon class="w-6 h-6 text-primary" />
+        </button>
+      </div>
+      <MemberList :members="members" />
+    </FullWidthContainer>
   </div>
 </template>

@@ -1,10 +1,9 @@
 import { onMounted, ref, watch } from 'vue'
-import type { GetGroupResponse, Member } from '../model'
+import type { GetGroupResponse } from '../model'
 import { client } from '@/shared/api'
 
 export const useGroupInfo = (id: () => string) => {
   const group = ref<GetGroupResponse>()
-  const members = ref<Member[]>()
 
   const fetchGroupInfo = async () => {
     const { data: groupData } = await client.GET('/groups/{id}', {
@@ -13,21 +12,11 @@ export const useGroupInfo = (id: () => string) => {
       },
     })
 
-    const { data: membersData } = await client.GET('/groups/{id}/members', {
-      params: {
-        path: { id: id() },
-      },
-    })
-
     group.value = groupData
-    members.value = membersData?.members
   }
 
   onMounted(fetchGroupInfo)
   watch(id, fetchGroupInfo)
 
-  return {
-    group,
-    members,
-  }
+  return { group }
 }

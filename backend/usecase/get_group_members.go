@@ -32,14 +32,25 @@ func (g *getGroupMembersInteractor) Execute(ctx context.Context, in GetGroupMemb
 	return GetGroupMembersOutput{
 		Members: []Member{
 			{
-				ID:   "1",
-				Name: "メンバー1",
-				Role: "admin",
+				ID:       "1",
+				Name:     "メンバー1",
+				Role:     "admin",
+				Status:   "active",
+				JoinedAt: "2021-01-01",
 			},
 			{
-				ID:   "2",
-				Name: "メンバー2",
-				Role: "member",
+				ID:       "2",
+				Name:     "メンバー2",
+				Role:     "member",
+				Status:   "active",
+				JoinedAt: "2021-01-01",
+			},
+			{
+				ID:       "3",
+				Name:     "メンバー3",
+				Role:     "member",
+				Status:   "pending",
+				JoinedAt: "2021-01-01",
 			},
 		},
 	}, nil

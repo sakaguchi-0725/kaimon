@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { GroupInfo, useGroupInfo } from '@/features/group'
+import { MemberList, useGetMember } from '@/features/member'
 
 const route = useRoute()
 const id = computed(() => {
@@ -9,9 +10,13 @@ const id = computed(() => {
   return typeof paramId === 'string' ? paramId : (paramId?.[0] ?? '')
 })
 
-const { group, members } = useGroupInfo(() => id.value)
+const { group } = useGroupInfo(() => id.value)
+const { members } = useGetMember(() => id.value)
 </script>
 
 <template>
-  <GroupInfo :group="group" :members="members" />
+  <div class="flex flex-col gap-6">
+    <GroupInfo :group="group" :members="members" />
+    <MemberList :members="members" />
+  </div>
 </template>

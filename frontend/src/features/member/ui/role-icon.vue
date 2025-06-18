@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { UserGroupIcon, UserIcon } from '@heroicons/vue/24/solid'
 import { computed } from 'vue'
-import type { Role } from '../model'
+import type { Role } from '../../../features/member/model'
 
 const props = defineProps<{
   role: Role

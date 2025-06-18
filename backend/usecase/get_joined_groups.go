@@ -23,6 +23,11 @@ func (g *getJoinedGroupsInteractor) Execute(ctx context.Context, userID string) 
 			Name:        "テストグループ",
 			Description: "モックのグループです",
 		},
+		{
+			ID:          "2",
+			Name:        "テストグループ2",
+			Description: "モックのグループです",
+		},
 	}, nil
 }
 

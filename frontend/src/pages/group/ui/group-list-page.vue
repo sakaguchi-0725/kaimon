@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GroupList, useGroupList } from '@/features/group-list'
+import { GroupList, useGroupList } from '@/features/group'
 import { OutlineButton, PrimaryButton } from '@/shared/ui/button'
 
 const { groups, hasGroups, onDetail } = useGroupList()

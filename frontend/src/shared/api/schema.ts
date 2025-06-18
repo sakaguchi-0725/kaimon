@@ -589,15 +589,25 @@ export interface components {
       /** @description メンバー名 */
       name: string
       /** @description メンバーの役割 */
-      role: string
+      role: components['schemas']['MemberRole']
       /** @description メンバーのステータス */
-      status: string
+      status: components['schemas']['MemberStatus']
       /**
        * Format: date-time
        * @description メンバー参加日時
        */
       joinedAt: string
     }
+    /**
+     * @description メンバーの役割
+     * @enum {string}
+     */
+    MemberRole: 'admin' | 'member'
+    /**
+     * @description メンバーのステータス
+     * @enum {string}
+     */
+    MemberStatus: 'active' | 'pending'
     GetShoppingItemsResponse: {
       items: components['schemas']['ShoppingItem'][]
       /**

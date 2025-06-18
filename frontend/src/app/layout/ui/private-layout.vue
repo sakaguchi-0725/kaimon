@@ -9,7 +9,9 @@ const router = useRouter()
 
 const title = computed(() => route.meta.title as string)
 const isBackButton = computed(() => route.meta.isBackButton as boolean)
-const toBack = computed(() => route.meta.toBack as string)
+const toBack = computed(() => {
+  return route.meta.toBack as string
+})
 
 const onBack = () => {
   if (toBack.value) {

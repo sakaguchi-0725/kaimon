@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { GroupList, useGroupList } from '@/features/group'
+import { CreateGroupForm, GroupList, useGroupList } from '@/features/group'
 import { OutlineButton, PrimaryButton } from '@/shared/ui/button'
 import { FullWidthContainer } from '@/shared/ui/container'
+import { BaseModal } from '@/shared/ui/modal'
+import { useModal } from '@/shared/ui/modal/lib/use-modal'
 
 const { groups, hasGroups, onDetail } = useGroupList()
+const { isOpen, open, close } = useModal()
 </script>
 
 <template>
@@ -22,9 +25,13 @@ const { groups, hasGroups, onDetail } = useGroupList()
     <span class="flex justify-center border-b border-gray-200 w-full my-8"></span>
 
     <div class="flex flex-col gap-2 w-full">
-      <PrimaryButton>グループを作成</PrimaryButton>
+      <PrimaryButton @on-click="open">グループを作成</PrimaryButton>
       <p class="text-sm text-gray-500 text-center">または</p>
       <OutlineButton>グループに参加</OutlineButton>
     </div>
   </FullWidthContainer>
+
+  <BaseModal :is-open="isOpen" title="グループを作成" @close="close">
+    <CreateGroupForm @on-success="close" />
+  </BaseModal>
 </template>

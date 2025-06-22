@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { X } from 'react-native-feather'
 import { Colors } from '@/shared/constants'
 import { BottomSheetModal } from '@/shared/ui/modal'
@@ -65,83 +65,85 @@ export const FilterModal = ({
         </TouchableOpacity>
       </View>
 
-      {/* カテゴリーフィルター */}
-      <View style={styles.filterSection}>
-        <Text style={styles.filterSectionTitle}>カテゴリー</Text>
-        <View style={styles.filterOptions}>
-          {dummyCategories.map(category => (
-            <TouchableOpacity
-              key={`filter-category-${category}`}
-              style={[
-                styles.filterOption,
-                localFilters.categories.includes(category) && styles.selectedFilterOption
-              ]}
-              onPress={() => toggleFilter('categories', category)}
-            >
-              <Text 
+      <ScrollView style={styles.scrollView}>
+        {/* カテゴリーフィルター */}
+        <View style={styles.filterSection}>
+          <Text style={styles.filterSectionTitle}>カテゴリー</Text>
+          <View style={styles.filterOptions}>
+            {dummyCategories.map(category => (
+              <TouchableOpacity
+                key={`filter-category-${category}`}
                 style={[
-                  styles.filterOptionText,
-                  localFilters.categories.includes(category) && styles.selectedFilterOptionText
+                  styles.filterOption,
+                  localFilters.categories.includes(category) && styles.selectedFilterOption
                 ]}
+                onPress={() => toggleFilter('categories', category)}
               >
-                {category}
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <Text 
+                  style={[
+                    styles.filterOptionText,
+                    localFilters.categories.includes(category) && styles.selectedFilterOptionText
+                  ]}
+                >
+                  {category}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
-      </View>
 
-      {/* グループフィルター */}
-      <View style={styles.filterSection}>
-        <Text style={styles.filterSectionTitle}>グループ</Text>
-        <View style={styles.filterOptions}>
-          {dummyGroups.map(group => (
-            <TouchableOpacity
-              key={`filter-group-${group}`}
-              style={[
-                styles.filterOption,
-                localFilters.groups.includes(group) && styles.selectedFilterOption
-              ]}
-              onPress={() => toggleFilter('groups', group)}
-            >
-              <Text 
+        {/* グループフィルター */}
+        <View style={styles.filterSection}>
+          <Text style={styles.filterSectionTitle}>グループ</Text>
+          <View style={styles.filterOptions}>
+            {dummyGroups.map(group => (
+              <TouchableOpacity
+                key={`filter-group-${group}`}
                 style={[
-                  styles.filterOptionText,
-                  localFilters.groups.includes(group) && styles.selectedFilterOptionText
+                  styles.filterOption,
+                  localFilters.groups.includes(group) && styles.selectedFilterOption
                 ]}
+                onPress={() => toggleFilter('groups', group)}
               >
-                {group}
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <Text 
+                  style={[
+                    styles.filterOptionText,
+                    localFilters.groups.includes(group) && styles.selectedFilterOptionText
+                  ]}
+                >
+                  {group}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
-      </View>
 
-      {/* ステータスフィルター */}
-      <View style={styles.filterSection}>
-        <Text style={styles.filterSectionTitle}>ステータス</Text>
-        <View style={styles.filterOptions}>
-          {dummyStatuses.map(status => (
-            <TouchableOpacity
-              key={`filter-status-${status}`}
-              style={[
-                styles.filterOption,
-                localFilters.statuses.includes(status) && styles.selectedFilterOption
-              ]}
-              onPress={() => toggleFilter('statuses', status)}
-            >
-              <Text 
+        {/* ステータスフィルター */}
+        <View style={styles.filterSection}>
+          <Text style={styles.filterSectionTitle}>ステータス</Text>
+          <View style={styles.filterOptions}>
+            {dummyStatuses.map(status => (
+              <TouchableOpacity
+                key={`filter-status-${status}`}
                 style={[
-                  styles.filterOptionText,
-                  localFilters.statuses.includes(status) && styles.selectedFilterOptionText
+                  styles.filterOption,
+                  localFilters.statuses.includes(status) && styles.selectedFilterOption
                 ]}
+                onPress={() => toggleFilter('statuses', status)}
               >
-                {STATUS_LABELS[status]}
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <Text 
+                  style={[
+                    styles.filterOptionText,
+                    localFilters.statuses.includes(status) && styles.selectedFilterOptionText
+                  ]}
+                >
+                  {STATUS_LABELS[status]}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
-      </View>
+      </ScrollView>
 
       {/* フィルター適用ボタン */}
       <TouchableOpacity 
@@ -159,12 +161,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: Colors.mainText,
+  },
+  scrollView: {
+    marginBottom: 8,
   },
   filterSection: {
     marginBottom: 20,
@@ -204,7 +209,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 12,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 8,
   },
   applyButtonText: {
     color: Colors.white,

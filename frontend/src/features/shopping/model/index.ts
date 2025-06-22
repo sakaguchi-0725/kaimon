@@ -9,5 +9,11 @@ export type ShoppingItem = {
   categoryId: number
 }
 
+// カテゴリー情報の定義
+export interface Category {
+  id: number;
+  name: string;
+}
+
 // 定数のエクスポート
 export * from './constants'

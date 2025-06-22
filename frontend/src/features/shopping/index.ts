@@ -9,6 +9,7 @@ export { InCartItemsTab } from './ui/in-cart-items-tab'
 export { PurchasedItemsTab } from './ui/purchased-items-tab'
 export { ShoppingItemCard } from './ui/shopping-item-card'
 export { ActionButton, ActionButtonContainer } from './ui/action-button'
+export { AddItemModal } from './ui/add-item-modal'
 
 export * from './lib/use-shopping-list'
 export * from './lib/use-realtime-shopping' 

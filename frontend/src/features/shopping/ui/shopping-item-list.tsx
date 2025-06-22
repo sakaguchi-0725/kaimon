@@ -2,6 +2,7 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import { ShoppingItem, ShoppingItemStatus, STATUS_LABELS } from '../model'
 import { Colors } from '@/shared/constants'
 import { Check, ShoppingCart } from 'react-native-feather'
+import { Card } from '@/shared/ui'
 
 export interface ShoppingItemListProps {
   items: ShoppingItem[]
@@ -47,10 +48,9 @@ export const ShoppingItemList = ({ items, onItemPress, onStatusChange }: Shoppin
       data={items}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <TouchableOpacity
-          style={styles.itemContainer}
+        <Card
           onPress={() => onItemPress?.(item)}
-          activeOpacity={0.7}
+          contentStyle={styles.cardContent}
         >
           {/* ステータスアイコン */}
           <TouchableOpacity
@@ -74,7 +74,7 @@ export const ShoppingItemList = ({ items, onItemPress, onStatusChange }: Shoppin
           <View style={[styles.statusBadge, getStatusStyle(item.status)]}>
             <Text style={styles.statusText}>{STATUS_LABELS[item.status]}</Text>
           </View>
-        </TouchableOpacity>
+        </Card>
       )}
       contentContainerStyle={styles.listContent}
       showsVerticalScrollIndicator={false}
@@ -107,19 +107,10 @@ const styles = StyleSheet.create({
   listContent: {
     paddingVertical: 8,
   },
-  itemContainer: {
-    backgroundColor: Colors.white,
-    borderRadius: 8,
-    marginHorizontal: 16,
-    marginVertical: 4,
-    padding: 16,
+  cardContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    padding: 16,
   },
   statusButton: {
     width: 40,

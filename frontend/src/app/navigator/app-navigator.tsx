@@ -1,6 +1,6 @@
 import { GroupStackNavigator } from "@/screens/group";
 import { SettingsScreen } from "@/screens/settings";
-import { ShoppingItemListScreen } from "@/screens/shopping";
+import { ShoppingStackNavigator } from "@/screens/shopping";
 import { Colors } from "@/shared/constants";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Home, Settings, ShoppingBag } from "react-native-feather";
@@ -21,10 +21,8 @@ const tabInfos = [
   },
   {
     name: "Shopping",
-    component: ShoppingItemListScreen,
+    component: ShoppingStackNavigator,
     options: {
-      headerShown: true,
-      headerTitle: '買い物一覧',
       tabBarLabel: '買い物',
       tabBarIcon: ({ color, size }: TabBarIconProps) =>
         <ShoppingBag stroke={color} width={size} height={size} />

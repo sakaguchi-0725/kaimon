@@ -3,7 +3,13 @@ import { Colors } from '@/shared/constants'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { Plus } from 'react-native-feather'
 import { useModal } from '@/shared/ui/modal'
-import { UnpurchasedItemsTab, InCartItemsTab, PurchasedItemsTab, useRealtimeShopping } from '@/features/shopping'
+import { 
+  UnpurchasedItemsTab, 
+  InCartItemsTab, 
+  PurchasedItemsTab, 
+  useRealtimeShopping,
+  AddItemModal
+} from '@/features/shopping'
 import { STATUS_LABELS, TAB_NAMES, TabInfo } from '@/features/shopping/model/constants'
 
 const Tab = createMaterialTopTabNavigator()
@@ -37,6 +43,15 @@ export const RealtimeShoppingListScreen = ({ route }: RealtimeShoppingListScreen
   
   // アイテム追加モーダル用
   const { isVisible: addItemModalVisible, openModal: openAddItemModal, closeModal: closeAddItemModal } = useModal()
+
+  // 現在のグループ情報
+  const currentGroup = groupId && groupName ? [{ id: groupId, name: groupName }] : []
+
+  // アイテム追加処理
+  const handleAddItem = (name: string, description: string, categoryId: number, groupId: string) => {
+    console.log('リアルタイムアイテム追加:', name, description, categoryId, groupId)
+    // TODO: アイテム追加のAPI呼び出し
+  }
 
   // タブ情報の定義
   const tabInfos: TabInfo[] = [
@@ -118,6 +133,14 @@ export const RealtimeShoppingListScreen = ({ route }: RealtimeShoppingListScreen
       >
         <Plus width={24} height={24} stroke={Colors.white} />
       </TouchableOpacity>
+
+      {/* アイテム追加モーダル */}
+      <AddItemModal
+        isVisible={addItemModalVisible}
+        onClose={closeAddItemModal}
+        onAddItem={handleAddItem}
+        groups={currentGroup}
+      />
     </View>
   )
 }

@@ -1,6 +1,6 @@
 import { View, StyleSheet, ActivityIndicator, TouchableOpacity } from "react-native"
 import { Colors } from "@/shared/constants"
-import { FilterModal, SearchBar, FilterChips, STATUS_LABELS, useShoppingList, ShoppingItemList } from "@/features/shopping"
+import { FilterModal, SearchBar, FilterChips, STATUS_LABELS, useShoppingList, ShoppingItemList, AddItemModal } from "@/features/shopping"
 import { useModal } from "@/shared/ui/modal"
 import { Plus } from "react-native-feather"
 
@@ -19,7 +19,20 @@ export const ShoppingItemListScreen = () => {
   } = useShoppingList()
   
   const { isVisible: filterModalVisible, openModal, closeModal } = useModal()
-  const { isVisible: addItemModalVisible, openModal: openAddItemModal } = useModal()
+  const { isVisible: addItemModalVisible, openModal: openAddItemModal, closeModal: closeAddItemModal } = useModal()
+
+  // ダミーグループデータ
+  const groups = [
+    { id: 'group1', name: '我が家' },
+    { id: 'group2', name: '実家' },
+    { id: 'group3', name: '職場' }
+  ]
+
+  // アイテム追加処理
+  const handleAddItem = (name: string, description: string, categoryId: number, groupId: string) => {
+    console.log('アイテム追加:', name, description, categoryId, groupId)
+    // TODO: アイテム追加のAPI呼び出し
+  }
 
   return (
     <View style={styles.container}>
@@ -66,6 +79,14 @@ export const ShoppingItemListScreen = () => {
         onClose={closeModal}
         selectedFilters={selectedFilters}
         onFilterChange={setSelectedFilters}
+      />
+
+      {/* アイテム追加モーダル */}
+      <AddItemModal
+        isVisible={addItemModalVisible}
+        onClose={closeAddItemModal}
+        onAddItem={handleAddItem}
+        groups={groups}
       />
     </View>
   )

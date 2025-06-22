@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useRef } from 'react'
-import { Animated, Modal, StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { Animated, Modal, StyleSheet, TouchableOpacity, View, ViewStyle, Platform } from 'react-native'
 import { Colors } from '@/shared/constants'
 
 export interface BottomSheetModalProps {
@@ -98,7 +98,11 @@ export const BottomSheetModal = ({
             containerStyle
           ]}
         >
-          {children}
+          <View style={styles.contentWrapper}>
+            {children}
+          </View>
+          {/* 下部の安全領域 */}
+          <View style={styles.safeAreaBottom} />
         </Animated.View>
       </View>
     </Modal>
@@ -122,7 +126,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
+    maxHeight: '90%',
+  },
+  contentWrapper: {
     padding: 20,
-    maxHeight: '80%',
+    paddingBottom: 10,
+  },
+  safeAreaBottom: {
+    height: Platform.OS === 'ios' ? 25 : 15,
   },
 }) 

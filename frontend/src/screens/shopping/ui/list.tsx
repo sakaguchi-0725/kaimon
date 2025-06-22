@@ -1,6 +1,6 @@
-import { Text, View, StyleSheet } from "react-native"
+import { Text, View, StyleSheet, ActivityIndicator } from "react-native"
 import { Colors } from "@/shared/constants"
-import { FilterModal, SearchBar, FilterChips, STATUS_LABELS, useShoppingList } from "@/features/shopping"
+import { FilterModal, SearchBar, FilterChips, STATUS_LABELS, useShoppingList, ShoppingItemList } from "@/features/shopping"
 import { useModal } from "@/shared/ui/modal"
 
 export const ShoppingItemListScreen = () => {
@@ -11,7 +11,10 @@ export const ShoppingItemListScreen = () => {
     setSelectedFilters,
     removeFilter,
     clearAllFilters,
-    hasActiveFilters 
+    hasActiveFilters,
+    items,
+    isLoading,
+    updateItemStatus
   } = useShoppingList()
   
   const { isVisible: filterModalVisible, openModal, closeModal } = useModal()
@@ -34,10 +37,17 @@ export const ShoppingItemListScreen = () => {
         statusLabels={STATUS_LABELS}
       />
 
-      {/* ここに買い物リストを表示 */}
-      <View style={styles.listContainer}>
-        <Text style={styles.emptyText}>買い物リストがここに表示されます</Text>
-      </View>
+      {/* 買い物リスト */}
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={Colors.primary} />
+        </View>
+      ) : (
+        <ShoppingItemList
+          items={items}
+          onStatusChange={updateItemStatus}
+        />
+      )}
 
       {/* フィルターモーダル */}
       <FilterModal 
@@ -55,13 +65,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.backgroundGray,
   },
-  listContainer: {
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  emptyText: {
-    fontSize: 16,
-    color: Colors.subText,
   },
 })

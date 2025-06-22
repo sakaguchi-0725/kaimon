@@ -23,7 +23,9 @@ const tabInfos = [
     name: "Shopping",
     component: ShoppingItemListScreen,
     options: {
-      title: '買い物',
+      headerShown: true,
+      headerTitle: '買い物一覧',
+      tabBarLabel: '買い物',
       tabBarIcon: ({ color, size }: TabBarIconProps) =>
         <ShoppingBag stroke={color} width={size} height={size} />
     }

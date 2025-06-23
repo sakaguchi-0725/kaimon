@@ -1,27 +1,27 @@
 import { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Colors } from '@/shared/constants'
 import { BottomSheetModal } from '@/shared/ui/modal'
 import { Category } from '../model'
 import { CATEGORIES } from '../model/constants'
-import { ChevronDown, X } from 'react-native-feather'
+import { X } from 'react-native-feather'
+import { Dropdown, DropdownOption } from '@/shared/ui/dropdown'
+import { TextInput, Textarea } from '@/shared/ui/input'
 
-export interface AddItemModalProps {
+type Props = {
   isVisible: boolean
   onClose: () => void
   onAddItem?: (name: string, description: string, categoryId: number, groupId: string) => void
   groups?: { id: string, name: string }[]
 }
 
-export const AddItemModal = ({ isVisible, onClose, onAddItem, groups = [] }: AddItemModalProps) => {
+export const AddItemModal = ({ isVisible, onClose, onAddItem, groups = [] }: Props) => {
   const [itemName, setItemName] = useState('')
   const [itemDescription, setItemDescription] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null)
   const [selectedGroup, setSelectedGroup] = useState<{ id: string, name: string } | null>(
     groups.length > 0 ? groups[0] : null
   )
-  const [showCategorySelector, setShowCategorySelector] = useState(false)
-  const [showGroupSelector, setShowGroupSelector] = useState(false)
 
   const handleAddItem = () => {
     if (!itemName.trim() || !selectedCategory || !selectedGroup) return
@@ -38,6 +38,18 @@ export const AddItemModal = ({ isVisible, onClose, onAddItem, groups = [] }: Add
     onClose()
   }
 
+  // カテゴリーのオプション
+  const categoryOptions: DropdownOption<Category>[] = CATEGORIES.map(category => ({
+    label: category.name,
+    value: category
+  }))
+
+  // グループのオプション
+  const groupOptions: DropdownOption<{ id: string, name: string }>[] = groups.map(group => ({
+    label: group.name,
+    value: group
+  }))
+
   const isAddButtonDisabled = !itemName.trim() || !selectedCategory || !selectedGroup
 
   return (
@@ -49,97 +61,47 @@ export const AddItemModal = ({ isVisible, onClose, onAddItem, groups = [] }: Add
         </TouchableOpacity>
       </View>
       
-      <ScrollView style={styles.scrollView}>
+      <View style={styles.formContainer}>
         {/* 商品名入力 */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>商品名 <Text style={styles.required}>*</Text></Text>
-          <TextInput
-            style={styles.input}
-            value={itemName}
-            onChangeText={setItemName}
-            placeholder="例: 牛乳"
-            placeholderTextColor={Colors.subText + '80'}
-          />
-        </View>
+        <TextInput
+          label="商品名"
+          required
+          value={itemName}
+          onChangeText={setItemName}
+          placeholder="例: 牛乳"
+        />
         
         {/* カテゴリー選択 */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>カテゴリー <Text style={styles.required}>*</Text></Text>
-          <TouchableOpacity 
-            style={styles.selector}
-            onPress={() => setShowCategorySelector(!showCategorySelector)}
-          >
-            <Text style={selectedCategory ? styles.selectorText : styles.selectorPlaceholder}>
-              {selectedCategory ? selectedCategory.name : 'カテゴリーを選択'}
-            </Text>
-            <ChevronDown width={20} height={20} stroke={Colors.subText} />
-          </TouchableOpacity>
-          
-          {showCategorySelector && (
-            <View style={styles.dropdownContainer}>
-              {CATEGORIES.map((category) => (
-                <TouchableOpacity
-                  key={category.id}
-                  style={styles.dropdownItem}
-                  onPress={() => {
-                    setSelectedCategory(category)
-                    setShowCategorySelector(false)
-                  }}
-                >
-                  <Text style={styles.dropdownItemText}>{category.name}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
-        </View>
+        <Dropdown
+          label="カテゴリー"
+          required
+          selectedValue={selectedCategory}
+          onValueChange={setSelectedCategory}
+          options={categoryOptions}
+          placeholder="カテゴリーを選択"
+        />
         
         {/* グループ選択 */}
         {groups.length > 1 && (
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>グループ <Text style={styles.required}>*</Text></Text>
-            <TouchableOpacity 
-              style={styles.selector}
-              onPress={() => setShowGroupSelector(!showGroupSelector)}
-            >
-              <Text style={selectedGroup ? styles.selectorText : styles.selectorPlaceholder}>
-                {selectedGroup ? selectedGroup.name : 'グループを選択'}
-              </Text>
-              <ChevronDown width={20} height={20} stroke={Colors.subText} />
-            </TouchableOpacity>
-            
-            {showGroupSelector && (
-              <View style={styles.dropdownContainer}>
-                {groups.map((group) => (
-                  <TouchableOpacity
-                    key={group.id}
-                    style={styles.dropdownItem}
-                    onPress={() => {
-                      setSelectedGroup(group)
-                      setShowGroupSelector(false)
-                    }}
-                  >
-                    <Text style={styles.dropdownItemText}>{group.name}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-          </View>
+          <Dropdown
+            label="グループ"
+            required
+            selectedValue={selectedGroup}
+            onValueChange={setSelectedGroup}
+            options={groupOptions}
+            placeholder="グループを選択"
+          />
         )}
         
         {/* 詳細入力 */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>詳細</Text>
-          <TextInput
-            style={[styles.input, styles.textArea]}
-            value={itemDescription}
-            onChangeText={setItemDescription}
-            placeholder="例: 1L パック 2つ"
-            placeholderTextColor={Colors.subText + '80'}
-            multiline
-            numberOfLines={3}
-          />
-        </View>
-      </ScrollView>
+        <Textarea
+          label="詳細"
+          value={itemDescription}
+          onChangeText={setItemDescription}
+          placeholder="例: 1L パック 2つ"
+          numberOfLines={3}
+        />
+      </View>
       
       {/* 追加ボタン */}
       <TouchableOpacity
@@ -171,64 +133,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: Colors.mainText,
   },
-  scrollView: {
+  formContainer: {
+    gap: 16,
     marginBottom: 8,
-  },
-  inputContainer: {
-    marginBottom: 16,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: Colors.mainText,
-    marginBottom: 8,
-  },
-  required: {
-    color: Colors.error,
-  },
-  input: {
-    backgroundColor: Colors.backgroundGray,
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    color: Colors.mainText,
-  },
-  textArea: {
-    height: 80,
-    textAlignVertical: 'top',
-  },
-  selector: {
-    backgroundColor: Colors.backgroundGray,
-    borderRadius: 8,
-    padding: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  selectorText: {
-    fontSize: 16,
-    color: Colors.mainText,
-  },
-  selectorPlaceholder: {
-    fontSize: 16,
-    color: Colors.subText + '80',
-  },
-  dropdownContainer: {
-    backgroundColor: Colors.white,
-    borderRadius: 8,
-    marginTop: 4,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    maxHeight: 200,
-  },
-  dropdownItem: {
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-  dropdownItemText: {
-    fontSize: 16,
-    color: Colors.mainText,
   },
   addButton: {
     backgroundColor: Colors.primary,

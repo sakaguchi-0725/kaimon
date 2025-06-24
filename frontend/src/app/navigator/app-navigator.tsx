@@ -1,6 +1,8 @@
 import { GroupStackNavigator } from "@/screens/group";
 import { SettingsScreen } from "@/screens/settings";
 import { ShoppingStackNavigator } from "@/screens/shopping";
+import { AuthStackNavigator } from "@/screens/auth";
+import { useAuth } from "@/shared/auth";
 import { Colors } from "@/shared/constants";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Home, Settings, ShoppingBag } from "react-native-feather";
@@ -40,6 +42,12 @@ const tabInfos = [
 ]
 
 export const AppNavigator = () => {
+  const { isAuth } = useAuth();
+
+  if (!isAuth) {
+    return <AuthStackNavigator />;
+  }
+
   return (
     <Tab.Navigator
       screenOptions={{

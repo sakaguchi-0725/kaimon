@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FirebaseError } from 'firebase/app'
 import { signUp } from '../api'
-import { signUpSchema, SignUpFormData } from './validation'
+import { signUpSchema, SignUpFormData } from './schemas'
 import { AUTH_ERROR_CODES, AUTH_ERROR_MESSAGES } from '../model'
 
 type AuthStackParamList = {

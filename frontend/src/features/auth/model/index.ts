@@ -1,6 +1,7 @@
 export * from './constants'
+export * from './schemas'
 
-export interface AuthError {
+export type AuthError = {
   code: string
   message: string
 }

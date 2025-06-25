@@ -1,5 +1,3 @@
 export * from './lib/use-signup'
-export { signUpSchema } from './lib/validation'
-export type { SignUpFormData } from './lib/validation'
 export * from './api'
 export * from './model'

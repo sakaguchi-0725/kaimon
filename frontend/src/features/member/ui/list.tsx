@@ -1,8 +1,8 @@
-import { FlatList, StyleSheet, Text, View } from "react-native"
-import { Member } from "../model"
-import { MemberRoleIcon } from "./role-icon"
-import { StatusLabel } from "./status-label"
-import { Colors } from "@/shared/constants"
+import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { Member } from '../model'
+import { MemberRoleIcon } from './role-icon'
+import { StatusLabel } from './status-label'
+import { Colors } from '@/shared/constants'
 
 const members: Member[] = [
   { id: '1', name: 'メンバー1', role: 'admin', status: 'active' },
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
   nameText: {
     fontSize: 16,
     fontWeight: '500',
-    color: Colors.mainText
-  }
+    color: Colors.mainText,
+  },
 })

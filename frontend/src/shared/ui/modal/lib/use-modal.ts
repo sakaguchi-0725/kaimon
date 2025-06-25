@@ -12,7 +12,7 @@ export const useModal = () => {
   }
 
   const toggleModal = () => {
-    setIsVisible(prev => !prev)
+    setIsVisible((prev) => !prev)
   }
 
   return {
@@ -21,4 +21,4 @@ export const useModal = () => {
     closeModal,
     toggleModal,
   }
-} 
+}

@@ -25,7 +25,7 @@ export const Textarea: React.FC<Props> = ({
       numberOfLines={numberOfLines}
       inputStyle={{
         ...StyleSheet.flatten(styles.textarea),
-        ...StyleSheet.flatten(inputStyle || {})
+        ...StyleSheet.flatten(inputStyle || {}),
       }}
       {...props}
     />
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
     height: 80,
     textAlignVertical: 'top',
   },
-}) 
+})

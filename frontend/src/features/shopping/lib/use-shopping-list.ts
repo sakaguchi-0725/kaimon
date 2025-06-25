@@ -15,7 +15,7 @@ const DUMMY_ITEMS: ShoppingItem[] = [
     description: '1リットルの紙パック',
     status: 'UNPURCHASED',
     memberId: 'user1',
-    categoryId: 1
+    categoryId: 1,
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const DUMMY_ITEMS: ShoppingItem[] = [
     description: '6枚切り',
     status: 'IN_CART',
     memberId: 'user2',
-    categoryId: 1
+    categoryId: 1,
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ const DUMMY_ITEMS: ShoppingItem[] = [
     description: '12ロール入り',
     status: 'PURCHASED',
     memberId: 'user1',
-    categoryId: 2
+    categoryId: 2,
   },
   {
     id: 4,
@@ -39,7 +39,7 @@ const DUMMY_ITEMS: ShoppingItem[] = [
     description: 'ボトル500ml',
     status: 'UNPURCHASED',
     memberId: 'user3',
-    categoryId: 2
+    categoryId: 2,
   },
   {
     id: 5,
@@ -47,14 +47,14 @@ const DUMMY_ITEMS: ShoppingItem[] = [
     description: '1房',
     status: 'UNPURCHASED',
     memberId: 'user2',
-    categoryId: 1
-  }
+    categoryId: 1,
+  },
 ]
 
 export const useShoppingList = () => {
   // 検索テキスト
-  const [searchText, setSearchText] = useState("")
-  
+  const [searchText, setSearchText] = useState('')
+
   // フィルター条件
   const [selectedFilters, setSelectedFilters] = useState<ShoppingListFilters>({
     categories: [],
@@ -95,8 +95,8 @@ export const useShoppingList = () => {
 
     // フィルターの適用
     if (selectedFilters.categories.length > 0) {
-      result = result.filter(item => 
-        selectedFilters.categories.includes(item.categoryId.toString())
+      result = result.filter((item) =>
+        selectedFilters.categories.includes(item.categoryId.toString()),
       )
     }
 
@@ -106,8 +106,8 @@ export const useShoppingList = () => {
     }
 
     if (selectedFilters.statuses.length > 0) {
-      result = result.filter(item => 
-        selectedFilters.statuses.includes(item.status)
+      result = result.filter((item) =>
+        selectedFilters.statuses.includes(item.status),
       )
     }
 
@@ -115,9 +115,10 @@ export const useShoppingList = () => {
     if (searchText) {
       const lowerSearchText = searchText.toLowerCase()
       result = result.filter(
-        item => 
-          item.name.toLowerCase().includes(lowerSearchText) || 
-          (item.description && item.description.toLowerCase().includes(lowerSearchText))
+        (item) =>
+          item.name.toLowerCase().includes(lowerSearchText) ||
+          (item.description &&
+            item.description.toLowerCase().includes(lowerSearchText)),
       )
     }
 
@@ -129,15 +130,18 @@ export const useShoppingList = () => {
    * @param type フィルターの種類
    * @param value 削除する値
    */
-  const removeFilter = (type: keyof ShoppingListFilters, value: string | ShoppingItemStatus) => {
-    setSelectedFilters(prev => {
+  const removeFilter = (
+    type: keyof ShoppingListFilters,
+    value: string | ShoppingItemStatus,
+  ) => {
+    setSelectedFilters((prev) => {
       const currentFilters = [...prev[type]]
       const index = currentFilters.indexOf(value as never)
-      
+
       if (index >= 0) {
         currentFilters.splice(index, 1)
       }
-      
+
       return { ...prev, [type]: currentFilters }
     })
   }
@@ -151,9 +155,11 @@ export const useShoppingList = () => {
    * @returns アクティブなフィルターがある場合はtrue
    */
   const hasActiveFilters = () => {
-    return selectedFilters.categories.length > 0 || 
-           selectedFilters.groups.length > 0 || 
-           selectedFilters.statuses.length > 0
+    return (
+      selectedFilters.categories.length > 0 ||
+      selectedFilters.groups.length > 0 ||
+      selectedFilters.statuses.length > 0
+    )
   }
 
   /**
@@ -161,7 +167,10 @@ export const useShoppingList = () => {
    * @param item 更新するアイテム
    * @param newStatus 新しいステータス
    */
-  const updateItemStatus = (item: ShoppingItem, newStatus: ShoppingItemStatus) => {
+  const updateItemStatus = (
+    item: ShoppingItem,
+    newStatus: ShoppingItemStatus,
+  ) => {
     // 実際の実装では、APIを呼び出してステータスを更新する
     // const updateItem = async () => {
     //   try {
@@ -180,12 +189,10 @@ export const useShoppingList = () => {
     // updateItem()
 
     // ローカルの状態を更新
-    setItems(prevItems => 
-      prevItems.map(prevItem => 
-        prevItem.id === item.id 
-          ? { ...prevItem, status: newStatus } 
-          : prevItem
-      )
+    setItems((prevItems) =>
+      prevItems.map((prevItem) =>
+        prevItem.id === item.id ? { ...prevItem, status: newStatus } : prevItem,
+      ),
     )
   }
 
@@ -201,4 +208,4 @@ export const useShoppingList = () => {
     isLoading,
     updateItemStatus,
   }
-} 
+}

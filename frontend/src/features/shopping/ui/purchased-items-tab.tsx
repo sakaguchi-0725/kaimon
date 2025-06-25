@@ -7,8 +7,22 @@ import { ShoppingCart } from 'react-native-feather'
 
 // ダミーデータ（後で削除）
 const dummyItems: ShoppingItem[] = [
-  { id: 8, name: 'りんご', description: '2個', status: 'PURCHASED', memberId: '1', categoryId: 3 },
-  { id: 9, name: '鶏肉', description: '200g', status: 'PURCHASED', memberId: '2', categoryId: 4 },
+  {
+    id: 8,
+    name: 'りんご',
+    description: '2個',
+    status: 'PURCHASED',
+    memberId: '1',
+    categoryId: 3,
+  },
+  {
+    id: 9,
+    name: '鶏肉',
+    description: '200g',
+    status: 'PURCHASED',
+    memberId: '2',
+    categoryId: 4,
+  },
 ]
 
 export interface PurchasedItemsTabProps {
@@ -16,9 +30,9 @@ export interface PurchasedItemsTabProps {
   onReturnToCart?: (item: ShoppingItem) => void
 }
 
-export const PurchasedItemsTab = ({ 
+export const PurchasedItemsTab = ({
   items = dummyItems, // 本来はpropsから受け取る
-  onReturnToCart
+  onReturnToCart,
 }: PurchasedItemsTabProps) => {
   // アイテムがない場合は空の表示
   if (items.length === 0) {
@@ -38,7 +52,9 @@ export const PurchasedItemsTab = ({
           item={item}
           actionButtons={
             <ActionButton
-              icon={<ShoppingCart width={20} height={20} stroke={Colors.subText} />}
+              icon={
+                <ShoppingCart width={20} height={20} stroke={Colors.subText} />
+              }
               label="カートに戻す"
               status="PURCHASED"
               kind="return"
@@ -69,4 +85,4 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundGray,
     flexGrow: 1,
   },
-}) 
+})

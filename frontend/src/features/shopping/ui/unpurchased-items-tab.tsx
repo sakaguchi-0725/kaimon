@@ -7,10 +7,38 @@ import { ShoppingCart } from 'react-native-feather'
 
 // ダミーデータ（後で削除）
 const dummyItems: ShoppingItem[] = [
-  { id: 1, name: '牛乳', description: '1L', status: 'UNPURCHASED', memberId: '1', categoryId: 1 },
-  { id: 2, name: 'パン', description: '食パン 6枚切り', status: 'UNPURCHASED', memberId: '2', categoryId: 2 },
-  { id: 3, name: 'バナナ', description: '3本', status: 'UNPURCHASED', memberId: '1', categoryId: 3 },
-  { id: 4, name: '卵', description: '10個入り', status: 'UNPURCHASED', memberId: '3', categoryId: 1 },
+  {
+    id: 1,
+    name: '牛乳',
+    description: '1L',
+    status: 'UNPURCHASED',
+    memberId: '1',
+    categoryId: 1,
+  },
+  {
+    id: 2,
+    name: 'パン',
+    description: '食パン 6枚切り',
+    status: 'UNPURCHASED',
+    memberId: '2',
+    categoryId: 2,
+  },
+  {
+    id: 3,
+    name: 'バナナ',
+    description: '3本',
+    status: 'UNPURCHASED',
+    memberId: '1',
+    categoryId: 3,
+  },
+  {
+    id: 4,
+    name: '卵',
+    description: '10個入り',
+    status: 'UNPURCHASED',
+    memberId: '3',
+    categoryId: 1,
+  },
 ]
 
 export interface UnpurchasedItemsTabProps {
@@ -18,9 +46,9 @@ export interface UnpurchasedItemsTabProps {
   onAddToCart?: (item: ShoppingItem) => void
 }
 
-export const UnpurchasedItemsTab = ({ 
+export const UnpurchasedItemsTab = ({
   items = dummyItems, // 本来はpropsから受け取る
-  onAddToCart 
+  onAddToCart,
 }: UnpurchasedItemsTabProps) => {
   // アイテムがない場合は空の表示
   if (items.length === 0) {
@@ -40,7 +68,9 @@ export const UnpurchasedItemsTab = ({
           item={item}
           actionButtons={
             <ActionButton
-              icon={<ShoppingCart width={20} height={20} stroke={Colors.white} />}
+              icon={
+                <ShoppingCart width={20} height={20} stroke={Colors.white} />
+              }
               label="カートに入れる"
               status="UNPURCHASED"
               kind="add"
@@ -71,4 +101,4 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundGray,
     flexGrow: 1,
   },
-}) 
+})

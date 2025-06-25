@@ -1,6 +1,6 @@
-import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
-import { Search, X, MoreVertical } from "react-native-feather"
-import { Colors } from "@/shared/constants"
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
+import { Search, X, MoreVertical } from 'react-native-feather'
+import { Colors } from '@/shared/constants'
 
 export interface SearchBarProps {
   searchText: string
@@ -18,7 +18,12 @@ export const SearchBar = ({
   return (
     <View style={styles.searchContainer}>
       <View style={styles.searchBar}>
-        <Search width={20} height={20} stroke={Colors.subText} style={styles.searchIcon} />
+        <Search
+          width={20}
+          height={20}
+          stroke={Colors.subText}
+          style={styles.searchIcon}
+        />
         <TextInput
           style={styles.searchInput}
           placeholder="買い物アイテムを検索"
@@ -26,16 +31,23 @@ export const SearchBar = ({
           onChangeText={onSearchTextChange}
         />
         {searchText.length > 0 && (
-          <TouchableOpacity onPress={() => onSearchTextChange("")}>
+          <TouchableOpacity onPress={() => onSearchTextChange('')}>
             <X width={20} height={20} stroke={Colors.subText} />
           </TouchableOpacity>
         )}
       </View>
-      <TouchableOpacity 
-        style={[styles.filterButton, hasActiveFilters && styles.activeFilterButton]} 
+      <TouchableOpacity
+        style={[
+          styles.filterButton,
+          hasActiveFilters && styles.activeFilterButton,
+        ]}
         onPress={onFilterPress}
       >
-        <MoreVertical width={20} height={20} stroke={hasActiveFilters ? Colors.white : Colors.subText} />
+        <MoreVertical
+          width={20}
+          height={20}
+          stroke={hasActiveFilters ? Colors.white : Colors.subText}
+        />
       </TouchableOpacity>
     </View>
   )
@@ -81,4 +93,4 @@ const styles = StyleSheet.create({
   activeFilterButton: {
     backgroundColor: Colors.primary,
   },
-}) 
+})

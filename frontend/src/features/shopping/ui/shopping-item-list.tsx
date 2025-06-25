@@ -1,4 +1,10 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { ShoppingItem, ShoppingItemStatus, STATUS_LABELS } from '../model'
 import { Colors } from '@/shared/constants'
 import { Check, ShoppingCart } from 'react-native-feather'
@@ -10,7 +16,11 @@ export interface ShoppingItemListProps {
   onStatusChange?: (item: ShoppingItem, newStatus: ShoppingItemStatus) => void
 }
 
-export const ShoppingItemList = ({ items, onItemPress, onStatusChange }: ShoppingItemListProps) => {
+export const ShoppingItemList = ({
+  items,
+  onItemPress,
+  onStatusChange,
+}: ShoppingItemListProps) => {
   // アイテムがない場合は空の表示
   if (items.length === 0) {
     return (
@@ -37,7 +47,11 @@ export const ShoppingItemList = ({ items, onItemPress, onStatusChange }: Shoppin
     if (!onStatusChange) return
 
     // ステータスを順番に切り替える
-    const statuses: ShoppingItemStatus[] = ['UNPURCHASED', 'IN_CART', 'PURCHASED']
+    const statuses: ShoppingItemStatus[] = [
+      'UNPURCHASED',
+      'IN_CART',
+      'PURCHASED',
+    ]
     const currentIndex = statuses.indexOf(item.status)
     const nextIndex = (currentIndex + 1) % statuses.length
     onStatusChange(item, statuses[nextIndex])
@@ -153,4 +167,4 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
   },
-}) 
+})

@@ -5,12 +5,12 @@ import { GroupDetailScreen } from './detail'
 import { Colors } from '@/shared/constants'
 
 export type GroupStackParamList = {
-  GroupList: undefined;
+  GroupList: undefined
   GroupDetail: {
-    groupId: string;
-    groupName: string;
-  };
-};
+    groupId: string
+    groupName: string
+  }
+}
 
 const Stack = createNativeStackNavigator<GroupStackParamList>()
 
@@ -28,27 +28,26 @@ export const GroupStackNavigator = () => {
         options={{
           title: 'グループ一覧',
           headerTitleStyle: {
-            color: Colors.mainText
+            color: Colors.mainText,
           },
           contentStyle: {
-            backgroundColor: Colors.backgroundGray
-          }
+            backgroundColor: Colors.backgroundGray,
+          },
         }}
-        
       />
       <Stack.Screen
         name="GroupDetail"
         component={GroupDetailScreen}
-        options={({ route }) => ({ 
+        options={({ route }) => ({
           title: route.params.groupName,
           headerTitleStyle: {
             color: Colors.mainText,
           },
           contentStyle: {
-            backgroundColor: Colors.backgroundGray
-          }
+            backgroundColor: Colors.backgroundGray,
+          },
         })}
       />
     </Stack.Navigator>
   )
-} 
+}

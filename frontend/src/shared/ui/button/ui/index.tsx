@@ -1,19 +1,27 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, StyleProp, ViewStyle, TextStyle } from 'react-native';
-import { Colors } from '@/shared/constants';
-import { ButtonSize, ButtonVariant, ButtonColor } from '../model';
+import React from 'react'
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+} from 'react-native'
+import { Colors } from '@/shared/constants'
+import { ButtonSize, ButtonVariant, ButtonColor } from '../model'
 
 type Props = {
-  text: string;
-  onPress: () => void;
-  size?: ButtonSize;
-  variant?: ButtonVariant;
-  color?: ButtonColor;
-  icon?: React.ReactNode;
-  iconPosition?: 'left' | 'right';
-  disabled?: boolean;
-  style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
+  text: string
+  onPress: () => void
+  size?: ButtonSize
+  variant?: ButtonVariant
+  color?: ButtonColor
+  icon?: React.ReactNode
+  iconPosition?: 'left' | 'right'
+  disabled?: boolean
+  style?: StyleProp<ViewStyle>
+  textStyle?: StyleProp<TextStyle>
 }
 
 export const Button: React.FC<Props> = ({
@@ -29,55 +37,55 @@ export const Button: React.FC<Props> = ({
   textStyle,
 }) => {
   const getBackgroundColor = () => {
-    if (disabled) return Colors.secondary;
+    if (disabled) return Colors.secondary
     if (variant === 'solid') {
       switch (color) {
         case 'primary':
-          return Colors.primary;
+          return Colors.primary
         case 'secondary':
-          return Colors.secondary;
+          return Colors.secondary
         case 'success':
-          return Colors.success;
+          return Colors.success
         default:
-          return Colors.primary;
+          return Colors.primary
       }
     }
-    return 'transparent';
-  };
+    return 'transparent'
+  }
 
   const getBorderColor = () => {
-    if (disabled) return Colors.secondary;
+    if (disabled) return Colors.secondary
     if (variant === 'outline') {
       switch (color) {
         case 'primary':
-          return Colors.primary;
+          return Colors.primary
         case 'secondary':
-          return Colors.secondary;
+          return Colors.secondary
         case 'success':
-          return Colors.success;
+          return Colors.success
         default:
-          return Colors.primary;
+          return Colors.primary
       }
     }
-    return 'transparent';
-  };
+    return 'transparent'
+  }
 
   const getTextColor = () => {
-    if (disabled) return Colors.subText;
+    if (disabled) return Colors.subText
     if (variant === 'solid') {
-      return Colors.white;
+      return Colors.white
     }
     switch (color) {
       case 'primary':
-        return Colors.primary;
+        return Colors.primary
       case 'secondary':
-        return Colors.subText;
+        return Colors.subText
       case 'success':
-        return Colors.success;
+        return Colors.success
       default:
-        return Colors.primary;
+        return Colors.primary
     }
-  };
+  }
 
   const buttonStyles = [
     styles.button,
@@ -89,14 +97,14 @@ export const Button: React.FC<Props> = ({
     },
     disabled && styles.buttonDisabled,
     style,
-  ];
+  ]
 
   const textStyles = [
     styles.text,
     size === 'sm' && styles.textSm,
     { color: getTextColor() },
     textStyle,
-  ];
+  ]
 
   return (
     <TouchableOpacity
@@ -106,13 +114,17 @@ export const Button: React.FC<Props> = ({
       activeOpacity={0.7}
     >
       <View style={styles.contentContainer}>
-        {icon && iconPosition === 'left' && <View style={styles.iconLeft}>{icon}</View>}
+        {icon && iconPosition === 'left' && (
+          <View style={styles.iconLeft}>{icon}</View>
+        )}
         <Text style={textStyles}>{text}</Text>
-        {icon && iconPosition === 'right' && <View style={styles.iconRight}>{icon}</View>}
+        {icon && iconPosition === 'right' && (
+          <View style={styles.iconRight}>{icon}</View>
+        )}
       </View>
     </TouchableOpacity>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   button: {
@@ -156,4 +168,4 @@ const styles = StyleSheet.create({
   iconRight: {
     marginLeft: 8,
   },
-});
+})

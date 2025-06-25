@@ -10,18 +10,10 @@ type StatusLabelProps = {
 export const StatusLabel: React.FC<StatusLabelProps> = ({ status }) => {
   return (
     <View style={styles.statusContainer}>
-      <View 
-        style={[
-          styles.statusDot, 
-          { backgroundColor: StatusColors[status] }
-        ]} 
+      <View
+        style={[styles.statusDot, { backgroundColor: StatusColors[status] }]}
       />
-      <Text 
-        style={[
-          styles.statusText, 
-          { color: StatusColors[status] }
-        ]}
-      >
+      <Text style={[styles.statusText, { color: StatusColors[status] }]}>
         {StatusLabels[status]}
       </Text>
     </View>

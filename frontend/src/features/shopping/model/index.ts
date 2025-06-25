@@ -11,8 +11,8 @@ export type ShoppingItem = {
 
 // カテゴリー情報の定義
 export interface Category {
-  id: number;
-  name: string;
+  id: number
+  name: string
 }
 
 // 定数のエクスポート

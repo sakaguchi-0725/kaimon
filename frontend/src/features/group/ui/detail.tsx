@@ -1,7 +1,7 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
-import { GroupInfo } from "../model"
-import { Colors } from "@/shared/constants"
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { GroupInfo } from '../model'
+import { Colors } from '@/shared/constants'
 import { Edit2 } from 'react-native-feather'
 
 export const GroupDetail = () => {
@@ -9,7 +9,7 @@ export const GroupDetail = () => {
     id: '1',
     name: 'グループ1',
     description: 'テスト用のグループです',
-    createdAt: '2025-01-02'
+    createdAt: '2025-01-02',
   }
 
   const handleEdit = () => {
@@ -29,9 +29,9 @@ export const GroupDetail = () => {
           </View>
           <Text style={styles.description}>{data.description}</Text>
         </View>
-        
+
         <View style={styles.divider} />
-        
+
         <View style={styles.section}>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>作成日</Text>

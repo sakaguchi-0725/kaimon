@@ -1,7 +1,13 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native"
-import { JoinedGroup } from "../model"
-import { ChevronRight } from "react-native-feather"
-import { Colors } from "@/shared/constants"
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import { JoinedGroup } from '../model'
+import { ChevronRight } from 'react-native-feather'
+import { Colors } from '@/shared/constants'
 
 const groups: JoinedGroup[] = [
   { id: '1', name: 'グループ1', memberCount: 2 },
@@ -10,13 +16,13 @@ const groups: JoinedGroup[] = [
 ]
 
 type Props = {
-  onPress?: (groupId: string, groupName: string) => void;
+  onPress?: (groupId: string, groupName: string) => void
 }
 
 export const GroupList = ({ onPress }: Props) => {
   const renderItem = (item: JoinedGroup) => (
-    <TouchableOpacity 
-      style={styles.item} 
+    <TouchableOpacity
+      style={styles.item}
       onPress={() => onPress?.(item.id, item.name)}
     >
       <View style={styles.titleArea}>

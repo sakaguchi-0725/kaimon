@@ -1,6 +1,6 @@
-import { User, Users } from "react-native-feather"
-import { MemberRole } from "../model"
-import { Colors } from "@/shared/constants"
+import { User, Users } from 'react-native-feather'
+import { MemberRole } from '../model'
+import { Colors } from '@/shared/constants'
 
 type Props = {
   role: MemberRole

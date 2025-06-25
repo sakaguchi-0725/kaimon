@@ -1,5 +1,12 @@
 import React from 'react'
-import { View, Text, TextInput as RNTextInput, StyleSheet, TextInputProps as RNTextInputProps, ViewStyle } from 'react-native'
+import {
+  View,
+  Text,
+  TextInput as RNTextInput,
+  StyleSheet,
+  TextInputProps as RNTextInputProps,
+  ViewStyle,
+} from 'react-native'
 import { Colors } from '@/shared/constants'
 
 type Props = Omit<RNTextInputProps, 'style'> & {
@@ -59,4 +66,4 @@ const styles = StyleSheet.create({
     color: Colors.error,
     marginTop: 4,
   },
-}) 
+})

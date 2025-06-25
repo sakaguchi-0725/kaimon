@@ -9,7 +9,10 @@ export interface ShoppingItemCardProps {
   actionButtons: ReactNode
 }
 
-export const ShoppingItemCard = ({ item, actionButtons }: ShoppingItemCardProps) => {
+export const ShoppingItemCard = ({
+  item,
+  actionButtons,
+}: ShoppingItemCardProps) => {
   return (
     <Card contentStyle={styles.cardContent}>
       {/* アイテム情報 */}
@@ -48,4 +51,4 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.subText,
   },
-}) 
+})

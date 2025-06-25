@@ -44,7 +44,7 @@ const tabInfos = [
 export const AppNavigator = () => {
   const { isAuth } = useAuth();
 
-  if (isAuth) {
+  if (!isAuth) {
     return <AuthStackNavigator />;
   }
 

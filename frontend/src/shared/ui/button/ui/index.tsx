@@ -31,7 +31,16 @@ export const Button: React.FC<Props> = ({
   const getBackgroundColor = () => {
     if (disabled) return Colors.secondary;
     if (variant === 'solid') {
-      return color === 'primary' ? Colors.primary : Colors.secondary;
+      switch (color) {
+        case 'primary':
+          return Colors.primary;
+        case 'secondary':
+          return Colors.secondary;
+        case 'success':
+          return Colors.success;
+        default:
+          return Colors.primary;
+      }
     }
     return 'transparent';
   };
@@ -39,7 +48,16 @@ export const Button: React.FC<Props> = ({
   const getBorderColor = () => {
     if (disabled) return Colors.secondary;
     if (variant === 'outline') {
-      return color === 'primary' ? Colors.primary : Colors.secondary;
+      switch (color) {
+        case 'primary':
+          return Colors.primary;
+        case 'secondary':
+          return Colors.secondary;
+        case 'success':
+          return Colors.success;
+        default:
+          return Colors.primary;
+      }
     }
     return 'transparent';
   };
@@ -49,7 +67,16 @@ export const Button: React.FC<Props> = ({
     if (variant === 'solid') {
       return Colors.white;
     }
-    return color === 'primary' ? Colors.primary : Colors.subText;
+    switch (color) {
+      case 'primary':
+        return Colors.primary;
+      case 'secondary':
+        return Colors.subText;
+      case 'success':
+        return Colors.success;
+      default:
+        return Colors.primary;
+    }
   };
 
   const buttonStyles = [

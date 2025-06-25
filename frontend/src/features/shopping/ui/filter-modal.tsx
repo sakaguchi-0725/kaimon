@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 import { X } from 'react-native-feather'
 import { Colors } from '@/shared/constants'
 import { BottomSheetModal } from '@/shared/ui/modal'
+import { Button } from '@/shared/ui'
 import { ShoppingItemStatus, STATUS_LABELS } from '@/features/shopping/model'
 
 export interface FilterModalProps {
@@ -146,12 +147,13 @@ export const FilterModal = ({
       </ScrollView>
 
       {/* フィルター適用ボタン */}
-      <TouchableOpacity 
-        style={styles.applyButton}
+      <Button
+        text="適用する"
         onPress={applyFilters}
-      >
-        <Text style={styles.applyButtonText}>適用する</Text>
-      </TouchableOpacity>
+        size="full"
+        variant="solid"
+        color="primary"
+      />
     </BottomSheetModal>
   )
 }
@@ -203,17 +205,5 @@ const styles = StyleSheet.create({
   },
   selectedFilterOptionText: {
     color: Colors.white,
-  },
-  applyButton: {
-    backgroundColor: Colors.primary,
-    borderRadius: 8,
-    paddingVertical: 12,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  applyButtonText: {
-    color: Colors.white,
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+  }
 }) 

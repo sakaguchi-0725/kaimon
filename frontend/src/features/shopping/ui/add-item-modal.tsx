@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Colors } from '@/shared/constants'
 import { BottomSheetModal } from '@/shared/ui/modal'
+import { Button } from '@/shared/ui'
 import { Category } from '../model'
 import { CATEGORIES } from '../model/constants'
 import { X } from 'react-native-feather'
@@ -104,19 +105,14 @@ export const AddItemModal = ({ isVisible, onClose, onAddItem, groups = [] }: Pro
       </View>
       
       {/* 追加ボタン */}
-      <TouchableOpacity
-        style={[
-          styles.addButton,
-          isAddButtonDisabled && styles.addButtonDisabled
-        ]}
+      <Button
+        text="追加"
         onPress={handleAddItem}
+        size="full"
+        variant="solid"
+        color="primary"
         disabled={isAddButtonDisabled}
-      >
-        <Text style={[
-          styles.addButtonText,
-          isAddButtonDisabled && styles.addButtonTextDisabled
-        ]}>追加</Text>
-      </TouchableOpacity>
+      />
     </BottomSheetModal>
   )
 }
@@ -135,24 +131,6 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     gap: 16,
-    marginBottom: 8,
-  },
-  addButton: {
-    backgroundColor: Colors.primary,
-    paddingVertical: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  addButtonDisabled: {
-    backgroundColor: Colors.secondary,
-  },
-  addButtonText: {
-    color: Colors.white,
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  addButtonTextDisabled: {
-    color: Colors.subText,
-  },
+    marginBottom: 18,
+  }
 }) 

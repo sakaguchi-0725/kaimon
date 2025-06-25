@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, Dimensions, Image, Button, FlatList, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Dimensions, Image, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "./stack-navigator";
 import { useRef, useState, useEffect } from "react";
 import { Colors } from "@/shared/constants";
+import { Button } from "@/shared/ui";
 
 const { width } = Dimensions.get("window");
 
@@ -82,19 +83,21 @@ export const WelcomeScreen = () => {
         </View>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.signupButton}
+          <Button
+            text="新規登録"
             onPress={() => navigation.navigate("SignUp")}
-          >
-            <Text style={styles.signupButtonText}>新規登録</Text>
-          </TouchableOpacity>
+            size="full"
+            variant="solid"
+            color="primary"
+          />
           
-          <TouchableOpacity
-            style={styles.loginButton}
+          <Button
+            text="ログイン"
             onPress={() => navigation.navigate("Login")}
-          >
-            <Text style={styles.loginButtonText}>ログイン</Text>
-          </TouchableOpacity>
+            size="full"
+            variant="text"
+            color="primary"
+          />
         </View>
       </View>
     </View>
@@ -149,28 +152,5 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "100%",
     gap: 16,
-  },
-  signupButton: {
-    backgroundColor: Colors.primary,
-    borderRadius: 8,
-    paddingVertical: 12,
-    width: "100%",
-    alignItems: "center",
-  },
-  signupButtonText: {
-    color: Colors.white,
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  loginButton: {
-    borderRadius: 8,
-    paddingVertical: 12,
-    width: "100%",
-    alignItems: "center",
-  },
-  loginButtonText: {
-    color: Colors.primary,
-    fontSize: 16,
-    fontWeight: "bold",
   },
 });

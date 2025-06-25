@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { Colors } from '@/shared/constants'
+import { View, StyleSheet } from 'react-native'
+import { Button } from '@/shared/ui'
 import { ShoppingItemStatus } from '../model'
 
 // アクションの種類を表す型
@@ -16,27 +16,27 @@ export interface ActionButtonProps {
 }
 
 // ステータスに応じた色を取得
-const getColorByStatus = (status: ShoppingItemStatus, kind: ActionKind): string => {
+const getButtonColor = (status: ShoppingItemStatus, kind: ActionKind): 'primary' | 'secondary' | 'success' => {
   // 戻る系のアクション
   if (kind === 'return') {
-    return Colors.secondary
+    return 'secondary'
   }
 
   switch (status) {
     case 'UNPURCHASED':
-      return kind === 'add' ? Colors.primary : Colors.subText
+      return kind === 'add' ? 'primary' : 'secondary'
     case 'IN_CART':
-      return kind === 'move' ? Colors.success : Colors.subText
+      return kind === 'move' ? 'success' : 'secondary'
     case 'PURCHASED':
-      return Colors.secondary
+      return 'secondary'
     default:
-      return Colors.primary
+      return 'primary'
   }
 }
 
-// テキスト色を取得
-const getTextColor = (kind: ActionKind): string => {
-  return kind === 'return' ? Colors.subText : Colors.white
+// ボタンのバリアントを取得
+const getButtonVariant = (kind: ActionKind): 'solid' | 'outline' | 'text' => {
+  return kind === 'return' ? 'outline' : 'solid'
 }
 
 export const ActionButton = ({ 
@@ -47,22 +47,25 @@ export const ActionButton = ({
   kind = 'default',
   style
 }: ActionButtonProps) => {
-  // ステータスとアクションの種類に応じた色を取得
-  const backgroundColor = getColorByStatus(status, kind)
-  const textColor = getTextColor(kind)
-
+  // ステータスとアクションの種類に応じた設定を取得
+  const color = getButtonColor(status, kind)
+  const variant = getButtonVariant(kind)
+  
+  // onPressがundefinedの場合は空の関数を渡す
+  const handlePress = onPress || (() => {})
+  
   return (
-    <TouchableOpacity
-      style={[
-        styles.actionButton,
-        { backgroundColor },
-        style
-      ]}
-      onPress={onPress}
-    >
-      {icon}
-      <Text style={[styles.actionButtonText, { color: textColor }]}>{label}</Text>
-    </TouchableOpacity>
+    <Button
+      text={label}
+      onPress={handlePress}
+      icon={icon}
+      iconPosition="left"
+      size="sm"
+      variant={variant}
+      color={color}
+      style={[styles.actionButton, style]}
+      textStyle={styles.actionButtonText}
+    />
   )
 }
 
@@ -80,12 +83,9 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   actionButton: {
-    borderRadius: 4,
+    marginLeft: 8,
     paddingHorizontal: 12,
     paddingVertical: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 8,
   },
   actionButtonText: {
     fontSize: 14,

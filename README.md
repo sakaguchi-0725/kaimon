@@ -15,8 +15,8 @@ Share Basketは、グループでの買い物リストを共有・管理する�
 ## 技術スタック
 
 ### フロントエンド
-- Vue3
-- TypeScript
+- ReactNative
+- Typescript
 
 ### バックエンド
 - Echo

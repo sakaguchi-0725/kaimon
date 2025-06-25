@@ -1,8 +1,12 @@
-import { useState } from 'react'
 import { Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { authService } from '@/shared/lib/firebase'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FirebaseError } from 'firebase/app'
+import { signUp } from '../api'
+import { signUpSchema, SignUpFormData } from './validation'
+import { AUTH_ERROR_CODES, AUTH_ERROR_MESSAGES } from '../model'
 
 type AuthStackParamList = {
   Login: undefined
@@ -13,49 +17,53 @@ type NavigationProp = NativeStackNavigationProp<AuthStackParamList>
 
 export const useSignup = () => {
   const navigation = useNavigation<NavigationProp>()
-  const [userName, setUserName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSignUp = async () => {
-    if (!userName.trim() || !email.trim() || !password.trim()) {
-      Alert.alert('エラー', 'すべての項目を入力してください')
-      return
-    }
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      userName: '',
+      email: '',
+      password: '',
+    },
+  })
 
-    setIsLoading(true)
+  const handleSignUp = handleSubmit(async (data) => {
     try {
-      const user = await authService.signUp(email, password)
+      const user = await signUp(data.email, data.password)
       console.log('登録成功。UID:', user.uid)
       Alert.alert('成功', '会員登録が完了しました', [
         { text: 'OK', onPress: () => navigation.navigate('Login') },
       ])
-    } catch (error: any) {
-      let errorMessage = '会員登録に失敗しました'
+    } catch (error) {
+      let errorMessage = AUTH_ERROR_MESSAGES.DEFAULT
 
-      if (error.code === 'auth/email-already-in-use') {
-        errorMessage = 'このメールアドレスは既に使用されています'
-      } else if (error.code === 'auth/weak-password') {
-        errorMessage = 'パスワードが弱すぎます'
-      } else if (error.code === 'auth/invalid-email') {
-        errorMessage = 'メールアドレスの形式が正しくありません'
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case AUTH_ERROR_CODES.WEAK_PASSWORD:
+            errorMessage = AUTH_ERROR_MESSAGES.WEAK_PASSWORD
+            break
+          case AUTH_ERROR_CODES.INVALID_EMAIL:
+            errorMessage = AUTH_ERROR_MESSAGES.INVALID_EMAIL
+            break
+          case AUTH_ERROR_CODES.EMAIL_ALREADY_IN_USE:
+          default:
+            errorMessage = AUTH_ERROR_MESSAGES.DEFAULT
+            break
+        }
       }
 
       Alert.alert('エラー', errorMessage)
-    } finally {
-      setIsLoading(false)
     }
-  }
+  })
 
   return {
-    userName,
-    setUserName,
-    email,
-    setEmail,
-    password,
-    setPassword,
-    isLoading,
+    control,
+    errors,
+    isLoading: isSubmitting,
     handleSignUp,
   }
 }

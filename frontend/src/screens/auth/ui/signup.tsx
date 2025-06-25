@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { Controller } from 'react-hook-form'
 import { Container } from '@/shared/ui/container'
 import { TextInput } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
@@ -18,16 +19,7 @@ type NavigationProp = NativeStackNavigationProp<AuthStackParamList>
 
 export const SignUpScreen = () => {
   const navigation = useNavigation<NavigationProp>()
-  const {
-    userName,
-    setUserName,
-    email,
-    setEmail,
-    password,
-    setPassword,
-    isLoading,
-    handleSignUp,
-  } = useSignup()
+  const { control, errors, isLoading, handleSignUp } = useSignup()
 
   const handleGoogleSignUp = () => {
     // Googleサインアップ処理（実装不要）
@@ -45,34 +37,55 @@ export const SignUpScreen = () => {
       </View>
 
       <View style={styles.form}>
-        <TextInput
-          label="ユーザー名"
-          placeholder="ユーザー名を入力"
-          value={userName}
-          onChangeText={setUserName}
-          required
-          containerStyle={styles.inputContainer}
+        <Controller
+          control={control}
+          name="userName"
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              label="ユーザー名"
+              placeholder="ユーザー名を入力"
+              value={value}
+              onChangeText={onChange}
+              required
+              containerStyle={styles.inputContainer}
+              error={errors.userName?.message}
+            />
+          )}
         />
 
-        <TextInput
-          label="メールアドレス"
-          placeholder="メールアドレスを入力"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          required
-          containerStyle={styles.inputContainer}
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              label="メールアドレス"
+              placeholder="メールアドレスを入力"
+              value={value}
+              onChangeText={onChange}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              required
+              containerStyle={styles.inputContainer}
+              error={errors.email?.message}
+            />
+          )}
         />
 
-        <TextInput
-          label="パスワード"
-          placeholder="パスワードを入力"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          required
-          containerStyle={styles.inputContainer}
+        <Controller
+          control={control}
+          name="password"
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              label="パスワード"
+              placeholder="パスワードを入力"
+              value={value}
+              onChangeText={onChange}
+              secureTextEntry
+              required
+              containerStyle={styles.inputContainer}
+              error={errors.password?.message}
+            />
+          )}
         />
 
         <Button

@@ -1,6 +1,6 @@
-import React from "react"
-import Svg, { Path, G } from "react-native-svg"
-import { ViewStyle } from "react-native"
+import React from 'react'
+import Svg, { Path, G } from 'react-native-svg'
+import { ViewStyle } from 'react-native'
 
 type Props = {
   size?: number
@@ -31,4 +31,4 @@ export const GoogleIcon: React.FC<Props> = ({ size = 24, style }) => {
       </G>
     </Svg>
   )
-} 
+}

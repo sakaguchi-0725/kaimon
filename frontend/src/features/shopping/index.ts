@@ -12,4 +12,4 @@ export { ActionButton, ActionButtonContainer } from './ui/action-button'
 export { AddItemModal } from './ui/add-item-modal'
 
 export * from './lib/use-shopping-list'
-export * from './lib/use-realtime-shopping' 
+export * from './lib/use-realtime-shopping'

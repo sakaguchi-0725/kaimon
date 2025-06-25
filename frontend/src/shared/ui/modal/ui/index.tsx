@@ -1,5 +1,13 @@
 import { ReactNode, useEffect, useRef } from 'react'
-import { Animated, Modal, StyleSheet, TouchableOpacity, View, ViewStyle, Platform } from 'react-native'
+import {
+  Animated,
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+  Platform,
+} from 'react-native'
 import { Colors } from '@/shared/constants'
 
 export interface BottomSheetModalProps {
@@ -9,11 +17,11 @@ export interface BottomSheetModalProps {
   containerStyle?: ViewStyle
 }
 
-export const BottomSheetModal = ({ 
-  isVisible, 
-  onClose, 
+export const BottomSheetModal = ({
+  isVisible,
+  onClose,
   children,
-  containerStyle
+  containerStyle,
 }: BottomSheetModalProps) => {
   const overlayAnimation = useRef(new Animated.Value(0)).current
   const modalAnimation = useRef(new Animated.Value(0)).current
@@ -71,18 +79,18 @@ export const BottomSheetModal = ({
     >
       <View style={styles.modalContainer}>
         {/* 背景オーバーレイ */}
-        <Animated.View 
+        <Animated.View
           style={[
             styles.modalOverlay,
             {
-              opacity: overlayAnimation
-            }
+              opacity: overlayAnimation,
+            },
           ]}
           onTouchEnd={onClose}
         />
-        
+
         {/* モーダルコンテンツ */}
-        <Animated.View 
+        <Animated.View
           style={[
             styles.modalContent,
             {
@@ -90,17 +98,15 @@ export const BottomSheetModal = ({
                 {
                   translateY: modalAnimation.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [600, 0]  // スライド距離を大きくして視覚効果を強化
-                  })
-                }
-              ]
+                    outputRange: [600, 0], // スライド距離を大きくして視覚効果を強化
+                  }),
+                },
+              ],
             },
-            containerStyle
+            containerStyle,
           ]}
         >
-          <View style={styles.contentWrapper}>
-            {children}
-          </View>
+          <View style={styles.contentWrapper}>{children}</View>
           {/* 下部の安全領域 */}
           <View style={styles.safeAreaBottom} />
         </Animated.View>
@@ -135,4 +141,4 @@ const styles = StyleSheet.create({
   safeAreaBottom: {
     height: Platform.OS === 'ios' ? 25 : 15,
   },
-}) 
+})

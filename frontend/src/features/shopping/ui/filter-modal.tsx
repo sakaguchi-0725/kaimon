@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native'
 import { X } from 'react-native-feather'
 import { Colors } from '@/shared/constants'
 import { BottomSheetModal } from '@/shared/ui/modal'
@@ -25,28 +31,35 @@ export const FilterModal = ({
   isVisible,
   onClose,
   selectedFilters,
-  onFilterChange
+  onFilterChange,
 }: FilterModalProps) => {
   // ローカルステートでフィルター選択を管理
   const [localFilters, setLocalFilters] = useState(selectedFilters)
 
   // ダミーデータ（実際の実装時には置き換える）
-  const dummyCategories = ["食品", "日用品", "衣類", "その他"]
-  const dummyGroups = ["家族", "友人", "仕事"]
-  const dummyStatuses: ShoppingItemStatus[] = ["UNPURCHASED", "IN_CART", "PURCHASED"]
+  const dummyCategories = ['食品', '日用品', '衣類', 'その他']
+  const dummyGroups = ['家族', '友人', '仕事']
+  const dummyStatuses: ShoppingItemStatus[] = [
+    'UNPURCHASED',
+    'IN_CART',
+    'PURCHASED',
+  ]
 
   // フィルターの切り替え
-  const toggleFilter = (type: 'categories' | 'groups' | 'statuses', value: string | ShoppingItemStatus) => {
-    setLocalFilters(prev => {
+  const toggleFilter = (
+    type: 'categories' | 'groups' | 'statuses',
+    value: string | ShoppingItemStatus,
+  ) => {
+    setLocalFilters((prev) => {
       const currentFilters = [...prev[type]]
       const index = currentFilters.indexOf(value as never)
-      
+
       if (index >= 0) {
         currentFilters.splice(index, 1)
       } else {
         currentFilters.push(value as never)
       }
-      
+
       return { ...prev, [type]: currentFilters }
     })
   }
@@ -71,19 +84,21 @@ export const FilterModal = ({
         <View style={styles.filterSection}>
           <Text style={styles.filterSectionTitle}>カテゴリー</Text>
           <View style={styles.filterOptions}>
-            {dummyCategories.map(category => (
+            {dummyCategories.map((category) => (
               <TouchableOpacity
                 key={`filter-category-${category}`}
                 style={[
                   styles.filterOption,
-                  localFilters.categories.includes(category) && styles.selectedFilterOption
+                  localFilters.categories.includes(category) &&
+                    styles.selectedFilterOption,
                 ]}
                 onPress={() => toggleFilter('categories', category)}
               >
-                <Text 
+                <Text
                   style={[
                     styles.filterOptionText,
-                    localFilters.categories.includes(category) && styles.selectedFilterOptionText
+                    localFilters.categories.includes(category) &&
+                      styles.selectedFilterOptionText,
                   ]}
                 >
                   {category}
@@ -97,19 +112,21 @@ export const FilterModal = ({
         <View style={styles.filterSection}>
           <Text style={styles.filterSectionTitle}>グループ</Text>
           <View style={styles.filterOptions}>
-            {dummyGroups.map(group => (
+            {dummyGroups.map((group) => (
               <TouchableOpacity
                 key={`filter-group-${group}`}
                 style={[
                   styles.filterOption,
-                  localFilters.groups.includes(group) && styles.selectedFilterOption
+                  localFilters.groups.includes(group) &&
+                    styles.selectedFilterOption,
                 ]}
                 onPress={() => toggleFilter('groups', group)}
               >
-                <Text 
+                <Text
                   style={[
                     styles.filterOptionText,
-                    localFilters.groups.includes(group) && styles.selectedFilterOptionText
+                    localFilters.groups.includes(group) &&
+                      styles.selectedFilterOptionText,
                   ]}
                 >
                   {group}
@@ -123,19 +140,21 @@ export const FilterModal = ({
         <View style={styles.filterSection}>
           <Text style={styles.filterSectionTitle}>ステータス</Text>
           <View style={styles.filterOptions}>
-            {dummyStatuses.map(status => (
+            {dummyStatuses.map((status) => (
               <TouchableOpacity
                 key={`filter-status-${status}`}
                 style={[
                   styles.filterOption,
-                  localFilters.statuses.includes(status) && styles.selectedFilterOption
+                  localFilters.statuses.includes(status) &&
+                    styles.selectedFilterOption,
                 ]}
                 onPress={() => toggleFilter('statuses', status)}
               >
-                <Text 
+                <Text
                   style={[
                     styles.filterOptionText,
-                    localFilters.statuses.includes(status) && styles.selectedFilterOptionText
+                    localFilters.statuses.includes(status) &&
+                      styles.selectedFilterOptionText,
                   ]}
                 >
                   {STATUS_LABELS[status]}
@@ -205,5 +224,5 @@ const styles = StyleSheet.create({
   },
   selectedFilterOptionText: {
     color: Colors.white,
-  }
-}) 
+  },
+})

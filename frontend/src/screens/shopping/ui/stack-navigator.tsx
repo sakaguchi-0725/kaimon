@@ -6,11 +6,11 @@ import { Colors } from '@/shared/constants'
 import { TouchableOpacity, Text, Alert } from 'react-native'
 
 export type ShoppingStackParamList = {
-  ShoppingList: undefined;
+  ShoppingList: undefined
   RealtimeShopping: {
-    groupId?: string;
-  };
-};
+    groupId?: string
+  }
+}
 
 const Stack = createNativeStackNavigator<ShoppingStackParamList>()
 
@@ -28,22 +28,26 @@ export const ShoppingStackNavigator = () => {
         options={({ navigation }) => ({
           title: '買い物一覧',
           headerTitleStyle: {
-            color: Colors.mainText
+            color: Colors.mainText,
           },
           contentStyle: {
-            backgroundColor: Colors.backgroundGray
+            backgroundColor: Colors.backgroundGray,
           },
           // 右側に買い物開始ボタンを表示
           headerRight: () => (
             <TouchableOpacity
               onPress={() => {
                 // 実際の実装では選択されているグループIDを取得
-                const selectedGroupId = "dummy-group-id"; // 仮のID
-                navigation.navigate('RealtimeShopping', { groupId: selectedGroupId });
+                const selectedGroupId = 'dummy-group-id' // 仮のID
+                navigation.navigate('RealtimeShopping', {
+                  groupId: selectedGroupId,
+                })
               }}
               style={{ marginRight: 8 }}
             >
-              <Text style={{ color: Colors.primary, fontWeight: 'bold' }}>買い物を始める</Text>
+              <Text style={{ color: Colors.primary, fontWeight: 'bold' }}>
+                買い物を始める
+              </Text>
             </TouchableOpacity>
           ),
         })}
@@ -51,29 +55,29 @@ export const ShoppingStackNavigator = () => {
       <Stack.Screen
         name="RealtimeShopping"
         component={RealtimeShoppingListScreen}
-        options={({ navigation }) => ({ 
+        options={({ navigation }) => ({
           title: 'リアルタイム買い物',
           headerTitleStyle: {
             color: Colors.mainText,
           },
           contentStyle: {
-            backgroundColor: Colors.backgroundGray
+            backgroundColor: Colors.backgroundGray,
           },
           // 左側に終了ボタンを表示
           headerLeft: () => (
             <TouchableOpacity
               onPress={() => {
                 Alert.alert(
-                  "買い物を終了しますか？",
-                  "現在の状態が保存されます。",
+                  '買い物を終了しますか？',
+                  '現在の状態が保存されます。',
                   [
-                    { text: "キャンセル", style: "cancel" },
-                    { 
-                      text: "終了する", 
-                      onPress: () => navigation.goBack()
-                    }
-                  ]
-                );
+                    { text: 'キャンセル', style: 'cancel' },
+                    {
+                      text: '終了する',
+                      onPress: () => navigation.goBack(),
+                    },
+                  ],
+                )
               }}
               style={{ marginRight: 8 }}
             >
@@ -84,4 +88,4 @@ export const ShoppingStackNavigator = () => {
       />
     </Stack.Navigator>
   )
-} 
+}

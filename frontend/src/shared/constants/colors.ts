@@ -8,5 +8,5 @@ export const Colors = {
   backgroundGray: '#F2F3F0',
   border: '#D4D5D2',
   success: '#4CAF50',
-  warning: '#FFC107'
+  warning: '#FFC107',
 } as const

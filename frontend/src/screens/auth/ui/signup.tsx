@@ -1,16 +1,16 @@
-import React from "react"
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
-import { Container } from "@/shared/ui/container"
-import { TextInput } from "@/shared/ui/input"
-import { Button } from "@/shared/ui/button"
-import { Colors } from "@/shared/constants"
-import { useNavigation } from "@react-navigation/native"
-import { NativeStackNavigationProp } from "@react-navigation/native-stack"
-import { GoogleIcon } from "@/shared/ui/icons"
+import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { Container } from '@/shared/ui/container'
+import { TextInput } from '@/shared/ui/input'
+import { Button } from '@/shared/ui/button'
+import { Colors } from '@/shared/constants'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { GoogleIcon } from '@/shared/ui/icons'
 
 type AuthStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
+  Login: undefined
+  SignUp: undefined
 }
 
 type NavigationProp = NativeStackNavigationProp<AuthStackParamList>
@@ -38,14 +38,14 @@ export const SignUpScreen = () => {
       </View>
 
       <View style={styles.form}>
-        <TextInput 
+        <TextInput
           label="ユーザー名"
           placeholder="ユーザー名を入力"
           required
           containerStyle={styles.inputContainer}
         />
-        
-        <TextInput 
+
+        <TextInput
           label="メールアドレス"
           placeholder="メールアドレスを入力"
           keyboardType="email-address"
@@ -53,8 +53,8 @@ export const SignUpScreen = () => {
           required
           containerStyle={styles.inputContainer}
         />
-        
-        <TextInput 
+
+        <TextInput
           label="パスワード"
           placeholder="パスワードを入力"
           secureTextEntry
@@ -62,8 +62,8 @@ export const SignUpScreen = () => {
           containerStyle={styles.inputContainer}
         />
 
-        <Button 
-          text="会員登録" 
+        <Button
+          text="会員登録"
           onPress={handleSignUp}
           color="primary"
           style={styles.button}
@@ -75,8 +75,8 @@ export const SignUpScreen = () => {
           <View style={styles.divider} />
         </View>
 
-        <Button 
-          text="Googleで登録" 
+        <Button
+          text="Googleで登録"
           onPress={handleGoogleSignUp}
           variant="outline"
           color="secondary"
@@ -100,7 +100,7 @@ export const SignUpScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     backgroundColor: Colors.white,
     padding: 24,
   },
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: Colors.mainText,
     marginBottom: 8,
   },
@@ -127,8 +127,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   dividerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginVertical: 24,
   },
   divider: {
@@ -149,9 +149,9 @@ const styles = StyleSheet.create({
     color: Colors.mainText,
   },
   footer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   footerText: {
     color: Colors.subText,
@@ -159,6 +159,6 @@ const styles = StyleSheet.create({
   },
   link: {
     color: Colors.primary,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 })

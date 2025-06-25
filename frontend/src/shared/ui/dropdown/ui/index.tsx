@@ -1,18 +1,18 @@
-import React, { ReactNode } from 'react';
-import { StyleSheet, Text, View, ViewStyle } from 'react-native';
-import { Dropdown as RNDropdown } from 'react-native-element-dropdown';
-import { Colors } from '@/shared/constants';
-import { DropdownOption } from '../model';
+import React, { ReactNode } from 'react'
+import { StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { Dropdown as RNDropdown } from 'react-native-element-dropdown'
+import { Colors } from '@/shared/constants'
+import { DropdownOption } from '../model'
 
 type Props<T> = {
-  selectedValue: T | null;
-  onValueChange: (value: T) => void;
-  options: DropdownOption<T>[];
-  placeholder?: string;
-  label?: string;
-  required?: boolean;
-  containerStyle?: ViewStyle;
-  disabled?: boolean;
+  selectedValue: T | null
+  onValueChange: (value: T) => void
+  options: DropdownOption<T>[]
+  placeholder?: string
+  label?: string
+  required?: boolean
+  containerStyle?: ViewStyle
+  disabled?: boolean
 }
 
 export function Dropdown<T>({
@@ -43,7 +43,7 @@ export function Dropdown<T>({
         placeholder={placeholder}
         value={selectedValue}
         onChange={(item) => {
-          onValueChange(item.value as T);
+          onValueChange(item.value as T)
         }}
         disable={disabled}
         maxHeight={150}
@@ -56,7 +56,7 @@ export function Dropdown<T>({
         )}
       />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -108,4 +108,4 @@ const styles = StyleSheet.create({
     color: Colors.primary,
     fontWeight: '500',
   },
-}); 
+})

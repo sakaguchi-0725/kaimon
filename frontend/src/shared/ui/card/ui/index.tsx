@@ -10,12 +10,12 @@ export interface CardProps {
   activeOpacity?: number
 }
 
-export const Card = ({ 
-  children, 
-  onPress, 
-  style, 
+export const Card = ({
+  children,
+  onPress,
+  style,
   contentStyle,
-  activeOpacity = 0.7 
+  activeOpacity = 0.7,
 }: CardProps) => {
   // タッチ可能なカードかどうかでコンポーネントを分岐
   if (onPress) {
@@ -25,9 +25,7 @@ export const Card = ({
         onPress={onPress}
         activeOpacity={activeOpacity}
       >
-        <View style={[styles.content, contentStyle]}>
-          {children}
-        </View>
+        <View style={[styles.content, contentStyle]}>{children}</View>
       </TouchableOpacity>
     )
   }
@@ -35,9 +33,7 @@ export const Card = ({
   // タッチ不可のカード
   return (
     <View style={[styles.container, style]}>
-      <View style={[styles.content, contentStyle]}>
-        {children}
-      </View>
+      <View style={[styles.content, contentStyle]}>{children}</View>
     </View>
   )
 }
@@ -54,4 +50,4 @@ const styles = StyleSheet.create({
   content: {
     padding: 16,
   },
-}) 
+})

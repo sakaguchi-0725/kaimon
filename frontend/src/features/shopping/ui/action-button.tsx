@@ -16,7 +16,10 @@ export interface ActionButtonProps {
 }
 
 // ステータスに応じた色を取得
-const getButtonColor = (status: ShoppingItemStatus, kind: ActionKind): 'primary' | 'secondary' | 'success' => {
+const getButtonColor = (
+  status: ShoppingItemStatus,
+  kind: ActionKind,
+): 'primary' | 'secondary' | 'success' => {
   // 戻る系のアクション
   if (kind === 'return') {
     return 'secondary'
@@ -39,21 +42,21 @@ const getButtonVariant = (kind: ActionKind): 'solid' | 'outline' | 'text' => {
   return kind === 'return' ? 'outline' : 'solid'
 }
 
-export const ActionButton = ({ 
-  onPress, 
-  icon, 
-  label, 
+export const ActionButton = ({
+  onPress,
+  icon,
+  label,
   status = 'UNPURCHASED',
   kind = 'default',
-  style
+  style,
 }: ActionButtonProps) => {
   // ステータスとアクションの種類に応じた設定を取得
   const color = getButtonColor(status, kind)
   const variant = getButtonVariant(kind)
-  
+
   // onPressがundefinedの場合は空の関数を渡す
   const handlePress = onPress || (() => {})
-  
+
   return (
     <Button
       text={label}
@@ -69,12 +72,12 @@ export const ActionButton = ({
   )
 }
 
-export const ActionButtonContainer = ({ children }: { children: ReactNode }) => {
-  return (
-    <View style={styles.actionContainer}>
-      {children}
-    </View>
-  )
+export const ActionButtonContainer = ({
+  children,
+}: {
+  children: ReactNode
+}) => {
+  return <View style={styles.actionContainer}>{children}</View>
 }
 
 const styles = StyleSheet.create({
@@ -92,4 +95,4 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginLeft: 4,
   },
-}) 
+})

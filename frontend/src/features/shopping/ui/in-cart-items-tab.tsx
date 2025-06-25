@@ -7,9 +7,30 @@ import { Check, CornerDownLeft } from 'react-native-feather'
 
 // ダミーデータ（後で削除）
 const dummyItems: ShoppingItem[] = [
-  { id: 5, name: 'トマト', description: '3個', status: 'IN_CART', memberId: '1', categoryId: 3 },
-  { id: 6, name: 'じゃがいも', description: '5個', status: 'IN_CART', memberId: '2', categoryId: 3 },
-  { id: 7, name: '豚肉', description: '300g', status: 'IN_CART', memberId: '3', categoryId: 4 },
+  {
+    id: 5,
+    name: 'トマト',
+    description: '3個',
+    status: 'IN_CART',
+    memberId: '1',
+    categoryId: 3,
+  },
+  {
+    id: 6,
+    name: 'じゃがいも',
+    description: '5個',
+    status: 'IN_CART',
+    memberId: '2',
+    categoryId: 3,
+  },
+  {
+    id: 7,
+    name: '豚肉',
+    description: '300g',
+    status: 'IN_CART',
+    memberId: '3',
+    categoryId: 4,
+  },
 ]
 
 export interface InCartItemsTabProps {
@@ -18,10 +39,10 @@ export interface InCartItemsTabProps {
   onReturnToUnpurchased?: (item: ShoppingItem) => void
 }
 
-export const InCartItemsTab = ({ 
+export const InCartItemsTab = ({
   items = dummyItems, // 本来はpropsから受け取る
   onMarkAsPurchased,
-  onReturnToUnpurchased
+  onReturnToUnpurchased,
 }: InCartItemsTabProps) => {
   // アイテムがない場合は空の表示
   if (items.length === 0) {
@@ -43,7 +64,13 @@ export const InCartItemsTab = ({
             <ActionButtonContainer>
               {/* 未購入に戻すボタン */}
               <ActionButton
-                icon={<CornerDownLeft width={20} height={20} stroke={Colors.subText} />}
+                icon={
+                  <CornerDownLeft
+                    width={20}
+                    height={20}
+                    stroke={Colors.subText}
+                  />
+                }
                 label="戻す"
                 status="IN_CART"
                 kind="return"
@@ -84,4 +111,4 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundGray,
     flexGrow: 1,
   },
-}) 
+})

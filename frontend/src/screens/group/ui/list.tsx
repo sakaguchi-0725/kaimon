@@ -1,7 +1,7 @@
-import { GroupList } from "@/features/group"
-import { View, StyleSheet } from "react-native"
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { GroupStackParamList } from "./stack-navigator"
+import { GroupList } from '@/features/group'
+import { View, StyleSheet } from 'react-native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { GroupStackParamList } from './stack-navigator'
 
 type Props = NativeStackScreenProps<GroupStackParamList, 'GroupList'>
 
@@ -19,6 +19,6 @@ export const GroupListScreen = ({ navigation }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16
-  }
+    padding: 16,
+  },
 })

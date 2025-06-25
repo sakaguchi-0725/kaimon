@@ -1,38 +1,46 @@
-import { StyleSheet, Text, View, Dimensions, Image, FlatList } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AuthStackParamList } from "./stack-navigator";
-import { useRef, useState, useEffect } from "react";
-import { Colors } from "@/shared/constants";
-import { Button } from "@/shared/ui";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Image,
+  FlatList,
+} from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { AuthStackParamList } from './stack-navigator'
+import { useRef, useState, useEffect } from 'react'
+import { Colors } from '@/shared/constants'
+import { Button } from '@/shared/ui'
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window')
 
 // カルーセルに表示する画像の配列
 const carouselImages = [
   'https://placehold.jp/fb5300/ffff/400x600.png?text=%E3%83%80%E3%83%9F%E3%83%BC1',
-  "https://placehold.jp/fb5300/ffff/400x600.png?text=%E3%83%80%E3%83%9F%E3%83%BC2",
-  "https://placehold.jp/fb5300/ffff/400x600.png?text=%E3%83%80%E3%83%9F%E3%83%BC3",
-];
+  'https://placehold.jp/fb5300/ffff/400x600.png?text=%E3%83%80%E3%83%9F%E3%83%BC2',
+  'https://placehold.jp/fb5300/ffff/400x600.png?text=%E3%83%80%E3%83%9F%E3%83%BC3',
+]
 
 export const WelcomeScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
-  const flatListRef = useRef<FlatList>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  
+  const navigation =
+    useNavigation<NativeStackNavigationProp<AuthStackParamList>>()
+  const flatListRef = useRef<FlatList>(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
+
   // 自動スクロール
   useEffect(() => {
     const interval = setInterval(() => {
-      const nextIndex = (currentIndex + 1) % carouselImages.length;
+      const nextIndex = (currentIndex + 1) % carouselImages.length
       flatListRef.current?.scrollToIndex({
         index: nextIndex,
         animated: true,
-      });
-      setCurrentIndex(nextIndex);
-    }, 3000);
-    
-    return () => clearInterval(interval);
-  }, [currentIndex]);
+      })
+      setCurrentIndex(nextIndex)
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [currentIndex])
 
   return (
     <View style={styles.container}>
@@ -46,9 +54,9 @@ export const WelcomeScreen = () => {
           showsHorizontalScrollIndicator={false}
           onMomentumScrollEnd={(event) => {
             const slideIndex = Math.floor(
-              event.nativeEvent.contentOffset.x / width
-            );
-            setCurrentIndex(slideIndex);
+              event.nativeEvent.contentOffset.x / width,
+            )
+            setCurrentIndex(slideIndex)
           }}
           renderItem={({ item }) => (
             <View style={[styles.carouselItem, { width }]}>
@@ -85,15 +93,15 @@ export const WelcomeScreen = () => {
         <View style={styles.buttonContainer}>
           <Button
             text="新規登録"
-            onPress={() => navigation.navigate("SignUp")}
+            onPress={() => navigation.navigate('SignUp')}
             size="full"
             variant="solid"
             color="primary"
           />
-          
+
           <Button
             text="ログイン"
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate('Login')}
             size="full"
             variant="text"
             color="primary"
@@ -101,37 +109,37 @@ export const WelcomeScreen = () => {
         </View>
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   carouselContainer: {
-    height: "60%",
+    height: '60%',
   },
   carouselItem: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   carouselImage: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
   },
   pagination: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 30,
   },
   paginationDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     margin: 5,
   },
   paginationDotActive: {
@@ -140,17 +148,17 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     paddingHorizontal: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   subtitle: {
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 20,
     color: Colors.mainText,
   },
   buttonContainer: {
-    width: "100%",
+    width: '100%',
     gap: 16,
   },
-});
+})

@@ -3,33 +3,39 @@ import { Colors } from '@/shared/constants'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { Plus } from 'react-native-feather'
 import { useModal } from '@/shared/ui/modal'
-import { 
-  UnpurchasedItemsTab, 
-  InCartItemsTab, 
-  PurchasedItemsTab, 
+import {
+  UnpurchasedItemsTab,
+  InCartItemsTab,
+  PurchasedItemsTab,
   useRealtimeShopping,
-  AddItemModal
+  AddItemModal,
 } from '@/features/shopping'
-import { STATUS_LABELS, TAB_NAMES, TabInfo } from '@/features/shopping/model/constants'
+import {
+  STATUS_LABELS,
+  TAB_NAMES,
+  TabInfo,
+} from '@/features/shopping/model/constants'
 
 const Tab = createMaterialTopTabNavigator()
 
 export interface RealtimeShoppingListScreenProps {
   route?: {
     params?: {
-      groupId?: string;
-      groupName?: string;
+      groupId?: string
+      groupName?: string
     }
   }
 }
 
-export const RealtimeShoppingListScreen = ({ route }: RealtimeShoppingListScreenProps) => {
+export const RealtimeShoppingListScreen = ({
+  route,
+}: RealtimeShoppingListScreenProps) => {
   // 選択されたグループの情報を取得
   const groupId = route?.params?.groupId
   const groupName = route?.params?.groupName || '買い物リスト'
-  
+
   // リアルタイム買い物フック
-  const { 
+  const {
     isLoading,
     error,
     unpurchasedItems,
@@ -38,18 +44,34 @@ export const RealtimeShoppingListScreen = ({ route }: RealtimeShoppingListScreen
     addToCart,
     markAsPurchased,
     returnToUnpurchased,
-    returnToCart
+    returnToCart,
   } = useRealtimeShopping({ groupId })
-  
+
   // アイテム追加モーダル用
-  const { isVisible: addItemModalVisible, openModal: openAddItemModal, closeModal: closeAddItemModal } = useModal()
+  const {
+    isVisible: addItemModalVisible,
+    openModal: openAddItemModal,
+    closeModal: closeAddItemModal,
+  } = useModal()
 
   // 現在のグループ情報
-  const currentGroup = groupId && groupName ? [{ id: groupId, name: groupName }] : []
+  const currentGroup =
+    groupId && groupName ? [{ id: groupId, name: groupName }] : []
 
   // アイテム追加処理
-  const handleAddItem = (name: string, description: string, categoryId: number, groupId: string) => {
-    console.log('リアルタイムアイテム追加:', name, description, categoryId, groupId)
+  const handleAddItem = (
+    name: string,
+    description: string,
+    categoryId: number,
+    groupId: string,
+  ) => {
+    console.log(
+      'リアルタイムアイテム追加:',
+      name,
+      description,
+      categoryId,
+      groupId,
+    )
     // TODO: アイテム追加のAPI呼び出し
   }
 
@@ -58,12 +80,9 @@ export const RealtimeShoppingListScreen = ({ route }: RealtimeShoppingListScreen
     {
       name: TAB_NAMES.UNPURCHASED,
       component: () => (
-        <UnpurchasedItemsTab
-          items={unpurchasedItems}
-          onAddToCart={addToCart}
-        />
+        <UnpurchasedItemsTab items={unpurchasedItems} onAddToCart={addToCart} />
       ),
-      options: { tabBarLabel: STATUS_LABELS.UNPURCHASED }
+      options: { tabBarLabel: STATUS_LABELS.UNPURCHASED },
     },
     {
       name: TAB_NAMES.IN_CART,
@@ -74,7 +93,7 @@ export const RealtimeShoppingListScreen = ({ route }: RealtimeShoppingListScreen
           onReturnToUnpurchased={returnToUnpurchased}
         />
       ),
-      options: { tabBarLabel: STATUS_LABELS.IN_CART }
+      options: { tabBarLabel: STATUS_LABELS.IN_CART },
     },
     {
       name: TAB_NAMES.PURCHASED,
@@ -84,8 +103,8 @@ export const RealtimeShoppingListScreen = ({ route }: RealtimeShoppingListScreen
           onReturnToCart={returnToCart}
         />
       ),
-      options: { tabBarLabel: STATUS_LABELS.PURCHASED }
-    }
+      options: { tabBarLabel: STATUS_LABELS.PURCHASED },
+    },
   ]
 
   // エラーがあれば表示
@@ -105,7 +124,7 @@ export const RealtimeShoppingListScreen = ({ route }: RealtimeShoppingListScreen
           {groupId ? `ID: ${groupId}` : 'グループが選択されていません'}
         </Text>
       </View>
-      
+
       <Tab.Navigator
         screenOptions={{
           tabBarActiveTintColor: Colors.primary,
@@ -124,7 +143,7 @@ export const RealtimeShoppingListScreen = ({ route }: RealtimeShoppingListScreen
           />
         ))}
       </Tab.Navigator>
-      
+
       {/* 新規メモ追加ボタン */}
       <TouchableOpacity
         style={styles.addButton}
@@ -194,4 +213,4 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 3,
   },
-}) 
+})

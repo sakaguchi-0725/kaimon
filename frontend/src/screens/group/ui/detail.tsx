@@ -1,9 +1,9 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { GroupStackParamList } from "./stack-navigator"
-import { GroupDetail } from "@/features/group"
-import { MemberList } from "@/features/member"
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { GroupStackParamList } from './stack-navigator'
+import { GroupDetail } from '@/features/group'
+import { MemberList } from '@/features/member'
 import { Container } from '@/shared/ui/container'
 import { Colors } from '@/shared/constants'
 import { UserPlus } from 'react-native-feather'
@@ -12,18 +12,18 @@ type Props = NativeStackScreenProps<GroupStackParamList, 'GroupDetail'>
 
 export const GroupDetailScreen = ({ route }: Props) => {
   const { groupId, groupName } = route.params
-  
+
   const handleAddMember = () => {
     console.log('メンバー追加ボタンがタップされました')
     // ここにメンバー追加の処理を実装
   }
-  
+
   return (
     <>
       <Container>
         <GroupDetail />
       </Container>
-      
+
       <Container style={styles.membersContainer}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>メンバー</Text>
@@ -59,5 +59,5 @@ const styles = StyleSheet.create({
   },
   addButton: {
     padding: 4,
-  }
+  },
 })

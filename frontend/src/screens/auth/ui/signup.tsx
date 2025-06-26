@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { Controller } from 'react-hook-form'
 import { Container } from '@/shared/ui/container'
 import { TextInput } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
@@ -7,6 +8,7 @@ import { Colors } from '@/shared/constants'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { GoogleIcon } from '@/shared/ui/icons'
+import { useSignUp } from '@/features/auth'
 
 type AuthStackParamList = {
   Login: undefined
@@ -17,10 +19,7 @@ type NavigationProp = NativeStackNavigationProp<AuthStackParamList>
 
 export const SignUpScreen = () => {
   const navigation = useNavigation<NavigationProp>()
-
-  const handleSignUp = () => {
-    // サインアップ処理（実装不要）
-  }
+  const { control, errors, handleSignUp, isLoading, error } = useSignUp()
 
   const handleGoogleSignUp = () => {
     // Googleサインアップ処理（実装不要）
@@ -38,35 +37,72 @@ export const SignUpScreen = () => {
       </View>
 
       <View style={styles.form}>
-        <TextInput
-          label="ユーザー名"
-          placeholder="ユーザー名を入力"
-          required
-          containerStyle={styles.inputContainer}
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              label="ユーザー名"
+              placeholder="ユーザー名を入力"
+              required
+              containerStyle={styles.inputContainer}
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.name?.message}
+            />
+          )}
         />
 
-        <TextInput
-          label="メールアドレス"
-          placeholder="メールアドレスを入力"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          required
-          containerStyle={styles.inputContainer}
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              label="メールアドレス"
+              placeholder="メールアドレスを入力"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              required
+              containerStyle={styles.inputContainer}
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.email?.message}
+            />
+          )}
         />
 
-        <TextInput
-          label="パスワード"
-          placeholder="パスワードを入力"
-          secureTextEntry
-          required
-          containerStyle={styles.inputContainer}
+        <Controller
+          control={control}
+          name="password"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              label="パスワード"
+              placeholder="パスワードを入力"
+              secureTextEntry
+              required
+              containerStyle={styles.inputContainer}
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              error={errors.password?.message}
+            />
+          )}
         />
+
+        {error && (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
+        )}
 
         <Button
           text="会員登録"
           onPress={handleSignUp}
           color="primary"
           style={styles.button}
+          disabled={isLoading}
         />
 
         <View style={styles.dividerContainer}>
@@ -125,6 +161,19 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 8,
+  },
+  errorContainer: {
+    marginBottom: 16,
+    padding: 12,
+    backgroundColor: Colors.error + '10',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: Colors.error + '30',
+  },
+  errorText: {
+    color: Colors.error,
+    fontSize: 14,
+    textAlign: 'center',
   },
   dividerContainer: {
     flexDirection: 'row',

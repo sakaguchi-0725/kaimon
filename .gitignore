@@ -1,1 +1,3 @@
 .gitmessage
+docker/postgres/
+docker/redis/

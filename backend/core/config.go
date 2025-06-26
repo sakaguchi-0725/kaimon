@@ -107,3 +107,14 @@ func getEnvOrDefault(key, defaultValue string) string {
 func mustGetEnv(key string) string {
 	return os.Getenv(key)
 }
+
+// LoadTestDBConfig はテスト用のDB設定を環境変数から読み込む
+func LoadTestDBConfig() DBConfig {
+	return DBConfig{
+		Host:     getEnvOrDefault("TEST_DB_HOST", "localhost"),
+		Port:     getEnvOrDefault("TEST_DB_PORT", "5433"),
+		User:     getEnvOrDefault("TEST_DB_USER", "postgres"),
+		Password: getEnvOrDefault("TEST_DB_PASSWORD", "password"),
+		Name:     getEnvOrDefault("TEST_DB_NAME", "kaimon_test"),
+	}
+}

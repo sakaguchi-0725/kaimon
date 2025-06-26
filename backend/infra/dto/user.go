@@ -1,6 +1,9 @@
 package dto
 
-import "time"
+import (
+	"backend/domain/model"
+	"time"
+)
 
 type User struct {
 	ID        string    `gorm:"primaryKey;size:255"`
@@ -9,4 +12,20 @@ type User struct {
 	UpdatedAt time.Time `gorm:"autoUpdateTime"`
 
 	Account *Account `gorm:"foreignKey:UserUID;references:ID"`
+}
+
+// ToModel はDTOからドメインモデルに変換する
+func (u User) ToModel() model.User {
+	return model.User{
+		ID:    u.ID,
+		Email: u.Email,
+	}
+}
+
+// ToUserDto はドメインモデルからDTOに変換する
+func ToUserDto(m model.User) User {
+	return User{
+		ID:    m.ID,
+		Email: m.Email,
+	}
 }

@@ -12,6 +12,7 @@ on:
 
 env:
   TEST_DB_HOST: 127.0.0.1
+  TEST_DB_PORT: 5432
   TEST_DB_NAME: kaimon_test
   TEST_DB_USER: kaimon
   TEST_DB_PASSWORD: password

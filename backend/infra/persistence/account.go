@@ -19,19 +19,19 @@ type accountPersistence struct {
 // FindByID implements repository.Account.
 func (a *accountPersistence) FindByID(ctx context.Context, id model.AccountID) (model.Account, error) {
 	if id == "" {
-		return model.Account{}, errors.New("id is required")
+		return model.Account{}, ErrInvalidInput
 	}
 
 	parsedID, err := uuid.Parse(string(id))
 	if err != nil {
-		return model.Account{}, errors.New("invalid account id format")
+		return model.Account{}, ErrInvalidInput
 	}
 
 	var accountDTO dto.Account
 	err = a.conn.WithContext(ctx).Where("id = ?", parsedID).First(&accountDTO).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return model.Account{}, errors.New("account not found")
+			return model.Account{}, ErrRecordNotFound
 		}
 		return model.Account{}, err
 	}
@@ -42,12 +42,12 @@ func (a *accountPersistence) FindByID(ctx context.Context, id model.AccountID) (
 // Store implements repository.Account.
 func (a *accountPersistence) Store(ctx context.Context, acc *model.Account) error {
 	if acc == nil {
-		return errors.New("account is nil")
+		return ErrInvalidInput
 	}
 
 	accountDTO, err := dto.ToAccountDto(*acc)
 	if err != nil {
-		return err
+		return ErrInvalidInput
 	}
 
 	// UPSERTの実装（存在すればUpdate、なければInsert）

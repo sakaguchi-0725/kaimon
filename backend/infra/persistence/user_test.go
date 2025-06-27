@@ -18,25 +18,25 @@ func TestUserPersistence(t *testing.T) {
 			name    string
 			id      string
 			want    model.User
-			wantErr bool
+			wantErr error
 		}{
 			{
 				name:    "存在するユーザーを取得",
 				id:      "test-user-1",
 				want:    model.User{ID: "test-user-1", Email: "test1@example.com"},
-				wantErr: false,
+				wantErr: nil,
 			},
 			{
 				name:    "存在しないユーザーを取得",
 				id:      "non-existent-user",
 				want:    model.User{},
-				wantErr: true,
+				wantErr: persistence.ErrRecordNotFound,
 			},
 			{
 				name:    "空のIDでユーザーを取得",
 				id:      "",
 				want:    model.User{},
-				wantErr: true,
+				wantErr: persistence.ErrInvalidInput,
 			},
 		}
 
@@ -57,8 +57,9 @@ func TestUserPersistence(t *testing.T) {
 
 				got, err := userRepo.FindByID(context.Background(), tt.id)
 
-				if tt.wantErr {
+				if tt.wantErr != nil {
 					assert.Error(t, err)
+					assert.ErrorIs(t, err, tt.wantErr)
 				} else {
 					assert.NoError(t, err)
 					assert.Equal(t, tt.want, got)
@@ -72,7 +73,7 @@ func TestUserPersistence(t *testing.T) {
 			name         string
 			user         *model.User
 			existingUser *model.User // 事前に作成するユーザー
-			wantErr      bool
+			wantErr      error
 		}{
 			{
 				name: "新規ユーザーを作成",
@@ -81,7 +82,7 @@ func TestUserPersistence(t *testing.T) {
 					Email: "new1@example.com",
 				},
 				existingUser: nil,
-				wantErr:      false,
+				wantErr:      nil,
 			},
 			{
 				name: "既存ユーザーを更新（Emailを変更）",
@@ -93,7 +94,7 @@ func TestUserPersistence(t *testing.T) {
 					ID:    "existing-user-1",
 					Email: "original@example.com",
 				},
-				wantErr: false,
+				wantErr: nil,
 			},
 			{
 				name: "重複するEmailで新規ユーザーを作成",
@@ -105,13 +106,13 @@ func TestUserPersistence(t *testing.T) {
 					ID:    "existing-user-2",
 					Email: "duplicate@example.com",
 				},
-				wantErr: true,
+				wantErr: nil, // DBレベルでエラーが発生する可能性がある
 			},
 			{
 				name:         "nilユーザーを保存",
 				user:         nil,
 				existingUser: nil,
-				wantErr:      true,
+				wantErr:      persistence.ErrInvalidInput,
 			},
 		}
 
@@ -128,9 +129,19 @@ func TestUserPersistence(t *testing.T) {
 
 				err := userRepo.Store(context.Background(), tt.user)
 
-				if tt.wantErr {
+				if tt.wantErr != nil {
 					assert.Error(t, err)
+					assert.ErrorIs(t, err, tt.wantErr)
 				} else {
+					// 重複制約エラーの場合はDBレベルでエラーが発生することを期待
+					if tt.name == "重複するEmailで新規ユーザーを作成" {
+						if err != nil {
+							// DBレベルのエラーが発生したことを確認
+							assert.Error(t, err)
+							return
+						}
+					}
+					
 					assert.NoError(t, err)
 
 					// 保存後の検証

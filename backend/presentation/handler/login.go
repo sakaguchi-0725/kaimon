@@ -3,6 +3,7 @@ package handler
 import (
 	"backend/core"
 	"backend/usecase"
+	"errors"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -25,7 +26,7 @@ func NewLogin(usecase usecase.Login) echo.HandlerFunc {
 			return err
 		}
 
-		return c.NoContent(http.StatusNoContent)
+		return c.NoContent(http.StatusOK)
 	}
 }
 
@@ -33,6 +34,14 @@ func makeLoginInput(c echo.Context) (usecase.LoginInput, error) {
 	var req LoginRequest
 	if err := c.Bind(&req); err != nil {
 		return usecase.LoginInput{}, core.NewInvalidError(err)
+	}
+
+	if req.Email == "" {
+		return usecase.LoginInput{}, core.NewInvalidError(errors.New("email is required"))
+	}
+
+	if req.Password == "" {
+		return usecase.LoginInput{}, core.NewInvalidError(errors.New("password is required"))
 	}
 
 	return usecase.LoginInput{

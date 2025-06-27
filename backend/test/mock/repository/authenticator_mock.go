@@ -39,6 +39,21 @@ func (m *MockAuthenticator) EXPECT() *MockAuthenticatorMockRecorder {
 	return m.recorder
 }
 
+// SignInWithEmailAndPassword mocks base method.
+func (m *MockAuthenticator) SignInWithEmailAndPassword(email, password string) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SignInWithEmailAndPassword", email, password)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SignInWithEmailAndPassword indicates an expected call of SignInWithEmailAndPassword.
+func (mr *MockAuthenticatorMockRecorder) SignInWithEmailAndPassword(email, password any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SignInWithEmailAndPassword", reflect.TypeOf((*MockAuthenticator)(nil).SignInWithEmailAndPassword), email, password)
+}
+
 // VerifyToken mocks base method.
 func (m *MockAuthenticator) VerifyToken(token string) (string, string, error) {
 	m.ctrl.T.Helper()

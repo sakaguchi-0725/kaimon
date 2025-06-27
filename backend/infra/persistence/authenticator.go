@@ -39,6 +39,14 @@ func (a *authenticator) VerifyToken(token string) (uid string, email string, err
 	return uid, email, nil
 }
 
+func (a *authenticator) SignInWithEmailAndPassword(email, password string) (uid string, err error) {
+	// TODO: Implement Firebase Auth Email/Password sign-in
+	// Note: Firebase Admin SDK doesn't provide direct email/password sign-in
+	// This would typically be done on the client side and then the resulting ID token
+	// would be verified server-side using VerifyToken
+	return "", ErrInvalidCredentials
+}
+
 func NewAuthenticator(firebaseClient firebase.Client) repository.Authenticator {
 	return &authenticator{firebaseClient: firebaseClient}
 }

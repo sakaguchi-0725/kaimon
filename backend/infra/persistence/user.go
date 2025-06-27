@@ -33,6 +33,25 @@ func (u *userPersistence) FindByID(ctx context.Context, id string) (model.User, 
 	return userDTO.ToModel(), nil
 }
 
+// FindByUID implements repository.User.
+func (u *userPersistence) FindByUID(ctx context.Context, uid string) (*model.User, error) {
+	if uid == "" {
+		return nil, ErrInvalidInput
+	}
+
+	var userDTO dto.User
+	err := u.conn.WithContext(ctx).Where("uid = ?", uid).First(&userDTO).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrNotFound
+		}
+		return nil, err
+	}
+
+	user := userDTO.ToModel()
+	return &user, nil
+}
+
 // Store implements repository.User.
 func (u *userPersistence) Store(ctx context.Context, user *model.User) error {
 	if user == nil {

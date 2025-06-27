@@ -3,4 +3,5 @@ package repository
 
 type Authenticator interface {
 	VerifyToken(token string) (uid, email string, err error)
+	SignInWithEmailAndPassword(email, password string) (uid string, err error)
 }

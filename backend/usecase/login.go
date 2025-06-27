@@ -1,7 +1,10 @@
+//go:generate mockgen -source=login.go -destination=../test/mock/usecase/login_mock.go -package=mock
 package usecase
 
 import (
+	"backend/domain/repository"
 	"context"
+	"fmt"
 )
 
 type (
@@ -14,14 +17,31 @@ type (
 		Password string
 	}
 
-	loginInteractor struct{}
+	loginInteractor struct{
+		authenticator repository.Authenticator
+		user          repository.User
+	}
 )
 
 func (l *loginInteractor) Execute(ctx context.Context, in LoginInput) error {
-	// TODO: Implement login logic
+	// Firebase AuthでEmail/Passwordログインを実行
+	uid, err := l.authenticator.SignInWithEmailAndPassword(in.Email, in.Password)
+	if err != nil {
+		return fmt.Errorf("認証に失敗しました: %w", err)
+	}
+
+	// ユーザーが存在するか確認
+	_, err = l.user.FindByUID(ctx, uid)
+	if err != nil {
+		return fmt.Errorf("ユーザーが見つかりません: %w", err)
+	}
+
 	return nil
 }
 
-func NewLogin() Login {
-	return &loginInteractor{}
+func NewLogin(auth repository.Authenticator, user repository.User) Login {
+	return &loginInteractor{
+		authenticator: auth,
+		user:          user,
+	}
 }

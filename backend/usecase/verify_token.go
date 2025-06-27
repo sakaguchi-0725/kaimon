@@ -1,21 +1,31 @@
 package usecase
 
-import "context"
+import (
+	"backend/domain/repository"
+	"context"
+)
 
 type (
 	VerifyToken interface {
-		Execute(ctx context.Context, token string) (string, error)
+		Execute(ctx context.Context, token string) (uid, email string, err error)
 	}
 
-	verifyTokenInteractor struct{}
+	verifyTokenInteractor struct {
+		authenticator repository.Authenticator
+	}
 )
 
-// Tokenを検証し、ユーザーIDを返す
-func (r *verifyTokenInteractor) Execute(ctx context.Context, token string) (string, error) {
-	// TODO: Implement verify token logic
-	return "dummy-user-id", nil
+func (r *verifyTokenInteractor) Execute(ctx context.Context, token string) (uid, email string, err error) {
+	uid, email, err = r.authenticator.VerifyToken(token)
+	if err != nil {
+		return "", "", err
+	}
+
+	return uid, email, nil
 }
 
-func NewVerifyToken() VerifyToken {
-	return &verifyTokenInteractor{}
+func NewVerifyToken(a repository.Authenticator) VerifyToken {
+	return &verifyTokenInteractor{
+		authenticator: a,
+	}
 }

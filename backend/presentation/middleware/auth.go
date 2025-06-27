@@ -12,22 +12,20 @@ func AuthMiddleware(usecase usecase.VerifyToken) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			ctx := c.Request().Context()
+			authHeader := c.Request().Header.Get("Authorization")
 
-			// TODO: 認証機能を実装したら有効化
-			// cookie, err := c.Cookie("access_token")
-			// if err != nil {
-			// 	if err == http.ErrNoCookie {
-			// 		return core.NewAppError(core.ErrUnauthorized, err)
-			// 	}
+			token, err := core.RemovePrefix(authHeader, "Bearer ")
+			if err != nil {
+				return core.NewInvalidError(err)
+			}
 
-			// 	return err
-			// }
-			userID, err := usecase.Execute(ctx, "dummy-token")
+			userID, email, err := usecase.Execute(ctx, token)
 			if err != nil {
 				return err
 			}
 
 			newCtx := context.WithValue(ctx, core.UserIDKey, userID)
+			newCtx = context.WithValue(newCtx, core.EmailKey, email)
 			c.SetRequest(c.Request().WithContext(newCtx))
 
 			return next(c)

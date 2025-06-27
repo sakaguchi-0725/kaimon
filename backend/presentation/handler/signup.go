@@ -5,7 +5,6 @@ import (
 	"backend/usecase"
 	"errors"
 	"net/http"
-	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -37,14 +36,9 @@ func makeSignUpInput(c echo.Context) (usecase.SignUpInput, error) {
 	}
 
 	// Bearer tokenのプレフィックスを除去
-	const bearerPrefix = "Bearer "
-	if !strings.HasPrefix(authHeader, bearerPrefix) {
-		return usecase.SignUpInput{}, core.NewInvalidError(errors.New("authorization header must start with 'Bearer '"))
-	}
-	idToken := strings.TrimPrefix(authHeader, bearerPrefix)
-
-	if idToken == "" {
-		return usecase.SignUpInput{}, core.NewInvalidError(errors.New("id token is required"))
+	idToken, err := core.RemovePrefix(authHeader, "Bearer ")
+	if err != nil {
+		return usecase.SignUpInput{}, core.NewInvalidError(err)
 	}
 
 	var req SignUpRequest

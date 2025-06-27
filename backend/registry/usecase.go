@@ -25,7 +25,7 @@ func NewUseCase(repo *Repository) UseCase {
 		Login:                  usecase.NewLogin(),
 		ResetPassword:          usecase.NewResetPassword(),
 		ResetPasswordConfirm:   usecase.NewResetPasswordConfirm(),
-		VerifyToken:            usecase.NewVerifyToken(),
+		VerifyToken:            usecase.NewVerifyToken(repo.Authenticator),
 		GetJoinedGroups:        usecase.NewGetJoinedGroups(),
 		CreateGroup:            usecase.NewCreateGroup(),
 		GetGroup:               usecase.NewGetGroup(),

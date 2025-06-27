@@ -1,3 +1,4 @@
+//go:generate mockgen -source=transaction.go -destination=../../test/mock/repository/transaction_mock.go -package=mock
 package repository
 
 import (

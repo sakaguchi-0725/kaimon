@@ -1,6 +1,9 @@
 package model
 
-import "errors"
+import (
+	"backend/core"
+	"errors"
+)
 
 type User struct {
 	ID    string
@@ -9,10 +12,10 @@ type User struct {
 
 func NewUser(id string, email string) (User, error) {
 	if id == "" {
-		return User{}, errors.New("id is required")
+		return User{}, core.NewInvalidError(errors.New("id is required"))
 	}
 	if email == "" {
-		return User{}, errors.New("email is required")
+		return User{}, core.NewInvalidError(errors.New("email is required"))
 	}
 
 	return User{ID: id, Email: email}, nil

@@ -1,6 +1,7 @@
 package model_test
 
 import (
+	"backend/core"
 	"backend/domain/model"
 	"errors"
 	"testing"
@@ -21,7 +22,7 @@ func TestAccount(t *testing.T) {
 			userID  string
 			accName string
 			want    model.Account
-			wantErr error
+			wantErr *core.AppError
 		}{
 			{
 				name:    "正常なアカウント作成",
@@ -41,7 +42,7 @@ func TestAccount(t *testing.T) {
 				userID:  "",
 				accName: validName,
 				want:    model.Account{},
-				wantErr: errors.New("userID is required"),
+				wantErr: core.NewInvalidError(errors.New("userID is required")),
 			},
 			{
 				name:    "nameが空文字の場合",
@@ -49,7 +50,7 @@ func TestAccount(t *testing.T) {
 				userID:  validUserID,
 				accName: "",
 				want:    model.Account{},
-				wantErr: errors.New("name is required"),
+				wantErr: core.NewInvalidError(errors.New("name is required")),
 			},
 			{
 				name:    "userIDとnameが両方空文字の場合",
@@ -57,7 +58,7 @@ func TestAccount(t *testing.T) {
 				userID:  "",
 				accName: "",
 				want:    model.Account{},
-				wantErr: errors.New("userID is required"),
+				wantErr: core.NewInvalidError(errors.New("userID is required")),
 			},
 		}
 
@@ -67,7 +68,14 @@ func TestAccount(t *testing.T) {
 
 				assert.Equal(t, tt.want, got)
 				if tt.wantErr != nil {
-					assert.Equal(t, tt.wantErr.Error(), err.Error())
+					assert.Error(t, err)
+					assert.ErrorIs(t, err, tt.wantErr)
+					// エラーコードも検証
+					var appErr *core.AppError
+					if assert.ErrorAs(t, err, &appErr) {
+						assert.Equal(t, tt.wantErr.Code(), appErr.Code())
+						assert.Equal(t, tt.wantErr.Unwrap().Error(), appErr.Unwrap().Error())
+					}
 				} else {
 					assert.NoError(t, err)
 				}

@@ -42,6 +42,6 @@ func GetTx(ctx context.Context) *db.Conn {
 	return nil
 }
 
-func New(c *db.Conn) repository.Transaction {
+func NewTransaction(c *db.Conn) repository.Transaction {
 	return &transaction{conn: c}
 }

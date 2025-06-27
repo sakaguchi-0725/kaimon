@@ -1,3 +1,4 @@
+//go:generate mockgen -source=signup.go -destination=../test/mock/usecase/signup_mock.go -package=mock
 package usecase
 
 import (

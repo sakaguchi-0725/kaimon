@@ -1,6 +1,7 @@
 package model_test
 
 import (
+	"backend/core"
 	"backend/domain/model"
 	"errors"
 	"testing"
@@ -18,7 +19,7 @@ func TestUser(t *testing.T) {
 			id      string
 			email   string
 			want    model.User
-			wantErr error
+			wantErr *core.AppError
 		}{
 			{
 				name:  "正常なユーザー作成",
@@ -35,21 +36,21 @@ func TestUser(t *testing.T) {
 				id:      "",
 				email:   validEmail,
 				want:    model.User{},
-				wantErr: errors.New("id is required"),
+				wantErr: core.NewInvalidError(errors.New("id is required")),
 			},
 			{
 				name:    "emailが空文字の場合",
 				id:      validID,
 				email:   "",
 				want:    model.User{},
-				wantErr: errors.New("email is required"),
+				wantErr: core.NewInvalidError(errors.New("email is required")),
 			},
 			{
 				name:    "idとemailが両方空文字の場合",
 				id:      "",
 				email:   "",
 				want:    model.User{},
-				wantErr: errors.New("id is required"),
+				wantErr: core.NewInvalidError(errors.New("id is required")),
 			},
 		}
 
@@ -59,7 +60,14 @@ func TestUser(t *testing.T) {
 
 				assert.Equal(t, tt.want, got)
 				if tt.wantErr != nil {
-					assert.Equal(t, tt.wantErr.Error(), err.Error())
+					assert.Error(t, err)
+					assert.ErrorIs(t, err, tt.wantErr)
+					// エラーコードも検証
+					var appErr *core.AppError
+					if assert.ErrorAs(t, err, &appErr) {
+						assert.Equal(t, tt.wantErr.Code(), appErr.Code())
+						assert.Equal(t, tt.wantErr.Unwrap().Error(), appErr.Unwrap().Error())
+					}
 				} else {
 					assert.NoError(t, err)
 				}

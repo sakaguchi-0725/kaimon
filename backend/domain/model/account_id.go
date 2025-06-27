@@ -1,6 +1,9 @@
 package model
 
-import "github.com/google/uuid"
+import (
+	"backend/core"
+	"github.com/google/uuid"
+)
 
 type AccountID string
 
@@ -11,7 +14,7 @@ func NewAccountID() AccountID {
 func ParseAccountID(s string) (AccountID, error) {
 	id, err := uuid.Parse(s)
 	if err != nil {
-		return "", err
+		return "", core.NewInvalidError(err)
 	}
 	return AccountID(id.String()), nil
 }

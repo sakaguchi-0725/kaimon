@@ -12,7 +12,26 @@ import (
 var testDB *db.Conn
 
 func TestMain(m *testing.M) {
+	// 環境変数をデバッグ出力
+	log.Printf("Environment variables:")
+	log.Printf("TEST_DB_HOST: %s", os.Getenv("TEST_DB_HOST"))
+	log.Printf("TEST_DB_PORT: %s", os.Getenv("TEST_DB_PORT"))
+	log.Printf("TEST_DB_USER: %s", os.Getenv("TEST_DB_USER"))
+	log.Printf("TEST_DB_PASSWORD: %s", os.Getenv("TEST_DB_PASSWORD"))
+	log.Printf("TEST_DB_NAME: %s", os.Getenv("TEST_DB_NAME"))
+	log.Printf("TEST_DB_SSLMODE: %s", os.Getenv("TEST_DB_SSLMODE"))
+
 	testDBConfig := core.LoadTestDBConfig()
+	
+	// 設定値をデバッグ出力
+	log.Printf("Test DB Config:")
+	log.Printf("Host: %s", testDBConfig.Host)
+	log.Printf("Port: %s", testDBConfig.Port)
+	log.Printf("User: %s", testDBConfig.User)
+	log.Printf("Password: %s", testDBConfig.Password)
+	log.Printf("Name: %s", testDBConfig.Name)
+	log.Printf("SSLMode: %s", testDBConfig.SSLMode)
+	log.Printf("DSN: %s", testDBConfig.DSN())
 
 	// テストDBに接続
 	var err error

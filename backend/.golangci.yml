@@ -1,0 +1,74 @@
+run:
+  timeout: 3m
+  go: "1.21"
+  skip-dirs:
+    - vendor
+    - docker
+
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+    check-blank: true
+  
+  govet:
+    check-shadowing: true
+  
+  gofmt:
+    simplify: true
+  
+  goimports:
+    local-prefixes: backend/
+  
+  golint:
+    min-confidence: 0.8
+  
+  misspell:
+    locale: US
+  
+  lll:
+    line-length: 120
+
+linters:
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - typecheck
+    - unused
+    - gofmt
+    - goimports
+    - golint
+    - misspell
+    - lll
+    - gocritic
+    - gosec
+  
+  disable:
+    - gocyclo # 複雑さチェックは無効化
+    - gomnd   # マジックナンバーチェックは無効化
+
+issues:
+  exclude-rules:
+    # テストファイルでのエラーハンドリングを緩和
+    - path: _test\.go
+      linters:
+        - errcheck
+        - gosec
+    
+    # generated code の除外
+    - path: ".*\\.pb\\.go$"
+      linters:
+        - all
+
+  # 除外するエラーメッセージ
+  exclude:
+    - "Error return value of .((os\\.)?std(out|err)\\..*|.*Close|.*Flush|os\\.Remove(All)?|.*printf?|os\\.(Un)?Setenv). is not checked"
+    - "should have comment or be unexported"
+    - "comment on exported"
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true

@@ -1,6 +1,7 @@
 package model_test
 
 import (
+	"backend/core"
 	"backend/domain/model"
 	"errors"
 	"testing"
@@ -18,7 +19,7 @@ func TestAccountID(t *testing.T) {
 			name    string
 			input   string
 			want    model.AccountID
-			wantErr error
+			wantErr *core.AppError
 		}{
 			{
 				name:    "正常なID",
@@ -30,7 +31,7 @@ func TestAccountID(t *testing.T) {
 				name:    "不正なID",
 				input:   invalidID,
 				want:    "",
-				wantErr: errors.New("invalid UUID"),
+				wantErr: core.NewInvalidError(errors.New("invalid UUID")),
 			},
 		}
 
@@ -41,6 +42,11 @@ func TestAccountID(t *testing.T) {
 				assert.Equal(t, tt.want, got)
 				if tt.wantErr != nil {
 					assert.Error(t, err)
+					// エラーコードを検証
+					var appErr *core.AppError
+					if assert.ErrorAs(t, err, &appErr) {
+						assert.Equal(t, tt.wantErr.Code(), appErr.Code())
+					}
 				} else {
 					assert.NoError(t, err)
 				}

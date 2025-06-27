@@ -18,14 +18,14 @@ type userPersistence struct {
 // FindByID implements repository.User.
 func (u *userPersistence) FindByID(ctx context.Context, id string) (model.User, error) {
 	if id == "" {
-		return model.User{}, errors.New("id is required")
+		return model.User{}, ErrInvalidInput
 	}
 
 	var userDTO dto.User
 	err := u.conn.WithContext(ctx).Where("id = ?", id).First(&userDTO).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return model.User{}, errors.New("user not found")
+			return model.User{}, ErrRecordNotFound
 		}
 		return model.User{}, err
 	}
@@ -36,7 +36,7 @@ func (u *userPersistence) FindByID(ctx context.Context, id string) (model.User, 
 // Store implements repository.User.
 func (u *userPersistence) Store(ctx context.Context, user *model.User) error {
 	if user == nil {
-		return errors.New("user is nil")
+		return ErrInvalidInput
 	}
 
 	userDTO := dto.ToUserDto(*user)

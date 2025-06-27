@@ -21,6 +21,7 @@ type (
 		User     string
 		Password string
 		Name     string
+		SSLMode  string
 	}
 
 	RedisConfig struct {
@@ -31,8 +32,12 @@ type (
 
 // DSN はデータベース接続文字列を返します
 func (c DBConfig) DSN() string {
-	return fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=disable",
-		c.Host, c.Port, c.Name, c.User, c.Password)
+	sslMode := c.SSLMode
+	if sslMode == "" {
+		sslMode = "disable"
+	}
+	return fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=%s",
+		c.Host, c.Port, c.Name, c.User, c.Password, sslMode)
 }
 
 // 環境変数からConfigを読み込む
@@ -53,6 +58,7 @@ func LoadConfig() (*Config, error) {
 			User:     mustGetEnv("DB_USER"),
 			Password: mustGetEnv("DB_PASSWORD"),
 			Name:     mustGetEnv("DB_NAME"),
+			SSLMode:  getEnvOrDefault("DB_SSLMODE", "disable"),
 		},
 	}
 
@@ -116,5 +122,6 @@ func LoadTestDBConfig() DBConfig {
 		User:     getEnvOrDefault("TEST_DB_USER", "postgres"),
 		Password: getEnvOrDefault("TEST_DB_PASSWORD", "password"),
 		Name:     getEnvOrDefault("TEST_DB_NAME", "kaimon_test"),
+		SSLMode:  getEnvOrDefault("TEST_DB_SSLMODE", "disable"),
 	}
 }

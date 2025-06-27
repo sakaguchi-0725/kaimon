@@ -4,7 +4,8 @@ import (
 	"backend/domain/repository"
 	"backend/infra/firebase"
 	"context"
-	"fmt"
+
+	"firebase.google.com/go/v4/errorutils"
 )
 
 type authenticator struct {
@@ -16,7 +17,16 @@ func (a *authenticator) VerifyToken(token string) (uid string, email string, err
 
 	authToken, err := a.firebaseClient.VerifyIDToken(ctx, token)
 	if err != nil {
-		return "", "", fmt.Errorf("トークンの検証に失敗しました: %w", err)
+		switch {
+		case errorutils.IsInvalidArgument(err):
+			return "", "", ErrInvalidToken
+		case errorutils.IsUnauthenticated(err):
+			return "", "", ErrTokenExpired
+		case errorutils.IsPermissionDenied(err):
+			return "", "", ErrAuthenticationFail
+		default:
+			return "", "", ErrAuthenticationFail
+		}
 	}
 
 	uid = authToken.UID

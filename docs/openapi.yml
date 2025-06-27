@@ -31,27 +31,6 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /signup/confirm:
-    post:
-      tags:
-        - Auth
-      summary: ユーザー登録確認
-      description: 確認コードを使用してユーザー登録を完了します
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignUpConfirmRequest'
-      responses:
-        '204':
-          description: ユーザー登録確認成功
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '410':
-          $ref: '#/components/responses/ExpiredCode'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
   /login:
     post:
       tags:
@@ -111,25 +90,6 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '410':
           $ref: '#/components/responses/ExpiredCode'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /signup/resend-code:
-    post:
-      tags:
-        - Auth
-      summary: 確認コード再送信
-      description: 会員登録時に使用する確認コードを再送信します
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ResendConfirmationCodeRequest'
-      responses:
-        '204':
-          description: 確認コード再送信成功
-        '400':
-          $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /groups:
@@ -375,19 +335,6 @@ components:
           type: string
           format: password
           description: パスワード
-    SignUpConfirmRequest:
-      type: object
-      required:
-        - email
-        - confirmationCode
-      properties:
-        email:
-          type: string
-          format: email
-          description: メールアドレス
-        confirmationCode:
-          type: string
-          description: 確認コード
     LoginRequest:
       type: object
       required:
@@ -424,15 +371,6 @@ components:
         confirmationCode:
           type: string
           description: 確認コード
-    ResendConfirmationCodeRequest:
-      type: object
-      required:
-        - email
-      properties:
-        email:
-          type: string
-          format: email
-          description: メールアドレス
     GetJoinedGroupsResponse:
       type: object
       properties:

@@ -3,15 +3,15 @@ package handler
 import (
 	"backend/core"
 	"backend/usecase"
+	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
 
 type SignUpRequest struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Name string `json:"name"`
 }
 
 func NewSignUp(uc usecase.SignUp) echo.HandlerFunc {
@@ -31,14 +31,29 @@ func NewSignUp(uc usecase.SignUp) echo.HandlerFunc {
 }
 
 func makeSignUpInput(c echo.Context) (usecase.SignUpInput, error) {
+	authHeader := c.Request().Header.Get("Authorization")
+	if authHeader == "" {
+		return usecase.SignUpInput{}, core.NewInvalidError(errors.New("authorization header is required"))
+	}
+
+	// Bearer tokenのプレフィックスを除去
+	const bearerPrefix = "Bearer "
+	if !strings.HasPrefix(authHeader, bearerPrefix) {
+		return usecase.SignUpInput{}, core.NewInvalidError(errors.New("authorization header must start with 'Bearer '"))
+	}
+	idToken := strings.TrimPrefix(authHeader, bearerPrefix)
+
+	if idToken == "" {
+		return usecase.SignUpInput{}, core.NewInvalidError(errors.New("id token is required"))
+	}
+
 	var req SignUpRequest
 	if err := c.Bind(&req); err != nil {
 		return usecase.SignUpInput{}, core.NewInvalidError(err)
 	}
 
 	return usecase.SignUpInput{
-		Name:     req.Name,
-		Email:    req.Email,
-		Password: req.Password,
+		IDToken: idToken,
+		Name:    req.Name,
 	}, nil
 }

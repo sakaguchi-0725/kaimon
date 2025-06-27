@@ -17,9 +17,9 @@ type UseCase struct {
 	GetShoppingItems       usecase.GetShoppingItems
 }
 
-func NewUseCase() UseCase {
+func NewUseCase(repo *Repository) UseCase {
 	return UseCase{
-		SignUp:                 usecase.NewSignUp(),
+		SignUp:                 usecase.NewSignUp(repo.Authenticator, repo.Account, repo.User, repo.Transaction),
 		SignUpConfirm:          usecase.NewSignUpConfirm(),
 		ResendConfirmationCode: usecase.NewResendConfirmationCode(),
 		Login:                  usecase.NewLogin(),

@@ -1,4 +1,4 @@
-//go:generate mockgen -source=client.go -destination=../../test/mock/firebase_client_mock.go -package=mock
+//go:generate mockgen -source=client.go -destination=../../test/mock/firebase/client_mock.go -package=mock
 package firebase
 
 import (

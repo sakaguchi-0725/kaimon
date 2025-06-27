@@ -2,13 +2,13 @@ package persistence_test
 
 import (
 	"backend/infra/persistence"
-	"backend/test/mock"
+	mock "backend/test/mock/firebase"
 	"errors"
 	"testing"
 
 	"firebase.google.com/go/v4/auth"
-	"go.uber.org/mock/gomock"
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/mock/gomock"
 )
 
 func TestAuthenticator_VerifyToken(t *testing.T) {

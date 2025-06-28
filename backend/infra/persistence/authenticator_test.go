@@ -13,12 +13,13 @@ import (
 
 func TestAuthenticator_VerifyToken(t *testing.T) {
 	tests := []struct {
-		name      string
-		token     string
-		setupMock func(*mock.MockClient)
-		wantUID   string
-		wantEmail string
-		wantErr   bool
+		name        string
+		token       string
+		setupMock   func(*mock.MockClient)
+		wantUID     string
+		wantEmail   string
+		wantName    string
+		wantErr     bool
 	}{
 		{
 			name:  "正常なトークン（メール/パスワード認証）",
@@ -29,12 +30,14 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 					Claims: map[string]interface{}{
 						"email":          "user@example.com",
 						"email_verified": false,
+						"displayName":    "テストユーザー",
 					},
 				}
 				m.EXPECT().VerifyIDToken(gomock.Any(), "valid_email_password_token").Return(authToken, nil)
 			},
 			wantUID:   "test-uid-123",
 			wantEmail: "user@example.com",
+			wantName:  "テストユーザー",
 			wantErr:   false,
 		},
 		{
@@ -46,12 +49,14 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 					Claims: map[string]interface{}{
 						"email":          "googleuser@gmail.com",
 						"email_verified": true,
+						"displayName":    "Google User",
 					},
 				}
 				m.EXPECT().VerifyIDToken(gomock.Any(), "valid_google_token").Return(authToken, nil)
 			},
 			wantUID:   "test-uid-456",
 			wantEmail: "googleuser@gmail.com",
+			wantName:  "Google User",
 			wantErr:   false,
 		},
 		{
@@ -62,6 +67,7 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 			},
 			wantUID:   "",
 			wantEmail: "",
+			wantName:  "",
 			wantErr:   true,
 		},
 		{
@@ -72,6 +78,7 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 			},
 			wantUID:   "",
 			wantEmail: "",
+			wantName:  "",
 			wantErr:   true,
 		},
 		{
@@ -82,6 +89,7 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 			},
 			wantUID:   "",
 			wantEmail: "",
+			wantName:  "",
 			wantErr:   true,
 		},
 	}
@@ -95,16 +103,18 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 			tt.setupMock(mockClient)
 
 			authenticator := persistence.NewAuthenticator(mockClient)
-			gotUID, gotEmail, err := authenticator.VerifyToken(tt.token)
+			gotUID, gotEmail, gotName, err := authenticator.VerifyToken(tt.token)
 
 			if tt.wantErr {
 				assert.Error(t, err)
 				assert.Empty(t, gotUID)
 				assert.Empty(t, gotEmail)
+				assert.Empty(t, gotName)
 			} else {
 				assert.NoError(t, err)
 				assert.Equal(t, tt.wantUID, gotUID)
 				assert.Equal(t, tt.wantEmail, gotEmail)
+				assert.Equal(t, tt.wantName, gotName)
 			}
 		})
 	}

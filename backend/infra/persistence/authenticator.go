@@ -12,31 +12,40 @@ type authenticator struct {
 	firebaseClient firebase.Client
 }
 
-func (a *authenticator) VerifyToken(token string) (uid string, email string, err error) {
+func (a *authenticator) VerifyToken(token string) (uid, email, name string, err error) {
 	ctx := context.Background()
 
 	authToken, err := a.firebaseClient.VerifyIDToken(ctx, token)
 	if err != nil {
 		switch {
 		case errorutils.IsInvalidArgument(err):
-			return "", "", ErrInvalidToken
+			return "", "", "", ErrInvalidToken
 		case errorutils.IsUnauthenticated(err):
-			return "", "", ErrTokenExpired
+			return "", "", "", ErrTokenExpired
 		case errorutils.IsPermissionDenied(err):
-			return "", "", ErrAuthenticationFail
+			return "", "", "", ErrAuthenticationFail
 		default:
-			return "", "", ErrAuthenticationFail
+			return "", "", "", ErrAuthenticationFail
 		}
 	}
 
 	uid = authToken.UID
 
-	// emailが存在する場合のみ設定
-	if emailValue, ok := authToken.Claims["email"].(string); ok {
+	// emailが存在しない場合はエラー
+	if emailValue, ok := authToken.Claims["email"].(string); !ok {
+		return "", "", "", ErrInvalidToken
+	} else {
 		email = emailValue
 	}
 
-	return uid, email, nil
+	// displayNameが存在しない場合は空文字列
+	if nameValue, ok := authToken.Claims["displayName"].(string); ok {
+		name = nameValue
+	} else {
+		name = ""
+	}
+
+	return uid, email, name, nil
 }
 
 func NewAuthenticator(firebaseClient firebase.Client) repository.Authenticator {

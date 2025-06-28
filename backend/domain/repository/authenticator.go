@@ -2,5 +2,5 @@
 package repository
 
 type Authenticator interface {
-	VerifyToken(token string) (uid, email string, err error)
+	VerifyToken(token string) (uid, email, name string, err error)
 }

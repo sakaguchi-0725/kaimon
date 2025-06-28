@@ -10,6 +10,7 @@
 package mock
 
 import (
+	context "context"
 	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"
@@ -40,9 +41,9 @@ func (m *MockAuthenticator) EXPECT() *MockAuthenticatorMockRecorder {
 }
 
 // VerifyToken mocks base method.
-func (m *MockAuthenticator) VerifyToken(token string) (string, string, string, error) {
+func (m *MockAuthenticator) VerifyToken(ctx context.Context, token string) (string, string, string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "VerifyToken", token)
+	ret := m.ctrl.Call(m, "VerifyToken", ctx, token)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(string)
 	ret2, _ := ret[2].(string)
@@ -51,7 +52,7 @@ func (m *MockAuthenticator) VerifyToken(token string) (string, string, string, e
 }
 
 // VerifyToken indicates an expected call of VerifyToken.
-func (mr *MockAuthenticatorMockRecorder) VerifyToken(token any) *gomock.Call {
+func (mr *MockAuthenticatorMockRecorder) VerifyToken(ctx, token any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VerifyToken", reflect.TypeOf((*MockAuthenticator)(nil).VerifyToken), token)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "VerifyToken", reflect.TypeOf((*MockAuthenticator)(nil).VerifyToken), ctx, token)
 }

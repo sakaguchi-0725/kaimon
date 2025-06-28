@@ -26,7 +26,7 @@ type (
 
 func (s *signUpInteractor) Execute(ctx context.Context, in SignUpInput) error {
 	// Firebase IDトークンを検証してユーザー情報を取得
-	uid, email, name, err := s.authenticator.VerifyToken(in.IDToken)
+	uid, email, name, err := s.authenticator.VerifyToken(ctx, in.IDToken)
 	if err != nil {
 		return err
 	}

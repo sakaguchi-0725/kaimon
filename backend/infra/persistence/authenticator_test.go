@@ -3,6 +3,7 @@ package persistence_test
 import (
 	"backend/infra/persistence"
 	mock "backend/test/mock/firebase"
+	"context"
 	"errors"
 	"testing"
 
@@ -13,13 +14,13 @@ import (
 
 func TestAuthenticator_VerifyToken(t *testing.T) {
 	tests := []struct {
-		name        string
-		token       string
-		setupMock   func(*mock.MockClient)
-		wantUID     string
-		wantEmail   string
-		wantName    string
-		wantErr     bool
+		name      string
+		token     string
+		setupMock func(*mock.MockClient)
+		wantUID   string
+		wantEmail string
+		wantName  string
+		wantErr   bool
 	}{
 		{
 			name:  "正常なトークン（メール/パスワード認証）",
@@ -103,7 +104,7 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 			tt.setupMock(mockClient)
 
 			authenticator := persistence.NewAuthenticator(mockClient)
-			gotUID, gotEmail, gotName, err := authenticator.VerifyToken(tt.token)
+			gotUID, gotEmail, gotName, err := authenticator.VerifyToken(context.Background(), tt.token)
 
 			if tt.wantErr {
 				assert.Error(t, err)

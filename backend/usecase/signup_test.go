@@ -14,6 +14,8 @@ import (
 )
 
 func TestSignUp_Execute(t *testing.T) {
+	ctx := context.Background()
+
 	tests := []struct {
 		name      string
 		input     usecase.SignUpInput
@@ -26,10 +28,8 @@ func TestSignUp_Execute(t *testing.T) {
 				IDToken: "valid_token",
 			},
 			setupMock: func(auth *mock.MockAuthenticator, acc *mock.MockAccount, user *mock.MockUser, tx *mock.MockTransaction) {
-				ctx := context.Background()
-
 				// 認証トークン検証
-				auth.EXPECT().VerifyToken("valid_token").Return("firebase-uid-123", "test@example.com", "test-name", nil)
+				auth.EXPECT().VerifyToken(ctx, "valid_token").Return("firebase-uid-123", "test@example.com", "test-name", nil)
 
 				// 期待されるUser作成
 				expectedUser, _ := model.NewUser("firebase-uid-123", "test@example.com")
@@ -53,7 +53,7 @@ func TestSignUp_Execute(t *testing.T) {
 				IDToken: "invalid_token",
 			},
 			setupMock: func(auth *mock.MockAuthenticator, acc *mock.MockAccount, user *mock.MockUser, tx *mock.MockTransaction) {
-				auth.EXPECT().VerifyToken("invalid_token").Return("", "", "", persistence.ErrInvalidToken)
+				auth.EXPECT().VerifyToken(ctx, "invalid_token").Return("", "", "", persistence.ErrInvalidToken)
 				// エラーの場合、Store系やトランザクションの呼び出しは期待しない
 			},
 			wantErr: persistence.ErrInvalidToken,
@@ -64,11 +64,10 @@ func TestSignUp_Execute(t *testing.T) {
 				IDToken: "valid_token",
 			},
 			setupMock: func(auth *mock.MockAuthenticator, acc *mock.MockAccount, user *mock.MockUser, tx *mock.MockTransaction) {
-				ctx := context.Background()
 				expectedUser, _ := model.NewUser("firebase-uid-123", "test@example.com")
 
 				// 認証トークン検証
-				auth.EXPECT().VerifyToken("valid_token").Return("firebase-uid-123", "test@example.com", "", nil)
+				auth.EXPECT().VerifyToken(ctx, "valid_token").Return("firebase-uid-123", "test@example.com", "", nil)
 
 				// トランザクション内でドメインバリデーションエラーが発生
 				tx.EXPECT().WithTx(ctx, gomock.AssignableToTypeOf(func(context.Context) error { return nil })).DoAndReturn(
@@ -87,10 +86,9 @@ func TestSignUp_Execute(t *testing.T) {
 				IDToken: "valid_token",
 			},
 			setupMock: func(auth *mock.MockAuthenticator, acc *mock.MockAccount, user *mock.MockUser, tx *mock.MockTransaction) {
-				ctx := context.Background()
 				expectedUser, _ := model.NewUser("firebase-uid-123", "test@example.com")
 
-				auth.EXPECT().VerifyToken("valid_token").Return("firebase-uid-123", "test@example.com", "test-name", nil)
+				auth.EXPECT().VerifyToken(ctx, "valid_token").Return("firebase-uid-123", "test@example.com", "test-name", nil)
 
 				tx.EXPECT().WithTx(ctx, gomock.AssignableToTypeOf(func(context.Context) error { return nil })).DoAndReturn(
 					func(ctx context.Context, fn func(context.Context) error) error {
@@ -107,10 +105,9 @@ func TestSignUp_Execute(t *testing.T) {
 				IDToken: "valid_token",
 			},
 			setupMock: func(auth *mock.MockAuthenticator, acc *mock.MockAccount, user *mock.MockUser, tx *mock.MockTransaction) {
-				ctx := context.Background()
 				expectedUser, _ := model.NewUser("firebase-uid-123", "test@example.com")
 
-				auth.EXPECT().VerifyToken("valid_token").Return("firebase-uid-123", "test@example.com", "test-name", nil)
+				auth.EXPECT().VerifyToken(ctx, "valid_token").Return("firebase-uid-123", "test@example.com", "test-name", nil)
 
 				tx.EXPECT().WithTx(ctx, gomock.AssignableToTypeOf(func(context.Context) error { return nil })).DoAndReturn(
 					func(ctx context.Context, fn func(context.Context) error) error {
@@ -128,9 +125,7 @@ func TestSignUp_Execute(t *testing.T) {
 				IDToken: "valid_token",
 			},
 			setupMock: func(auth *mock.MockAuthenticator, acc *mock.MockAccount, user *mock.MockUser, tx *mock.MockTransaction) {
-				ctx := context.Background()
-
-				auth.EXPECT().VerifyToken("valid_token").Return("firebase-uid-123", "test@example.com", "test-name", nil)
+				auth.EXPECT().VerifyToken(ctx, "valid_token").Return("firebase-uid-123", "test@example.com", "test-name", nil)
 				tx.EXPECT().WithTx(ctx, gomock.AssignableToTypeOf(func(context.Context) error { return nil })).Return(errors.New("transaction failed"))
 			},
 			wantErr: errors.New("transaction failed"),

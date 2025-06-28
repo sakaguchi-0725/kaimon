@@ -12,9 +12,7 @@ type authenticator struct {
 	firebaseClient firebase.Client
 }
 
-func (a *authenticator) VerifyToken(token string) (uid, email, name string, err error) {
-	ctx := context.Background()
-
+func (a *authenticator) VerifyToken(ctx context.Context, token string) (uid, email, name string, err error) {
 	authToken, err := a.firebaseClient.VerifyIDToken(ctx, token)
 	if err != nil {
 		switch {

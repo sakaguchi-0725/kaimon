@@ -17,14 +17,21 @@ paths:
       tags:
         - Auth
       summary: ユーザー登録
-      description: |
-        新規ユーザー登録を行う。
-        Firebase Authenticationから取得したidTokenをHeaderに設定してリクエストする。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
       responses:
         '204':
           description: ユーザー登録成功
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /groups:
@@ -252,6 +259,17 @@ components:
             code: 'INTERNAL_SERVER_ERROR'
             message: 'サーバーエラーが発生しました'
   schemas:
+    SignUpRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: ユーザー名
+        profileImageUrl:
+          type: string
+          description: プロフィール画像URL
     GetJoinedGroupsResponse:
       type: object
       properties:

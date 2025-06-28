@@ -2,7 +2,7 @@ import { StyleSheet, View, ViewStyle } from 'react-native'
 import React, { ReactNode } from 'react'
 import { Colors } from '@/shared/constants'
 
-type ContainerProps = {
+export type ContainerProps = {
   children: ReactNode
   backgroundColor?: 'gray'
   style?: ViewStyle

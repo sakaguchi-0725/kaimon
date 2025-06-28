@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "share-basket",
-    "slug": "share-basket",
+    "name": "kaimon",
+    "slug": "kaimon",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
-      "bundleIdentifier": "com.k.sakaguchi.sharebasket"
+      "bundleIdentifier": "com.caimon.app"
     },
     "android": {
       "adaptiveIcon": {

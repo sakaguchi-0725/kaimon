@@ -19,11 +19,14 @@ type NavigationProp = NativeStackNavigationProp<AuthStackParamList>
 
 export const SignUpScreen = () => {
   const navigation = useNavigation<NavigationProp>()
-  const { control, errors, handleSignUp, isLoading, error } = useSignUp()
-
-  const handleGoogleSignUp = () => {
-    // Googleサインアップ処理（実装不要）
-  }
+  const {
+    control,
+    errors,
+    handleSignUp,
+    handleGoogleSignUp,
+    isLoading,
+    error,
+  } = useSignUp()
 
   const navigateToLogin = () => {
     navigation.navigate('Login')

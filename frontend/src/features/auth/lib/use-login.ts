@@ -5,7 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { SignInForm, signInSchema } from '../model/schemas'
 
 export const useLogin = () => {
-  const { signInWithEmailAndPassword, isLoading } = useFirebaseAuth()
+  const { signInWithEmailAndPassword, signInWithGoogle, isLoading } =
+    useFirebaseAuth()
   const [error, setError] = useState<string>()
 
   const {
@@ -27,9 +28,18 @@ export const useLogin = () => {
     console.log(JSON.stringify(data))
   })
 
+  const handleGoogleLogin = async () => {
+    const { data, error } = await signInWithGoogle()
+    if (error) {
+      setError(error)
+    }
+    console.log(JSON.stringify(data))
+  }
+
   return {
     control,
     handleLogin,
+    handleGoogleLogin,
     errors,
     isLoading,
     error,

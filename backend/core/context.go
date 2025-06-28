@@ -11,9 +11,15 @@ const (
 )
 
 func GetUserID(ctx context.Context) string {
-	return ctx.Value(UserIDKey).(string)
+	if value := ctx.Value(UserIDKey); value != nil {
+		return value.(string)
+	}
+	return ""
 }
 
 func GetEmail(ctx context.Context) string {
-	return ctx.Value(EmailKey).(string)
+	if value := ctx.Value(EmailKey); value != nil {
+		return value.(string)
+	}
+	return ""
 }

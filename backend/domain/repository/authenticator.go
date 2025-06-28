@@ -4,5 +4,5 @@ package repository
 import "context"
 
 type Authenticator interface {
-	VerifyToken(ctx context.Context, token string) (uid, email, name string, err error)
+	VerifyToken(ctx context.Context, token string) (uid, email string, err error)
 }

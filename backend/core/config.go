@@ -8,8 +8,9 @@ import (
 
 type (
 	Config struct {
-		Port string
-		Env  string
+		Port        string
+		Env         string
+		FrontendURL string
 
 		Redis RedisConfig
 		DB    DBConfig
@@ -44,8 +45,9 @@ func (c DBConfig) DSN() string {
 // 必須の環境変数が設定されていない場合はエラーを返す
 func LoadConfig() (*Config, error) {
 	config := &Config{
-		Port: getEnvOrDefault("PORT", "8080"),
-		Env:  getEnvOrDefault("APP_ENV", "development"),
+		Port:        getEnvOrDefault("PORT", "8080"),
+		Env:         getEnvOrDefault("APP_ENV", "development"),
+		FrontendURL: getEnvOrDefault("FRONTEND_URL", "http://localhost:8081"),
 
 		Redis: RedisConfig{
 			Host: mustGetEnv("REDIS_HOST"),

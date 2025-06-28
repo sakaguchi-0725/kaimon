@@ -19,7 +19,6 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 		setupMock func(*mock.MockClient)
 		wantUID   string
 		wantEmail string
-		wantName  string
 		wantErr   bool
 	}{
 		{
@@ -38,7 +37,6 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 			},
 			wantUID:   "test-uid-123",
 			wantEmail: "user@example.com",
-			wantName:  "テストユーザー",
 			wantErr:   false,
 		},
 		{
@@ -57,7 +55,6 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 			},
 			wantUID:   "test-uid-456",
 			wantEmail: "googleuser@gmail.com",
-			wantName:  "Google User",
 			wantErr:   false,
 		},
 		{
@@ -68,7 +65,6 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 			},
 			wantUID:   "",
 			wantEmail: "",
-			wantName:  "",
 			wantErr:   true,
 		},
 		{
@@ -79,7 +75,6 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 			},
 			wantUID:   "",
 			wantEmail: "",
-			wantName:  "",
 			wantErr:   true,
 		},
 		{
@@ -90,7 +85,6 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 			},
 			wantUID:   "",
 			wantEmail: "",
-			wantName:  "",
 			wantErr:   true,
 		},
 	}
@@ -104,18 +98,16 @@ func TestAuthenticator_VerifyToken(t *testing.T) {
 			tt.setupMock(mockClient)
 
 			authenticator := persistence.NewAuthenticator(mockClient)
-			gotUID, gotEmail, gotName, err := authenticator.VerifyToken(context.Background(), tt.token)
+			gotUID, gotEmail, err := authenticator.VerifyToken(context.Background(), tt.token)
 
 			if tt.wantErr {
 				assert.Error(t, err)
 				assert.Empty(t, gotUID)
 				assert.Empty(t, gotEmail)
-				assert.Empty(t, gotName)
 			} else {
 				assert.NoError(t, err)
 				assert.Equal(t, tt.wantUID, gotUID)
 				assert.Equal(t, tt.wantEmail, gotEmail)
-				assert.Equal(t, tt.wantName, gotName)
 			}
 		})
 	}

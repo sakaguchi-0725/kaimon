@@ -13,27 +13,23 @@ type (
 	}
 
 	SignUpInput struct {
-		IDToken string
+		UID             string
+		Email           string
+		Name            string
+		ProfileImageURL string
 	}
 
 	signUpInteractor struct {
-		authenticator repository.Authenticator
-		account       repository.Account
-		user          repository.User
-		tx            repository.Transaction
+		account repository.Account
+		user    repository.User
+		tx      repository.Transaction
 	}
 )
 
 func (s *signUpInteractor) Execute(ctx context.Context, in SignUpInput) error {
-	// Firebase IDトークンを検証してユーザー情報を取得
-	uid, email, name, err := s.authenticator.VerifyToken(ctx, in.IDToken)
-	if err != nil {
-		return err
-	}
-
 	// トランザクション内でユーザーとアカウントを作成
-	err = s.tx.WithTx(ctx, func(txCtx context.Context) error {
-		user, err := model.NewUser(uid, email)
+	err := s.tx.WithTx(ctx, func(txCtx context.Context) error {
+		user, err := model.NewUser(in.UID, in.Email)
 		if err != nil {
 			return err
 		}
@@ -43,7 +39,7 @@ func (s *signUpInteractor) Execute(ctx context.Context, in SignUpInput) error {
 		}
 
 		accountID := model.NewAccountID()
-		account, err := model.NewAccount(accountID, uid, name)
+		account, err := model.NewAccount(accountID, user.ID, in.Name, in.ProfileImageURL)
 		if err != nil {
 			return err
 		}
@@ -62,11 +58,10 @@ func (s *signUpInteractor) Execute(ctx context.Context, in SignUpInput) error {
 	return nil
 }
 
-func NewSignUp(auth repository.Authenticator, acc repository.Account, user repository.User, tx repository.Transaction) SignUp {
+func NewSignUp(acc repository.Account, user repository.User, tx repository.Transaction) SignUp {
 	return &signUpInteractor{
-		authenticator: auth,
-		account:       acc,
-		user:          user,
-		tx:            tx,
+		account: acc,
+		user:    user,
+		tx:      tx,
 	}
 }

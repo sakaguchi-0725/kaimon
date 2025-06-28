@@ -15,7 +15,7 @@ type UseCase struct {
 
 func NewUseCase(repo *Repository) UseCase {
 	return UseCase{
-		SignUp:                 usecase.NewSignUp(repo.Authenticator, repo.Account, repo.User, repo.Transaction),
+		SignUp:                 usecase.NewSignUp(repo.Account, repo.User, repo.Transaction),
 		ResendConfirmationCode: usecase.NewResendConfirmationCode(),
 		VerifyToken:            usecase.NewVerifyToken(repo.Authenticator),
 		GetJoinedGroups:        usecase.NewGetJoinedGroups(),

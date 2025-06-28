@@ -1,6 +1,7 @@
 package server
 
 import (
+	"backend/core"
 	"backend/presentation/handler"
 	customMiddleware "backend/presentation/middleware"
 	"backend/registry"
@@ -29,24 +30,25 @@ func New(addr uint16) *Server {
 	}
 }
 
-func (s *Server) MapRoutes(uc registry.UseCase) {
-	s.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"http://localhost:5173"}, // TODO: 環境変数から取得する
-		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
-		AllowCredentials: true,
+func (s *Server) MapRoutes(frontendURL string, logger core.Logger, uc registry.UseCase) {
+	api := s.Group("/api")
+
+	api.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{frontendURL},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
 
-	s.Use(middleware.Logger())
+	api.Use(middleware.Logger())
+	api.Use(customMiddleware.AuthMiddleware(uc.VerifyToken))
+	api.Use(customMiddleware.Error(logger))
 
-	s.GET("/health", func(c echo.Context) error {
+	api.GET("/health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{"status": "ok"})
 	})
 
-	s.POST("/signup", handler.NewSignUp(uc.SignUp))
-	s.POST("/resend-confirmation-code", handler.NewResendConfirmationCode(uc.ResendConfirmationCode))
+	api.POST("/signup", handler.NewSignUp(uc.SignUp))
 
-	groups := s.Group("/groups")
-	groups.Use(customMiddleware.AuthMiddleware(uc.VerifyToken))
+	groups := api.Group("/groups")
 	groups.GET("", handler.NewGetJoinedGroups(uc.GetJoinedGroups))
 	groups.POST("", handler.NewCreateGroup(uc.CreateGroup))
 	groups.GET("/:id", handler.NewGetGroup(uc.GetGroup))

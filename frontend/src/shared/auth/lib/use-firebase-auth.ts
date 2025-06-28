@@ -1,7 +1,17 @@
 import { useState } from 'react'
 import auth from '@react-native-firebase/auth'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { FirebaseError } from 'firebase/app'
-import { SignInWithEmailAndPasswordResponse, SignUpResponse } from '../model'
+import {
+  SignInWithEmailAndPasswordResponse,
+  SignUpResponse,
+  GoogleSignInResponse,
+} from '../model'
+
+GoogleSignin.configure({
+  webClientId:
+    '543186433866-h1fu4f9ul2lnitkag5sj02eap76a74ef.apps.googleusercontent.com',
+})
 
 export const useFirebaseAuth = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -58,9 +68,43 @@ export const useFirebaseAuth = () => {
     }
   }
 
+  const signInWithGoogle = async (): Promise<GoogleSignInResponse> => {
+    try {
+      setIsLoading(true)
+      await GoogleSignin.hasPlayServices()
+      const { data } = await GoogleSignin.signIn()
+
+      if (!data?.idToken) {
+        return { data: undefined, error: 'Google認証に失敗しました。' }
+      }
+
+      const googleCredential = auth.GoogleAuthProvider.credential(data.idToken)
+      const { user } = await auth().signInWithCredential(googleCredential)
+
+      return { data: user, error: undefined }
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case 'auth/account-exists-with-different-credential':
+            return {
+              data: undefined,
+              error: '別の認証方法で登録されたアカウントです。',
+            }
+          case 'auth/invalid-credential':
+            return { data: undefined, error: '認証情報が無効です。' }
+        }
+      }
+      console.log(error)
+      return { data: undefined, error: 'Google認証に失敗しました。' }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return {
     isLoading,
     signUp,
     signInWithEmailAndPassword,
+    signInWithGoogle,
   }
 }

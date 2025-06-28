@@ -27,7 +27,7 @@ func TestVerifyToken_Execute(t *testing.T) {
 			name:  "正常なトークン検証",
 			token: "valid_token",
 			setupMock: func(auth *mock.MockAuthenticator) {
-				auth.EXPECT().VerifyToken(ctx, "valid_token").Return("firebase-uid-123", "test@example.com", "", nil)
+				auth.EXPECT().VerifyToken(ctx, "valid_token").Return("firebase-uid-123", "test@example.com", nil)
 			},
 			wantUID:   "firebase-uid-123",
 			wantEmail: "test@example.com",
@@ -37,7 +37,7 @@ func TestVerifyToken_Execute(t *testing.T) {
 			name:  "無効なトークン",
 			token: "invalid_token",
 			setupMock: func(auth *mock.MockAuthenticator) {
-				auth.EXPECT().VerifyToken(ctx, "invalid_token").Return("", "", "", persistence.ErrInvalidToken)
+				auth.EXPECT().VerifyToken(ctx, "invalid_token").Return("", "", persistence.ErrInvalidToken)
 			},
 			wantUID:   "",
 			wantEmail: "",
@@ -47,7 +47,7 @@ func TestVerifyToken_Execute(t *testing.T) {
 			name:  "期限切れトークン",
 			token: "expired_token",
 			setupMock: func(auth *mock.MockAuthenticator) {
-				auth.EXPECT().VerifyToken(ctx, "expired_token").Return("", "", "", errors.New("token expired"))
+				auth.EXPECT().VerifyToken(ctx, "expired_token").Return("", "", errors.New("token expired"))
 			},
 			wantUID:   "",
 			wantEmail: "",
@@ -57,7 +57,7 @@ func TestVerifyToken_Execute(t *testing.T) {
 			name:  "空のトークン",
 			token: "",
 			setupMock: func(auth *mock.MockAuthenticator) {
-				auth.EXPECT().VerifyToken(ctx, "").Return("", "", "", errors.New("token is required"))
+				auth.EXPECT().VerifyToken(ctx, "").Return("", "", errors.New("token is required"))
 			},
 			wantUID:   "",
 			wantEmail: "",
@@ -67,7 +67,7 @@ func TestVerifyToken_Execute(t *testing.T) {
 			name:  "認証サービス内部エラー",
 			token: "service_error_token",
 			setupMock: func(auth *mock.MockAuthenticator) {
-				auth.EXPECT().VerifyToken(ctx, "service_error_token").Return("", "", "", errors.New("internal authentication error"))
+				auth.EXPECT().VerifyToken(ctx, "service_error_token").Return("", "", errors.New("internal authentication error"))
 			},
 			wantUID:   "",
 			wantEmail: "",

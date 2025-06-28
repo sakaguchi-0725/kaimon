@@ -26,7 +26,9 @@ func main() {
 
 	uc := registry.NewUseCase(repo)
 
+	logger := core.NewLogger(cfg.Env)
+
 	srv := server.New(8080)
-	srv.MapRoutes(uc)
+	srv.MapRoutes(cfg.FrontendURL, logger, uc)
 	srv.Run()
 }

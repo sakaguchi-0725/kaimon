@@ -16,7 +16,7 @@ type (
 )
 
 func (r *verifyTokenInteractor) Execute(ctx context.Context, token string) (uid, email string, err error) {
-	uid, email, _, err = r.authenticator.VerifyToken(ctx, token)
+	uid, email, err = r.authenticator.VerifyToken(ctx, token)
 	if err != nil {
 		return "", "", err
 	}

@@ -9,6 +9,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type SignUpRequest struct {
+	Name            string `json:"name"`
+	ProfileImageURL string `json:"profileImageUrl"`
+}
+
 func NewSignUp(uc usecase.SignUp) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		input, err := makeSignUpInput(c)
@@ -26,18 +31,26 @@ func NewSignUp(uc usecase.SignUp) echo.HandlerFunc {
 }
 
 func makeSignUpInput(c echo.Context) (usecase.SignUpInput, error) {
-	authHeader := c.Request().Header.Get("Authorization")
-	if authHeader == "" {
-		return usecase.SignUpInput{}, core.NewInvalidError(errors.New("authorization header is required"))
-	}
-
-	// Bearer tokenのプレフィックスを除去
-	idToken, err := core.RemovePrefix(authHeader, "Bearer ")
-	if err != nil {
+	var req SignUpRequest
+	if err := c.Bind(&req); err != nil {
 		return usecase.SignUpInput{}, core.NewInvalidError(err)
 	}
 
+	ctx := c.Request().Context()
+	uid := core.GetUserID(ctx)
+	if uid == "" {
+		return usecase.SignUpInput{}, core.NewInvalidError(errors.New("userID is required"))
+	}
+
+	email := core.GetEmail(ctx)
+	if email == "" {
+		return usecase.SignUpInput{}, core.NewInvalidError(errors.New("email is required"))
+	}
+
 	return usecase.SignUpInput{
-		IDToken: idToken,
+		UID:             uid,
+		Email:           email,
+		Name:            req.Name,
+		ProfileImageURL: req.ProfileImageURL,
 	}, nil
 }

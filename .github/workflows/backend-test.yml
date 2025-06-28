@@ -3,12 +3,12 @@ name: Backend Test
 on:
   push:
     branches:
-      - 'main'
+      - main
     paths:
-      - 'backend/**'
+      - backend/**
   pull_request:
     paths:
-      - 'backend/**'
+      - backend/**
 
 env:
   TEST_DB_HOST: 127.0.0.1

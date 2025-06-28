@@ -9,7 +9,8 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "prepare": "cd .. && husky frontend/.husky"
+    "prepare": "cd .. && husky frontend/.husky",
+    "gen:openapi": "openapi-typescript ../docs/openapi.yml -o ./src/shared/api/schema.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -24,6 +25,7 @@
     "expo-build-properties": "~0.14.6",
     "expo-secure-store": "~14.2.3",
     "expo-status-bar": "~2.2.3",
+    "openapi-typescript": "^7.8.0",
     "react": "19.0.0",
     "react-hook-form": "^7.58.1",
     "react-native": "0.79.4",
@@ -46,7 +48,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.1",
-    "typescript": "~5.8.3"
+    "typescript": "^5.8.3"
   },
   "private": true
 }

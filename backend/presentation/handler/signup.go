@@ -9,10 +9,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type SignUpRequest struct {
-	Name string `json:"name"`
-}
-
 func NewSignUp(uc usecase.SignUp) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		input, err := makeSignUpInput(c)
@@ -41,13 +37,7 @@ func makeSignUpInput(c echo.Context) (usecase.SignUpInput, error) {
 		return usecase.SignUpInput{}, core.NewInvalidError(err)
 	}
 
-	var req SignUpRequest
-	if err := c.Bind(&req); err != nil {
-		return usecase.SignUpInput{}, core.NewInvalidError(err)
-	}
-
 	return usecase.SignUpInput{
 		IDToken: idToken,
-		Name:    req.Name,
 	}, nil
 }

@@ -16,18 +16,15 @@ func TestSignUp(t *testing.T) {
 	tests := []struct {
 		name         string
 		authHeader   string
-		body         string
 		setupMock    func(*mock.MockSignUp)
 		expectedCode int
 	}{
 		{
 			name:       "正常なリクエスト",
 			authHeader: "Bearer valid-token",
-			body:       `{"name":"test user"}`,
 			setupMock: func(m *mock.MockSignUp) {
 				m.EXPECT().Execute(gomock.Any(), usecase.SignUpInput{
 					IDToken: "valid-token",
-					Name:    "test user",
 				}).Return(nil)
 			},
 			expectedCode: http.StatusNoContent,
@@ -35,39 +32,27 @@ func TestSignUp(t *testing.T) {
 		{
 			name:         "Authorizationヘッダーなし",
 			authHeader:   "",
-			body:         `{"name":"test user"}`,
 			setupMock:    func(m *mock.MockSignUp) {},
 			expectedCode: http.StatusBadRequest,
 		},
 		{
 			name:         "Bearer プレフィックスなし",
 			authHeader:   "invalid-token",
-			body:         `{"name":"test user"}`,
 			setupMock:    func(m *mock.MockSignUp) {},
 			expectedCode: http.StatusBadRequest,
 		},
 		{
 			name:         "空のトークン",
 			authHeader:   "Bearer ",
-			body:         `{"name":"test user"}`,
-			setupMock:    func(m *mock.MockSignUp) {},
-			expectedCode: http.StatusBadRequest,
-		},
-		{
-			name:         "不正なJSON",
-			authHeader:   "Bearer valid-token",
-			body:         `{"name":}`,
 			setupMock:    func(m *mock.MockSignUp) {},
 			expectedCode: http.StatusBadRequest,
 		},
 		{
 			name:       "UseCase実行エラー",
 			authHeader: "Bearer valid-token",
-			body:       `{"name":"test user"}`,
 			setupMock: func(m *mock.MockSignUp) {
 				m.EXPECT().Execute(gomock.Any(), usecase.SignUpInput{
 					IDToken: "valid-token",
-					Name:    "test user",
 				}).Return(errors.New("usecase error"))
 			},
 			expectedCode: http.StatusInternalServerError,
@@ -84,7 +69,7 @@ func TestSignUp(t *testing.T) {
 
 			handler := handler.NewSignUp(mockUseCase)
 
-			rec, c := createTestPostRequest("/signup", tt.body)
+			rec, c := createTestPostRequest("/signup", "")
 			if tt.authHeader != "" {
 				c.Request().Header.Set("Authorization", tt.authHeader)
 			}

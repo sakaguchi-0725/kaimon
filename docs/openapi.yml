@@ -31,27 +31,6 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /login:
-    post:
-      tags:
-        - Auth
-      summary: ログイン
-      description: メールアドレスとパスワードでログインします
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
-      responses:
-        '204':
-          description: ログイン成功
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
   /reset-password:
     post:
       tags:
@@ -327,20 +306,6 @@ components:
         name:
           type: string
           description: ユーザー名
-        email:
-          type: string
-          format: email
-          description: メールアドレス
-        password:
-          type: string
-          format: password
-          description: パスワード
-    LoginRequest:
-      type: object
-      required:
-        - email
-        - password
-      properties:
         email:
           type: string
           format: email

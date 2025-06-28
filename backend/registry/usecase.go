@@ -5,7 +5,6 @@ import "backend/usecase"
 type UseCase struct {
 	SignUp                 usecase.SignUp
 	ResendConfirmationCode usecase.ResendConfirmationCode
-	Login                  usecase.Login
 	ResetPassword          usecase.ResetPassword
 	ResetPasswordConfirm   usecase.ResetPasswordConfirm
 	VerifyToken            usecase.VerifyToken
@@ -20,7 +19,6 @@ func NewUseCase(repo *Repository) UseCase {
 	return UseCase{
 		SignUp:                 usecase.NewSignUp(repo.Authenticator, repo.Account, repo.User, repo.Transaction),
 		ResendConfirmationCode: usecase.NewResendConfirmationCode(),
-		Login:                  usecase.NewLogin(),
 		ResetPassword:          usecase.NewResetPassword(),
 		ResetPasswordConfirm:   usecase.NewResetPasswordConfirm(),
 		VerifyToken:            usecase.NewVerifyToken(repo.Authenticator),

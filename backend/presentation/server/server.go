@@ -43,8 +43,6 @@ func (s *Server) MapRoutes(uc registry.UseCase) {
 	})
 
 	s.POST("/signup", handler.NewSignUp(uc.SignUp))
-	s.POST("/reset-password", handler.NewResetPassword(uc.ResetPassword))
-	s.POST("/reset-password/confirm", handler.NewResetPasswordConfirm(uc.ResetPasswordConfirm))
 	s.POST("/resend-confirmation-code", handler.NewResendConfirmationCode(uc.ResendConfirmationCode))
 
 	groups := s.Group("/groups")

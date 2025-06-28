@@ -5,7 +5,6 @@ import (
 	"backend/domain/model"
 	"backend/domain/repository"
 	"context"
-	"fmt"
 )
 
 type (
@@ -15,7 +14,6 @@ type (
 
 	SignUpInput struct {
 		IDToken string
-		Name    string
 	}
 
 	signUpInteractor struct {
@@ -28,9 +26,9 @@ type (
 
 func (s *signUpInteractor) Execute(ctx context.Context, in SignUpInput) error {
 	// Firebase IDトークンを検証してユーザー情報を取得
-	uid, email, err := s.authenticator.VerifyToken(in.IDToken)
+	uid, email, name, err := s.authenticator.VerifyToken(ctx, in.IDToken)
 	if err != nil {
-		return fmt.Errorf("認証に失敗しました: %w", err)
+		return err
 	}
 
 	// トランザクション内でユーザーとアカウントを作成
@@ -45,7 +43,7 @@ func (s *signUpInteractor) Execute(ctx context.Context, in SignUpInput) error {
 		}
 
 		accountID := model.NewAccountID()
-		account, err := model.NewAccount(accountID, uid, in.Name)
+		account, err := model.NewAccount(accountID, uid, name)
 		if err != nil {
 			return err
 		}

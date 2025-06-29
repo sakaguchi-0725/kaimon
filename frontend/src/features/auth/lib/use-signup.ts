@@ -16,26 +16,32 @@ export const useSignUp = () => {
     resolver: zodResolver(signUpSchema),
   })
 
-  const handleSignUp = handleSubmit(async (values) => {
-    const { data, error } = await signUp(values.email, values.password)
-    if (error) {
-      setError(error)
-    }
-    console.log(JSON.stringify(data))
-  })
+  const onSignUp = (onSuccess: () => void) => {
+    return handleSubmit(async (values) => {
+      const { data, error } = await signUp(values.email, values.password)
+      if (error) {
+        setError(error)
+      } else if (data) {
+        onSuccess()
+      }
+    })
+  }
 
-  const handleGoogleSignUp = async () => {
-    const { data, error } = await signInWithGoogle()
-    if (error) {
-      setError(error)
+  const onGoogleSignUp = (onSuccess: () => void) => {
+    return async () => {
+      const { data, error } = await signInWithGoogle()
+      if (error) {
+        setError(error)
+      } else if (data) {
+        onSuccess()
+      }
     }
-    console.log(JSON.stringify(data))
   }
 
   return {
     control,
-    handleSignUp,
-    handleGoogleSignUp,
+    onSignUp,
+    onGoogleSignUp,
     errors,
     isLoading,
     error,

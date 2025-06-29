@@ -18,22 +18,21 @@ export const useLogin = () => {
   })
 
   const handleLogin = handleSubmit(async (values) => {
-    const { data, error } = await signInWithEmailAndPassword(
+    const { error } = await signInWithEmailAndPassword(
       values.email,
       values.password,
     )
+
     if (error) {
       setError(error)
     }
-    console.log(JSON.stringify(data))
   })
 
   const handleGoogleLogin = async () => {
-    const { data, error } = await signInWithGoogle()
+    const { error } = await signInWithGoogle()
     if (error) {
       setError(error)
     }
-    console.log(JSON.stringify(data))
   }
 
   return {

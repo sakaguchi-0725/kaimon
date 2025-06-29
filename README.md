@@ -1,8 +1,8 @@
-# Share Basket
+# KAIMON
 
 ## アプリケーション概要
 
-Share Basketは、グループでの買い物リストを共有・管理するためのアプリケーションです。<br />
+KAIMONは、グループでの買い物リストを共有・管理するためのアプリケーションです。<br />
 家族や友人、イベントの参加者などでの買い物をより簡単かつ効率的に行えるよう設計されています。
 
 ### 主な機能
@@ -15,16 +15,20 @@ Share Basketは、グループでの買い物リストを共有・管理する�
 ## 技術スタック
 
 ### フロントエンド
-- ReactNative(Expo)
-- Typescript
-- react-hook-form / zod
-- @react-native-firebase
+詳細な技術スタックとアーキテクチャについては[フロントエンドのREADME](./frontend/README.md)を参照してください。
 
 ### バックエンド
-- Echo
-- Golang
-- PostgreSQL
-- Redis
+詳細な技術スタックとアーキテクチャについては[バックエンドのREADME](./backend/README.md)を参照してください。
+
+## プロジェクト構成
+
+```
+kaimon/
+├── backend/     # バックエンドアプリケーション (Go/Echo)
+├── frontend/    # フロントエンドアプリケーション (React Native/Expo)
+├── docker/      # Docker関連ファイル
+└── docs/        # プロジェクトドキュメント
+```
 
 ## ドキュメント
 

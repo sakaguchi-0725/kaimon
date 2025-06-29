@@ -37,8 +37,14 @@ export const useFirebaseAuth = () => {
             }
           case 'auth/invalid-email':
             return { data: undefined, error: '無効なメールアドレスです。' }
+          case 'auth/email-already-exists':
+            return {
+              data: undefined,
+              error: 'このメールアドレスは使用できません。',
+            }
         }
       }
+      console.error(error)
       return { data: undefined, error: '予期せぬエラーが発生しました。' }
     } finally {
       setIsLoading(false)

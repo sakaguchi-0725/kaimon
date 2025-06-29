@@ -13,12 +13,7 @@ export interface paths {
     }
     get?: never
     put?: never
-    /**
-     * ユーザー登録
-     * @description 新規ユーザー登録を行う。
-     *     Firebase Authenticationから取得したidTokenをHeaderに設定してリクエストする。
-     *
-     */
+    /** ユーザー登録 */
     post: {
       parameters: {
         query?: never
@@ -26,7 +21,11 @@ export interface paths {
         path?: never
         cookie?: never
       }
-      requestBody?: never
+      requestBody: {
+        content: {
+          'application/json': components['schemas']['SignUpRequest']
+        }
+      }
       responses: {
         /** @description ユーザー登録成功 */
         204: {
@@ -36,6 +35,7 @@ export interface paths {
           content?: never
         }
         400: components['responses']['BadRequest']
+        401: components['responses']['Unauthorized']
         500: components['responses']['InternalServerError']
       }
     }
@@ -266,6 +266,12 @@ export interface paths {
 export type webhooks = Record<string, never>
 export interface components {
   schemas: {
+    SignUpRequest: {
+      /** @description ユーザー名 */
+      name: string
+      /** @description プロフィール画像URL */
+      profileImageUrl?: string
+    }
     GetJoinedGroupsResponse: {
       groups?: components['schemas']['JoinedGroup'][]
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   StyleSheet,
   Text,
@@ -7,52 +7,35 @@ import {
   Image,
   Alert,
 } from 'react-native'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { Container } from '@/shared/ui/container'
 import { TextInput } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
 import { Colors } from '@/shared/constants'
 import { useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { AuthStackParamList } from './stack-navigator'
-
-type NavigationProp = NativeStackNavigationProp<AuthStackParamList>
-
-interface AccountInfoForm {
-  accountName: string
-}
+import { useAccountInfo } from '@/features/auth'
+import { AuthNavigationProp } from '@/screens/auth'
 
 export const AccountInfoScreen = () => {
-  const navigation = useNavigation<NavigationProp>()
-  const [profileImage, setProfileImage] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-
+  const navigation = useNavigation<AuthNavigationProp>()
   const {
     control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<AccountInfoForm>({
-    defaultValues: {
-      accountName: '',
+    errors,
+    profileImage,
+    handleSelectImage,
+    onSubmit,
+    isLoading,
+  } = useAccountInfo()
+
+  const handleAccountSubmit = onSubmit(
+    () => {
+      // アクセストークンが保存されることで自動的にグループ一覧画面に遷移
+      Alert.alert('成功', 'アカウント登録が完了しました')
     },
-  })
-
-  const handleSelectImage = () => {
-    Alert.alert('プロフィール画像を選択', '画像を選択してください', [
-      { text: 'キャンセル', style: 'cancel' },
-      { text: 'カメラで撮影', onPress: () => {} },
-      { text: 'ライブラリから選択', onPress: () => {} },
-    ])
-  }
-
-  const handleComplete = (data: AccountInfoForm) => {
-    setIsLoading(true)
-
-    setTimeout(() => {
-      setIsLoading(false)
-      console.log('Account info:', { ...data, profileImage })
-    }, 1000)
-  }
+    (errorMessage) => {
+      Alert.alert('エラー', errorMessage)
+    },
+  )
 
   return (
     <Container style={styles.container}>
@@ -84,17 +67,6 @@ export const AccountInfoScreen = () => {
         <Controller
           control={control}
           name="accountName"
-          rules={{
-            required: 'アカウント名を入力してください',
-            minLength: {
-              value: 2,
-              message: 'アカウント名は2文字以上で入力してください',
-            },
-            maxLength: {
-              value: 20,
-              message: 'アカウント名は20文字以内で入力してください',
-            },
-          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               label="アカウント名"
@@ -111,8 +83,8 @@ export const AccountInfoScreen = () => {
         />
 
         <Button
-          text="完了"
-          onPress={handleSubmit(handleComplete)}
+          text={isLoading ? '登録中...' : '完了'}
+          onPress={handleAccountSubmit}
           color="primary"
           style={styles.button}
           disabled={isLoading}

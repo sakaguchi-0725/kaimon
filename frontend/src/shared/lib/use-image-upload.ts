@@ -1,8 +1,13 @@
 import { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker'
-import storage from '@react-native-firebase/storage'
+import {
+  getStorage,
+  ref,
+  putFile,
+  getDownloadURL,
+} from '@react-native-firebase/storage'
 import { Alert } from 'react-native'
-import auth from '@react-native-firebase/auth'
+import { getAuth } from '@react-native-firebase/auth'
 
 export const useImageUpload = () => {
   const [isUploading, setIsUploading] = useState(false)
@@ -30,7 +35,7 @@ export const useImageUpload = () => {
     if (!hasPermission) return null
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [1, 1],
       quality: 0.8,
@@ -61,7 +66,8 @@ export const useImageUpload = () => {
   const uploadImage = async (imageUri: string): Promise<string | null> => {
     if (!imageUri) return null
 
-    const user = auth().currentUser
+    const auth = getAuth()
+    const user = auth.currentUser
     if (!user) {
       throw new Error('ユーザーが認証されていません')
     }
@@ -69,10 +75,11 @@ export const useImageUpload = () => {
     setIsUploading(true)
     try {
       const filename = `profile_images/${user.uid}_${Date.now()}.jpg`
-      const reference = storage().ref(filename)
+      const storage = getStorage()
+      const reference = ref(storage, filename)
 
-      await reference.putFile(imageUri)
-      const downloadURL = await reference.getDownloadURL()
+      await putFile(reference, imageUri)
+      const downloadURL = await getDownloadURL(reference)
 
       return downloadURL
     } catch (error) {

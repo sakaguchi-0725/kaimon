@@ -1,6 +1,6 @@
 import createClient from 'openapi-fetch'
 import type { paths } from './schema'
-import auth from '@react-native-firebase/auth'
+import { getAuth } from '@react-native-firebase/auth'
 import { isApiError, handleUnexpectedError } from './error'
 
 let baseUrl: string = process.env.EXPO_PUBLIC_API_BASE_URL || ''
@@ -9,7 +9,8 @@ const instance = createClient<paths>({ baseUrl })
 
 instance.use({
   async onRequest({ request }) {
-    const user = auth().currentUser
+    const auth = getAuth()
+    const user = auth.currentUser
     if (user) {
       const token = await user.getIdToken()
       request.headers.set('Authorization', `Bearer ${token}`)
@@ -24,7 +25,7 @@ instance.use({
     return request
   },
   onResponse({ response }) {
-    console.log('📥 API Response:', {
+    console.log('API Response:', {
       url: response.url,
       status: response.status,
       statusText: response.statusText,

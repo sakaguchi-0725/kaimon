@@ -16,6 +16,22 @@ type groupMemberPersistence struct {
 	conn *db.Conn
 }
 
+func (g *groupMemberPersistence) FindByGroupID(ctx context.Context, groupID model.GroupID) ([]model.GroupMember, error) {
+	var memberDTOs []dto.GroupMember
+	err := g.conn.WithContext(ctx).Where("group_id = ?", groupID.String()).Find(&memberDTOs).Error
+	if err != nil {
+		return []model.GroupMember{}, err
+	}
+
+	// DTOからドメインモデルに変換
+	members := make([]model.GroupMember, len(memberDTOs))
+	for i, memberDTO := range memberDTOs {
+		members[i] = memberDTO.ToModel()
+	}
+
+	return members, nil
+}
+
 func (g *groupMemberPersistence) FindByAccountID(ctx context.Context, accountID model.AccountID) ([]model.GroupMember, error) {
 	var memberDTOs []dto.GroupMember
 	err := g.conn.WithContext(ctx).Where("account_id = ?", accountID.String()).Find(&memberDTOs).Error

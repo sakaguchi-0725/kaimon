@@ -70,3 +70,18 @@ func (mr *MockGroupMemberMockRecorder) FindByAccountID(ctx, accountID any) *gomo
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByAccountID", reflect.TypeOf((*MockGroupMember)(nil).FindByAccountID), ctx, accountID)
 }
+
+// FindByGroupID mocks base method.
+func (m *MockGroupMember) FindByGroupID(ctx context.Context, groupID model.GroupID) ([]model.GroupMember, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByGroupID", ctx, groupID)
+	ret0, _ := ret[0].([]model.GroupMember)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByGroupID indicates an expected call of FindByGroupID.
+func (mr *MockGroupMemberMockRecorder) FindByGroupID(ctx, groupID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByGroupID", reflect.TypeOf((*MockGroupMember)(nil).FindByGroupID), ctx, groupID)
+}

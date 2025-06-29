@@ -6,19 +6,12 @@ import { TextInput } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
 import { Colors } from '@/shared/constants'
 import { useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { GoogleIcon } from '@/shared/ui/icons'
 import { useLogin } from '@/features/auth'
-
-type AuthStackParamList = {
-  Login: undefined
-  SignUp: undefined
-}
-
-type NavigationProp = NativeStackNavigationProp<AuthStackParamList>
+import { AuthNavigationProp } from '@/screens/auth'
 
 export const LoginScreen = () => {
-  const navigation = useNavigation<NavigationProp>()
+  const navigation = useNavigation<AuthNavigationProp>()
   const { control, errors, handleLogin, handleGoogleLogin, isLoading, error } =
     useLogin()
 

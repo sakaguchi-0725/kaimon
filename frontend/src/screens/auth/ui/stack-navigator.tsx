@@ -3,13 +3,7 @@ import { WelcomeScreen } from './welcome'
 import { SignUpScreen } from './signup'
 import { LoginScreen } from './login'
 import { AccountInfoScreen } from './account-info'
-
-export type AuthStackParamList = {
-  Welcome: undefined
-  SignUp: undefined
-  Login: undefined
-  AccountInfo: undefined
-}
+import { AuthStackParamList } from '@/screens/auth'
 
 const Stack = createNativeStackNavigator<AuthStackParamList>()
 

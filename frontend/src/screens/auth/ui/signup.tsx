@@ -6,27 +6,22 @@ import { TextInput } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
 import { Colors } from '@/shared/constants'
 import { useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { GoogleIcon } from '@/shared/ui/icons'
 import { useSignUp } from '@/features/auth'
-
-type AuthStackParamList = {
-  Login: undefined
-  SignUp: undefined
-}
-
-type NavigationProp = NativeStackNavigationProp<AuthStackParamList>
+import { AuthNavigationProp } from '@/screens/auth'
 
 export const SignUpScreen = () => {
-  const navigation = useNavigation<NavigationProp>()
-  const {
-    control,
-    errors,
-    handleSignUp,
-    handleGoogleSignUp,
-    isLoading,
-    error,
-  } = useSignUp()
+  const navigation = useNavigation<AuthNavigationProp>()
+  const { control, errors, onSignUp, onGoogleSignUp, isLoading, error } =
+    useSignUp()
+
+  const handleSignUp = onSignUp(() => {
+    navigation.navigate('AccountInfo')
+  })
+
+  const handleGoogleSignUp = onGoogleSignUp(() => {
+    navigation.navigate('AccountInfo')
+  })
 
   const navigateToLogin = () => {
     navigation.navigate('Login')
@@ -40,23 +35,6 @@ export const SignUpScreen = () => {
       </View>
 
       <View style={styles.form}>
-        <Controller
-          control={control}
-          name="name"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              label="ユーザー名"
-              placeholder="ユーザー名を入力"
-              required
-              containerStyle={styles.inputContainer}
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              error={errors.name?.message}
-            />
-          )}
-        />
-
         <Controller
           control={control}
           name="email"

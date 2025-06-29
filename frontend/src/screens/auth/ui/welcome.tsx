@@ -7,8 +7,7 @@ import {
   FlatList,
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { AuthStackParamList } from './stack-navigator'
+import { AuthNavigationProp } from '@/screens/auth'
 import { useRef, useState, useEffect } from 'react'
 import { Colors } from '@/shared/constants'
 import { Button } from '@/shared/ui'
@@ -23,8 +22,7 @@ const carouselImages = [
 ]
 
 export const WelcomeScreen = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<AuthStackParamList>>()
+  const navigation = useNavigation<AuthNavigationProp>()
   const flatListRef = useRef<FlatList>(null)
   const [currentIndex, setCurrentIndex] = useState(0)
 

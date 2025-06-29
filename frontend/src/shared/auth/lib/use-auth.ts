@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
-import * as SecureStore from 'expo-secure-store'
+import auth from '@react-native-firebase/auth'
 
 export const useAuth = () => {
   const [isAuth, setIsAuth] = useState(false)
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const token = await SecureStore.getItemAsync('accessToken')
-      setIsAuth(!!token)
-    }
-    checkAuth()
+    const unsubscribe = auth().onAuthStateChanged((user) => {
+      setIsAuth(!!user)
+    })
+
+    return unsubscribe
   }, [])
 
   return { isAuth }

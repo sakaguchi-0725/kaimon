@@ -1,5 +1,5 @@
 -- +migrate Up
-CREATE TABLE IF NOT EXISTS members (
+CREATE TABLE IF NOT EXISTS group_members (
     id UUID PRIMARY KEY,
     group_id UUID NOT NULL REFERENCES groups(id),
     account_id UUID NOT NULL REFERENCES accounts(id),
@@ -12,4 +12,4 @@ CREATE TABLE IF NOT EXISTS members (
 );
 
 -- +migrate Down
-DROP TABLE IF EXISTS members;
+DROP TABLE IF EXISTS group_members;

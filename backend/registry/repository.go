@@ -12,8 +12,10 @@ type Repository struct {
 	Authenticator repository.Authenticator
 	Transaction   repository.Transaction
 
-	Account repository.Account
-	User    repository.User
+	Account     repository.Account
+	User        repository.User
+	Group       repository.Group
+	GroupMember repository.GroupMember
 }
 
 func NewRepository(db *db.Conn) (*Repository, error) {
@@ -27,5 +29,7 @@ func NewRepository(db *db.Conn) (*Repository, error) {
 		Transaction:   persistence.NewTransaction(db),
 		Account:       persistence.NewAccount(db),
 		User:          persistence.NewUser(db),
+		Group:         persistence.NewGroup(db),
+		GroupMember:   persistence.NewGroupMember(db),
 	}, nil
 }

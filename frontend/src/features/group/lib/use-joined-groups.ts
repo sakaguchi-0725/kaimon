@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useCallback } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
 import { client } from '@/shared/api/client'
 import type { JoinedGroup } from '../model'
 
@@ -36,9 +37,23 @@ export const useJoinedGroups = (): UseJoinedGroupsReturn => {
     }
   }
 
-  useEffect(() => {
-    fetchGroups()
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true
+
+      const fetchData = async () => {
+        if (isActive) {
+          await fetchGroups()
+        }
+      }
+
+      fetchData()
+
+      return () => {
+        isActive = false
+      }
+    }, []),
+  )
 
   return {
     groups,

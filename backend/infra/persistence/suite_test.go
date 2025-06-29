@@ -60,7 +60,7 @@ func cleanupTestDB() error {
 	}
 
 	// 全テーブルのデータを削除（外部キーの依存関係を考慮した順序）
-	tables := []string{"members", "groups", "accounts", "users"}
+	tables := []string{"group_members", "groups", "accounts", "users"}
 
 	for _, table := range tables {
 		if err := testDB.Exec(fmt.Sprintf("TRUNCATE TABLE %s RESTART IDENTITY CASCADE", table)).Error; err != nil {

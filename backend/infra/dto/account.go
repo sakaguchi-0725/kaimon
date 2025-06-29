@@ -3,12 +3,10 @@ package dto
 import (
 	"backend/domain/model"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 type Account struct {
-	ID              uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID              string    `gorm:"type:uuid;primaryKey"`
 	UserUID         string    `gorm:"not null;unique;constraint:fk_accounts_user_uid,OnDelete:CASCADE"`
 	Name            string    `gorm:"not null"`
 	ProfileImageURL *string   `gorm:"size:500"`
@@ -19,25 +17,18 @@ type Account struct {
 	User User `gorm:"foreignKey:UserUID;references:ID"`
 }
 
-// ToModel はDTOからドメインモデルに変換する
 func (a Account) ToModel() model.Account {
 	return model.Account{
-		ID:     model.AccountID(a.ID.String()),
+		ID:     model.AccountID(a.ID),
 		UserID: a.UserUID,
 		Name:   a.Name,
 	}
 }
 
-// ToAccountDto はドメインモデルからDTOに変換する
-func ToAccountDto(m model.Account) (Account, error) {
-	id, err := uuid.Parse(string(m.ID))
-	if err != nil {
-		return Account{}, err
-	}
-
+func ToAccountDto(m model.Account) Account {
 	return Account{
-		ID:      id,
+		ID:      m.ID.String(),
 		UserUID: m.UserID,
 		Name:    m.Name,
-	}, nil
+	}
 }

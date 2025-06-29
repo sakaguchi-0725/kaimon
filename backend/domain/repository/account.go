@@ -8,5 +8,6 @@ import (
 
 type Account interface {
 	FindByID(ctx context.Context, id model.AccountID) (model.Account, error)
+	FindByUserID(ctx context.Context, userID string) (model.Account, error)
 	Store(ctx context.Context, acc *model.Account) error
 }

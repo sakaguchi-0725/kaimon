@@ -16,7 +16,6 @@ type accountPersistence struct {
 	conn *db.Conn
 }
 
-// FindByID implements repository.Account.
 func (a *accountPersistence) FindByID(ctx context.Context, id model.AccountID) (model.Account, error) {
 	if id == "" {
 		return model.Account{}, ErrInvalidInput
@@ -39,19 +38,32 @@ func (a *accountPersistence) FindByID(ctx context.Context, id model.AccountID) (
 	return accountDTO.ToModel(), nil
 }
 
-// Store implements repository.Account.
+func (a *accountPersistence) FindByUserID(ctx context.Context, userID string) (model.Account, error) {
+	if userID == "" {
+		return model.Account{}, ErrInvalidInput
+	}
+
+	var accountDTO dto.Account
+	err := a.conn.WithContext(ctx).Where("user_uid = ?", userID).First(&accountDTO).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return model.Account{}, ErrRecordNotFound
+		}
+		return model.Account{}, err
+	}
+
+	return accountDTO.ToModel(), nil
+}
+
 func (a *accountPersistence) Store(ctx context.Context, acc *model.Account) error {
 	if acc == nil {
 		return ErrInvalidInput
 	}
 
-	accountDTO, err := dto.ToAccountDto(*acc)
-	if err != nil {
-		return ErrInvalidInput
-	}
+	accountDTO := dto.ToAccountDto(*acc)
 
 	// UPSERTの実装（存在すればUpdate、なければInsert）
-	err = a.conn.WithContext(ctx).Save(&accountDTO).Error
+	err := a.conn.WithContext(ctx).Save(&accountDTO).Error
 	if err != nil {
 		return err
 	}

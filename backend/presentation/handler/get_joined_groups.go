@@ -3,6 +3,7 @@ package handler
 import (
 	"backend/core"
 	"backend/usecase"
+	"errors"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -16,7 +17,7 @@ type (
 	JoinedGroup struct {
 		ID          string `json:"id"`
 		Name        string `json:"name"`
-		Description string `json:"description"`
+		MemberCount int    `json:"memberCount"`
 	}
 )
 
@@ -24,7 +25,12 @@ func NewGetJoinedGroups(usecase usecase.GetJoinedGroups) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		ctx := c.Request().Context()
 
-		groups, err := usecase.Execute(ctx, core.GetUserID(ctx))
+		userID := core.GetUserID(ctx)
+		if userID == "" {
+			return core.NewAppError(core.ErrUnauthorized, errors.New("unauthorized"))
+		}
+
+		groups, err := usecase.Execute(ctx, userID)
 		if err != nil {
 			return err
 		}
@@ -39,7 +45,7 @@ func makeGetJoinedGroupsResponse(outputs []usecase.GetJoinedGroupOutput) GetJoin
 		groups[i] = JoinedGroup{
 			ID:          output.ID,
 			Name:        output.Name,
-			Description: output.Description,
+			MemberCount: output.MemberCount,
 		}
 	}
 

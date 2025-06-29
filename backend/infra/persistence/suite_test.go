@@ -2,7 +2,9 @@ package persistence_test
 
 import (
 	"backend/core"
+	"backend/domain/model"
 	"backend/infra/db"
+	"backend/infra/dto"
 	"fmt"
 	"log"
 	"os"
@@ -12,26 +14,7 @@ import (
 var testDB *db.Conn
 
 func TestMain(m *testing.M) {
-	// 環境変数をデバッグ出力
-	log.Printf("Environment variables:")
-	log.Printf("TEST_DB_HOST: %s", os.Getenv("TEST_DB_HOST"))
-	log.Printf("TEST_DB_PORT: %s", os.Getenv("TEST_DB_PORT"))
-	log.Printf("TEST_DB_USER: %s", os.Getenv("TEST_DB_USER"))
-	log.Printf("TEST_DB_PASSWORD: %s", os.Getenv("TEST_DB_PASSWORD"))
-	log.Printf("TEST_DB_NAME: %s", os.Getenv("TEST_DB_NAME"))
-	log.Printf("TEST_DB_SSLMODE: %s", os.Getenv("TEST_DB_SSLMODE"))
-
 	testDBConfig := core.LoadTestDBConfig()
-	
-	// 設定値をデバッグ出力
-	log.Printf("Test DB Config:")
-	log.Printf("Host: %s", testDBConfig.Host)
-	log.Printf("Port: %s", testDBConfig.Port)
-	log.Printf("User: %s", testDBConfig.User)
-	log.Printf("Password: %s", testDBConfig.Password)
-	log.Printf("Name: %s", testDBConfig.Name)
-	log.Printf("SSLMode: %s", testDBConfig.SSLMode)
-	log.Printf("DSN: %s", testDBConfig.DSN())
 
 	// テストDBに接続
 	var err error
@@ -39,6 +22,9 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatalf("テストDB接続に失敗: %v", err)
 	}
+
+	// マイグレーション履歴テーブルをリセット（エラーは無視）
+	_ = testDB.Exec("DROP TABLE IF EXISTS gorp_migrations")
 
 	// マイグレーションを実行
 	if err := db.RunMigrations(testDB, testDBConfig); err != nil {
@@ -74,12 +60,74 @@ func cleanupTestDB() error {
 	}
 
 	// 全テーブルのデータを削除（外部キーの依存関係を考慮した順序）
-	tables := []string{"accounts", "users"}
+	tables := []string{"group_members", "groups", "accounts", "users"}
 
 	for _, table := range tables {
 		if err := testDB.Exec(fmt.Sprintf("TRUNCATE TABLE %s RESTART IDENTITY CASCADE", table)).Error; err != nil {
 			return fmt.Errorf("テーブル %s のクリアに失敗: %w", table, err)
 		}
+	}
+
+	return nil
+}
+
+// CreateTestUser はテスト用のユーザーを作成する
+func CreateTestUser(id, email string) error {
+	user := model.User{
+		ID:    id,
+		Email: email,
+	}
+	userDto := dto.ToUserDto(user)
+	return testDB.Create(&userDto).Error
+}
+
+// CreateTestAccount はテスト用のアカウントを作成する
+func CreateTestAccount(id model.AccountID, userID, name string) error {
+	account := model.Account{
+		ID:     id,
+		UserID: userID,
+		Name:   name,
+	}
+	accountDto := dto.ToAccountDto(account)
+	return testDB.Create(&accountDto).Error
+}
+
+// CreateTestGroup はテスト用のグループを作成する
+func CreateTestGroup(id model.GroupID, name, description string) error {
+	group := model.Group{
+		ID:          id,
+		Name:        name,
+		Description: description,
+		CreatedAt:   core.NowJST(),
+	}
+	groupDto := dto.ToGroupDto(group)
+	return testDB.Create(&groupDto).Error
+}
+
+// CreateTestGroupMember はテスト用のグループメンバーを作成する
+func CreateTestGroupMember(id model.GroupMemberID, groupID model.GroupID, accountID model.AccountID, role model.MemberRole, status model.MemberStatus) error {
+	member := model.GroupMember{
+		ID:        id,
+		GroupID:   groupID,
+		AccountID: accountID,
+		Role:      role,
+		Status:    status,
+		JoinedAt:  core.NowJST(),
+	}
+	memberDto := dto.ToGroupMemberDto(member)
+	return testDB.Create(&memberDto).Error
+}
+
+// CreateTestAccountWithUser はユーザーとアカウントをセットで作成する便利メソッド
+func CreateTestAccountWithUser(userID, email string, accountID model.AccountID, accountName string) error {
+	// 先にユーザーを作成
+	if err := CreateTestUser(userID, email); err != nil {
+		return fmt.Errorf("ユーザー作成に失敗: %w", err)
+	}
+
+	// 次にアカウントを作成
+	if err := CreateTestAccount(accountID, userID, accountName); err != nil {
+		return fmt.Errorf("アカウント作成に失敗: %w", err)
 	}
 
 	return nil

@@ -85,6 +85,78 @@ func TestAccountPersistence(t *testing.T) {
 		}
 	})
 
+	t.Run("FindByUserID", func(t *testing.T) {
+		testAccountID := model.NewAccountID()
+		
+		tests := []struct {
+			name    string
+			userID  string
+			want    model.Account
+			wantErr error
+		}{
+			{
+				name:   "存在するユーザーIDでアカウントを取得",
+				userID: "test-user-1",
+				want: model.Account{
+					ID:     testAccountID,
+					UserID: "test-user-1",
+					Name:   "Test Account",
+				},
+				wantErr: nil,
+			},
+			{
+				name:    "存在しないユーザーIDでアカウントを取得",
+				userID:  "non-existent-user",
+				want:    model.Account{},
+				wantErr: persistence.ErrRecordNotFound,
+			},
+			{
+				name:    "空のユーザーIDでアカウントを取得",
+				userID:  "",
+				want:    model.Account{},
+				wantErr: persistence.ErrInvalidInput,
+			},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				// テストデータをクリア
+				defer CleanupTestData()
+
+				// テストデータを事前に作成（必要な場合）
+				if tt.name == "存在するユーザーIDでアカウントを取得" {
+					// 依存するユーザーを先に作成
+					userRepo := persistence.NewUser(testDB)
+					testUser := &model.User{
+						ID:    "test-user-1",
+						Email: "test1@example.com",
+					}
+					err := userRepo.Store(context.Background(), testUser)
+					assert.NoError(t, err)
+
+					// テストアカウントを作成
+					testAccount := &model.Account{
+						ID:     testAccountID,
+						UserID: "test-user-1",
+						Name:   "Test Account",
+					}
+					err = accountRepo.Store(context.Background(), testAccount)
+					assert.NoError(t, err)
+				}
+
+				got, err := accountRepo.FindByUserID(context.Background(), tt.userID)
+
+				if tt.wantErr != nil {
+					assert.Error(t, err)
+					assert.ErrorIs(t, err, tt.wantErr)
+				} else {
+					assert.NoError(t, err)
+					assert.Equal(t, tt.want, got)
+				}
+			})
+		}
+	})
+
 	t.Run("Store", func(t *testing.T) {
 		newAccountID := model.NewAccountID()
 		existingAccountID := model.NewAccountID()

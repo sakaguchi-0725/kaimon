@@ -286,9 +286,9 @@ components:
         name:
           type: string
           description: グループ名
-        description:
-          type: string
-          description: グループ説明
+        memberCount:
+          type: integer
+          description: メンバー数
     CreateGroupRequest:
       type: object
       required:

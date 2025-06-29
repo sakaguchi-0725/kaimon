@@ -9,17 +9,12 @@ import { JoinedGroup } from '../model'
 import { ChevronRight } from 'react-native-feather'
 import { Colors } from '@/shared/constants'
 
-const groups: JoinedGroup[] = [
-  { id: '1', name: 'グループ1', memberCount: 2 },
-  { id: '2', name: 'グループ2', memberCount: 5 },
-  { id: '3', name: 'グループ3', memberCount: 3 },
-]
-
 type Props = {
+  groups: JoinedGroup[]
   onPress?: (groupId: string, groupName: string) => void
 }
 
-export const GroupList = ({ onPress }: Props) => {
+export const GroupList = ({ groups, onPress }: Props) => {
   const renderItem = (item: JoinedGroup) => (
     <TouchableOpacity
       style={styles.item}
@@ -32,6 +27,18 @@ export const GroupList = ({ onPress }: Props) => {
       <ChevronRight stroke={Colors.primary} />
     </TouchableOpacity>
   )
+
+  if (groups.length === 0) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyTitle}>グループがまだありません</Text>
+        <Text style={styles.emptyDescription}>
+          グループを作成するか、グループに参加して{'\n'}
+          みんなで買い物リストを共有しましょう！
+        </Text>
+      </View>
+    )
+  }
 
   return (
     <FlatList
@@ -66,5 +73,25 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 13,
     color: Colors.subText,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 32,
+    paddingVertical: 64,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: Colors.mainText,
+    marginBottom: 12,
+    textAlign: 'center',
+  },
+  emptyDescription: {
+    fontSize: 14,
+    color: Colors.subText,
+    textAlign: 'center',
+    lineHeight: 20,
   },
 })

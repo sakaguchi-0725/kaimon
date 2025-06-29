@@ -277,11 +277,11 @@ export interface components {
     }
     JoinedGroup: {
       /** @description グループID */
-      id?: string
+      id: string
       /** @description グループ名 */
-      name?: string
-      /** @description グループ説明 */
-      description?: string
+      name: string
+      /** @description メンバー数 */
+      memberCount: number
     }
     CreateGroupRequest: {
       /** @description グループ名 */

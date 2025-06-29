@@ -279,6 +279,10 @@ components:
             $ref: '#/components/schemas/JoinedGroup'
     JoinedGroup:
       type: object
+      required:
+        - id
+        - name
+        - memberCount
       properties:
         id:
           type: string

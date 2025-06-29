@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import auth from '@react-native-firebase/auth'
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword as firebaseSignInWithEmailAndPassword,
+  signInWithCredential,
+  GoogleAuthProvider,
+} from '@react-native-firebase/auth'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { FirebaseError } from 'firebase/app'
 import {
@@ -9,12 +15,12 @@ import {
 } from '../model'
 
 GoogleSignin.configure({
-  webClientId:
-    '543186433866-h1fu4f9ul2lnitkag5sj02eap76a74ef.apps.googleusercontent.com',
+  webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID,
 })
 
 export const useFirebaseAuth = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const auth = getAuth()
 
   const signUp = async (
     email: string,
@@ -22,7 +28,8 @@ export const useFirebaseAuth = () => {
   ): Promise<SignUpResponse> => {
     try {
       setIsLoading(true)
-      const { user } = await auth().createUserWithEmailAndPassword(
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
         email,
         password,
       )
@@ -57,7 +64,11 @@ export const useFirebaseAuth = () => {
   ): Promise<SignInWithEmailAndPasswordResponse> => {
     try {
       setIsLoading(true)
-      const { user } = await auth().signInWithEmailAndPassword(email, password)
+      const { user } = await firebaseSignInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      )
       return { data: user, error: undefined }
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -84,8 +95,8 @@ export const useFirebaseAuth = () => {
         return { data: undefined, error: 'Google認証に失敗しました。' }
       }
 
-      const googleCredential = auth.GoogleAuthProvider.credential(data.idToken)
-      const { user } = await auth().signInWithCredential(googleCredential)
+      const googleCredential = GoogleAuthProvider.credential(data.idToken)
+      const { user } = await signInWithCredential(auth, googleCredential)
 
       return { data: user, error: undefined }
     } catch (error) {

@@ -1,12 +1,3 @@
-export type JoinedGroup = {
-  id: string
-  name: string
-  memberCount: number
-}
+import { ApiSchema } from '@/shared/api'
 
-export type GroupInfo = {
-  id: string
-  name: string
-  description: string
-  createdAt: string
-}
+export type JoinedGroup = ApiSchema<'JoinedGroup'>

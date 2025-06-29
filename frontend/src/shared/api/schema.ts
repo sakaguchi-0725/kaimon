@@ -280,8 +280,8 @@ export interface components {
       id?: string
       /** @description グループ名 */
       name?: string
-      /** @description グループ説明 */
-      description?: string
+      /** @description メンバー数 */
+      memberCount?: number
     }
     CreateGroupRequest: {
       /** @description グループ名 */

@@ -45,13 +45,10 @@ func (a *accountPersistence) Store(ctx context.Context, acc *model.Account) erro
 		return ErrInvalidInput
 	}
 
-	accountDTO, err := dto.ToAccountDto(*acc)
-	if err != nil {
-		return ErrInvalidInput
-	}
+	accountDTO := dto.ToAccountDto(*acc)
 
 	// UPSERTの実装（存在すればUpdate、なければInsert）
-	err = a.conn.WithContext(ctx).Save(&accountDTO).Error
+	err := a.conn.WithContext(ctx).Save(&accountDTO).Error
 	if err != nil {
 		return err
 	}

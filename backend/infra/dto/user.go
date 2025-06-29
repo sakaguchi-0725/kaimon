@@ -14,7 +14,6 @@ type User struct {
 	Account *Account `gorm:"foreignKey:UserUID;references:ID"`
 }
 
-// ToModel はDTOからドメインモデルに変換する
 func (u User) ToModel() model.User {
 	return model.User{
 		ID:    u.ID,
@@ -22,7 +21,6 @@ func (u User) ToModel() model.User {
 	}
 }
 
-// ToUserDto はドメインモデルからDTOに変換する
 func ToUserDto(m model.User) User {
 	return User{
 		ID:    m.ID,

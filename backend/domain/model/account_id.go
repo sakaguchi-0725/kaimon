@@ -2,6 +2,7 @@ package model
 
 import (
 	"backend/core"
+
 	"github.com/google/uuid"
 )
 
@@ -17,4 +18,8 @@ func ParseAccountID(s string) (AccountID, error) {
 		return "", core.NewInvalidError(err)
 	}
 	return AccountID(id.String()), nil
+}
+
+func (id AccountID) String() string {
+	return string(id)
 }

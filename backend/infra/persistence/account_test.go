@@ -282,6 +282,188 @@ func TestAccountPersistence(t *testing.T) {
 		}
 	})
 
+	t.Run("FindByIDs", func(t *testing.T) {
+		account1ID := model.NewAccountID()
+		account2ID := model.NewAccountID()
+		account3ID := model.NewAccountID()
+		nonExistentID := model.NewAccountID()
+
+		tests := []struct {
+			name             string
+			ids              []model.AccountID
+			existingAccounts []model.Account
+			existingUsers    []model.User
+			want             []model.Account
+			wantErr          error
+		}{
+			{
+				name: "複数アカウント取得",
+				ids:  []model.AccountID{account1ID, account2ID},
+				existingAccounts: []model.Account{
+					{
+						ID:     account1ID,
+						UserID: "user-1",
+						Name:   "アカウント1",
+					},
+					{
+						ID:     account2ID,
+						UserID: "user-2",
+						Name:   "アカウント2",
+					},
+					{
+						ID:     account3ID,
+						UserID: "user-3",
+						Name:   "アカウント3",
+					},
+				},
+				existingUsers: []model.User{
+					{ID: "user-1", Email: "user1@example.com"},
+					{ID: "user-2", Email: "user2@example.com"},
+					{ID: "user-3", Email: "user3@example.com"},
+				},
+				want: []model.Account{
+					{
+						ID:     account1ID,
+						UserID: "user-1",
+						Name:   "アカウント1",
+					},
+					{
+						ID:     account2ID,
+						UserID: "user-2",
+						Name:   "アカウント2",
+					},
+				},
+				wantErr: nil,
+			},
+			{
+				name: "単一アカウント取得",
+				ids:  []model.AccountID{account1ID},
+				existingAccounts: []model.Account{
+					{
+						ID:     account1ID,
+						UserID: "user-1",
+						Name:   "単一アカウント",
+					},
+				},
+				existingUsers: []model.User{
+					{ID: "user-1", Email: "user1@example.com"},
+				},
+				want: []model.Account{
+					{
+						ID:     account1ID,
+						UserID: "user-1",
+						Name:   "単一アカウント",
+					},
+				},
+				wantErr: nil,
+			},
+			{
+				name:             "空IDリスト",
+				ids:              []model.AccountID{},
+				existingAccounts: []model.Account{},
+				existingUsers:    []model.User{},
+				want:             []model.Account{},
+				wantErr:          nil,
+			},
+			{
+				name: "存在しないID含む",
+				ids:  []model.AccountID{account1ID, nonExistentID},
+				existingAccounts: []model.Account{
+					{
+						ID:     account1ID,
+						UserID: "user-1",
+						Name:   "存在するアカウント",
+					},
+				},
+				existingUsers: []model.User{
+					{ID: "user-1", Email: "user1@example.com"},
+				},
+				want: []model.Account{
+					{
+						ID:     account1ID,
+						UserID: "user-1",
+						Name:   "存在するアカウント",
+					},
+				},
+				wantErr: nil,
+			},
+			{
+				name:             "全て存在しないID",
+				ids:              []model.AccountID{nonExistentID},
+				existingAccounts: []model.Account{},
+				existingUsers:    []model.User{},
+				want:             []model.Account{},
+				wantErr:          nil,
+			},
+			{
+				name: "重複ID",
+				ids:  []model.AccountID{account1ID, account1ID},
+				existingAccounts: []model.Account{
+					{
+						ID:     account1ID,
+						UserID: "user-1",
+						Name:   "重複テストアカウント",
+					},
+				},
+				existingUsers: []model.User{
+					{ID: "user-1", Email: "user1@example.com"},
+				},
+				want: []model.Account{
+					{
+						ID:     account1ID,
+						UserID: "user-1",
+						Name:   "重複テストアカウント",
+					},
+				},
+				wantErr: nil,
+			},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				// テストデータをクリア
+				defer CleanupTestData()
+
+				// 依存するユーザーを事前に作成
+				userRepo := persistence.NewUser(testDB)
+				for _, user := range tt.existingUsers {
+					err := userRepo.Store(context.Background(), &user)
+					assert.NoError(t, err)
+				}
+
+				// テストアカウントを事前に作成
+				for _, account := range tt.existingAccounts {
+					err := accountRepo.Store(context.Background(), &account)
+					assert.NoError(t, err)
+				}
+
+				got, err := accountRepo.FindByIDs(context.Background(), tt.ids)
+
+				if tt.wantErr != nil {
+					assert.Error(t, err)
+					assert.ErrorIs(t, err, tt.wantErr)
+				} else {
+					assert.NoError(t, err)
+					assert.Equal(t, len(tt.want), len(got))
+
+					// 結果を検証（順序に依存しない比較）
+					for _, wantAccount := range tt.want {
+						found := false
+						for _, gotAccount := range got {
+							if gotAccount.ID == wantAccount.ID {
+								assert.Equal(t, wantAccount.UserID, gotAccount.UserID)
+								assert.Equal(t, wantAccount.Name, gotAccount.Name)
+								found = true
+								break
+							}
+						}
+						assert.True(t, found, "期待されたアカウントが見つかりません: %s", wantAccount.ID)
+					}
+				}
+			})
+		}
+	})
+
 	t.Run("Store_FindByID_Integration", func(t *testing.T) {
 		// 統合テスト：保存したデータが正しく取得できることを確認
 		defer CleanupTestData()

@@ -16,9 +16,30 @@ type accountPersistence struct {
 	conn *db.Conn
 }
 
-// FindByIDs implements repository.Account.
 func (a *accountPersistence) FindByIDs(ctx context.Context, ids []model.AccountID) ([]model.Account, error) {
-	panic("unimplemented")
+	if len(ids) == 0 {
+		return []model.Account{}, nil
+	}
+
+	// AccountIDをstring型に変換
+	stringIDs := make([]string, len(ids))
+	for i, id := range ids {
+		stringIDs[i] = id.String()
+	}
+
+	var accountDTOs []dto.Account
+	err := a.conn.WithContext(ctx).Where("id IN ?", stringIDs).Find(&accountDTOs).Error
+	if err != nil {
+		return nil, err
+	}
+
+	// DTOからドメインモデルに変換
+	accounts := make([]model.Account, len(accountDTOs))
+	for i, accountDTO := range accountDTOs {
+		accounts[i] = accountDTO.ToModel()
+	}
+
+	return accounts, nil
 }
 
 func (a *accountPersistence) FindByID(ctx context.Context, id model.AccountID) (model.Account, error) {

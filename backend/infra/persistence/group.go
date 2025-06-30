@@ -17,7 +17,7 @@ type groupPersistence struct {
 
 func (g *groupPersistence) GetByID(ctx context.Context, id model.GroupID) (model.Group, error) {
 	var groupDTO dto.Group
-	err := g.conn.WithContext(ctx).Where("id = ?", id.String()).First(&groupDTO).Error
+	err := g.conn.WithContext(ctx).Preload("Members").Where("id = ?", id.String()).First(&groupDTO).Error
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return model.Group{}, ErrRecordNotFound
@@ -40,7 +40,7 @@ func (g *groupPersistence) FindByIDs(ctx context.Context, ids []model.GroupID) (
 	}
 
 	var groupDTOs []dto.Group
-	err := g.conn.WithContext(ctx).Where("id IN ?", stringIDs).Find(&groupDTOs).Error
+	err := g.conn.WithContext(ctx).Preload("Members").Where("id IN ?", stringIDs).Find(&groupDTOs).Error
 	if err != nil {
 		return nil, err
 	}

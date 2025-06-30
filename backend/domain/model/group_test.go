@@ -88,3 +88,101 @@ func TestNewGroup(t *testing.T) {
 		})
 	}
 }
+
+func TestGroup_IsMember(t *testing.T) {
+	groupID := NewGroupID()
+	accountID1 := NewAccountID()
+	accountID2 := NewAccountID()
+	
+	tests := []struct {
+		name      string
+		members   []GroupMember
+		accountID AccountID
+		want      bool
+	}{
+		{
+			name:      "正常系：アクティブなメンバーが存在する場合",
+			members: []GroupMember{
+				{
+					ID:        NewGroupMemberID(),
+					GroupID:   groupID,
+					AccountID: accountID1,
+					Role:      MemberRoleAdmin,
+					Status:    MemberStatusActive,
+				},
+			},
+			accountID: accountID1,
+			want:      true,
+		},
+		{
+			name: "正常系：複数メンバー中にアクティブな対象メンバーが存在",
+			members: []GroupMember{
+				{
+					ID:        NewGroupMemberID(),
+					GroupID:   groupID,
+					AccountID: accountID1,
+					Role:      MemberRoleAdmin,
+					Status:    MemberStatusActive,
+				},
+				{
+					ID:        NewGroupMemberID(),
+					GroupID:   groupID,
+					AccountID: accountID2,
+					Role:      MemberRoleMember,
+					Status:    MemberStatusActive,
+				},
+			},
+			accountID: accountID2,
+			want:      true,
+		},
+		{
+			name:      "正常系：メンバーなしのグループ",
+			members:   []GroupMember{},
+			accountID: accountID1,
+			want:      false,
+		},
+		{
+			name: "境界系：ペンディングステータスのメンバー",
+			members: []GroupMember{
+				{
+					ID:        NewGroupMemberID(),
+					GroupID:   groupID,
+					AccountID: accountID1,
+					Role:      MemberRoleAdmin,
+					Status:    MemberStatusPending,
+				},
+			},
+			accountID: accountID1,
+			want:      false,
+		},
+		{
+			name: "境界系：異なるAccountIDのメンバーのみ",
+			members: []GroupMember{
+				{
+					ID:        NewGroupMemberID(),
+					GroupID:   groupID,
+					AccountID: accountID1,
+					Role:      MemberRoleAdmin,
+					Status:    MemberStatusActive,
+				},
+			},
+			accountID: accountID2,
+			want:      false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			group := Group{
+				ID:      groupID,
+				Name:    "テストグループ",
+				Members: tt.members,
+			}
+
+			got := group.IsMember(tt.accountID)
+			if got != tt.want {
+				t.Errorf("IsMember() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

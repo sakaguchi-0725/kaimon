@@ -50,11 +50,13 @@ func TestGroupPersistence(t *testing.T) {
 						ID:          group1ID,
 						Name:        "テストグループ1",
 						Description: "テスト用のグループ1です",
+						Members:     []model.GroupMember{},
 					},
 					{
 						ID:          group2ID,
 						Name:        "テストグループ2",
 						Description: "テスト用のグループ2です",
+						Members:     []model.GroupMember{},
 					},
 				},
 				wantErr: nil,
@@ -176,6 +178,7 @@ func TestGroupPersistence(t *testing.T) {
 					ID:          existingGroupID,
 					Name:        "テストグループ",
 					Description: "テスト用のグループです",
+					Members:     []model.GroupMember{}, // メンバーなしのグループ
 				},
 				wantErr: nil,
 			},
@@ -193,6 +196,7 @@ func TestGroupPersistence(t *testing.T) {
 					ID:          existingGroupID,
 					Name:        "説明なしグループ",
 					Description: "",
+					Members:     []model.GroupMember{}, // メンバーなしのグループ
 				},
 				wantErr: nil,
 			},
@@ -227,6 +231,7 @@ func TestGroupPersistence(t *testing.T) {
 					assert.Equal(t, tt.want.ID, got.ID)
 					assert.Equal(t, tt.want.Name, got.Name)
 					assert.Equal(t, tt.want.Description, got.Description)
+					assert.Equal(t, tt.want.Members, got.Members)
 					// CreatedAt, UpdatedAtは自動生成なので検証しない
 				}
 			})

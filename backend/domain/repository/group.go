@@ -7,5 +7,6 @@ import (
 )
 
 type Group interface {
+	GetByID(ctx context.Context, id model.GroupID) (model.Group, error)
 	FindByIDs(ctx context.Context, ids []model.GroupID) ([]model.Group, error)
 }

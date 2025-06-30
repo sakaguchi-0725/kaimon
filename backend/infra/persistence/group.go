@@ -6,10 +6,26 @@ import (
 	"backend/infra/db"
 	"backend/infra/dto"
 	"context"
+	"errors"
+
+	"gorm.io/gorm"
 )
 
 type groupPersistence struct {
 	conn *db.Conn
+}
+
+func (g *groupPersistence) GetByID(ctx context.Context, id model.GroupID) (model.Group, error) {
+	var groupDTO dto.Group
+	err := g.conn.WithContext(ctx).Where("id = ?", id.String()).First(&groupDTO).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return model.Group{}, ErrRecordNotFound
+		}
+		return model.Group{}, err
+	}
+
+	return groupDTO.ToModel(), nil
 }
 
 func (g *groupPersistence) FindByIDs(ctx context.Context, ids []model.GroupID) ([]model.Group, error) {

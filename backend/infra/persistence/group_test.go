@@ -150,4 +150,86 @@ func TestGroupPersistence(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("GetByID", func(t *testing.T) {
+		existingGroupID := model.NewGroupID()
+		nonExistentGroupID := model.NewGroupID()
+
+		tests := []struct {
+			name           string
+			groupID        model.GroupID
+			existingGroups []model.Group
+			want           model.Group
+			wantErr        error
+		}{
+			{
+				name:    "存在するグループを取得",
+				groupID: existingGroupID,
+				existingGroups: []model.Group{
+					{
+						ID:          existingGroupID,
+						Name:        "テストグループ",
+						Description: "テスト用のグループです",
+					},
+				},
+				want: model.Group{
+					ID:          existingGroupID,
+					Name:        "テストグループ",
+					Description: "テスト用のグループです",
+				},
+				wantErr: nil,
+			},
+			{
+				name:    "存在するグループを取得（Descriptionが空）",
+				groupID: existingGroupID,
+				existingGroups: []model.Group{
+					{
+						ID:          existingGroupID,
+						Name:        "説明なしグループ",
+						Description: "",
+					},
+				},
+				want: model.Group{
+					ID:          existingGroupID,
+					Name:        "説明なしグループ",
+					Description: "",
+				},
+				wantErr: nil,
+			},
+			{
+				name:           "存在しないグループID",
+				groupID:        nonExistentGroupID,
+				existingGroups: []model.Group{},
+				want:           model.Group{},
+				wantErr:        persistence.ErrRecordNotFound,
+			},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				// テストデータをクリア
+				defer CleanupTestData()
+
+				// テストデータを事前に作成
+				for _, group := range tt.existingGroups {
+					err := CreateTestGroup(group.ID, group.Name, group.Description)
+					assert.NoError(t, err)
+				}
+
+				got, err := groupRepo.GetByID(context.Background(), tt.groupID)
+
+				if tt.wantErr != nil {
+					assert.Error(t, err)
+					assert.ErrorIs(t, err, tt.wantErr)
+					assert.Equal(t, model.Group{}, got)
+				} else {
+					assert.NoError(t, err)
+					assert.Equal(t, tt.want.ID, got.ID)
+					assert.Equal(t, tt.want.Name, got.Name)
+					assert.Equal(t, tt.want.Description, got.Description)
+					// CreatedAt, UpdatedAtは自動生成なので検証しない
+				}
+			})
+		}
+	})
 }

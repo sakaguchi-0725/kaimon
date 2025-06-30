@@ -21,7 +21,7 @@ func NewUseCase(repo *Repository) UseCase {
 		GetJoinedGroups:        usecase.NewGetJoinedGroups(repo.Account, repo.GroupMember, repo.Group),
 		CreateGroup:            usecase.NewCreateGroup(),
 		GetGroup:               usecase.NewGetGroup(),
-		GetGroupMembers:        usecase.NewGetGroupMembers(),
+		GetGroupMembers:        usecase.NewGetGroupMembers(repo.Account, repo.Group),
 		GetShoppingItems:       usecase.NewGetShoppingItems(),
 	}
 }

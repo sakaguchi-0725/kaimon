@@ -16,6 +16,11 @@ type accountPersistence struct {
 	conn *db.Conn
 }
 
+// FindByIDs implements repository.Account.
+func (a *accountPersistence) FindByIDs(ctx context.Context, ids []model.AccountID) ([]model.Account, error) {
+	panic("unimplemented")
+}
+
 func (a *accountPersistence) FindByID(ctx context.Context, id model.AccountID) (model.Account, error) {
 	if id == "" {
 		return model.Account{}, ErrInvalidInput

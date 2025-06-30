@@ -13,11 +13,10 @@ type GetGroupMembersResponse struct {
 }
 
 type Member struct {
-	ID       string `json:"id"`
-	Name     string `json:"name"`
-	Role     string `json:"role"`
-	Status   string `json:"status"`
-	JoinedAt string `json:"joinedAt"`
+	ID     string `json:"id"`
+	Name   string `json:"name"`
+	Role   string `json:"role"`
+	Status string `json:"status"`
 }
 
 func NewGetGroupMembers(usecase usecase.GetGroupMembers) echo.HandlerFunc {
@@ -42,11 +41,10 @@ func makeGetGroupMembersResponse(outputs usecase.GetGroupMembersOutput) GetGroup
 	members := make([]Member, len(outputs.Members))
 	for i, member := range outputs.Members {
 		members[i] = Member{
-			ID:       member.ID,
-			Name:     member.Name,
-			Role:     member.Role,
-			Status:   member.Status,
-			JoinedAt: member.JoinedAt,
+			ID:     member.ID,
+			Name:   member.Name,
+			Role:   member.Role,
+			Status: member.Status,
 		}
 	}
 	return GetGroupMembersResponse{

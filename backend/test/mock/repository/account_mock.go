@@ -56,6 +56,21 @@ func (mr *MockAccountMockRecorder) FindByID(ctx, id any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByID", reflect.TypeOf((*MockAccount)(nil).FindByID), ctx, id)
 }
 
+// FindByIDs mocks base method.
+func (m *MockAccount) FindByIDs(ctx context.Context, ids []model.AccountID) ([]model.Account, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindByIDs", ctx, ids)
+	ret0, _ := ret[0].([]model.Account)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindByIDs indicates an expected call of FindByIDs.
+func (mr *MockAccountMockRecorder) FindByIDs(ctx, ids any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIDs", reflect.TypeOf((*MockAccount)(nil).FindByIDs), ctx, ids)
+}
+
 // FindByUserID mocks base method.
 func (m *MockAccount) FindByUserID(ctx context.Context, userID string) (model.Account, error) {
 	m.ctrl.T.Helper()

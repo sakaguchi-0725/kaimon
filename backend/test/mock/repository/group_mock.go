@@ -55,3 +55,18 @@ func (mr *MockGroupMockRecorder) FindByIDs(ctx, ids any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByIDs", reflect.TypeOf((*MockGroup)(nil).FindByIDs), ctx, ids)
 }
+
+// GetByID mocks base method.
+func (m *MockGroup) GetByID(ctx context.Context, id model.GroupID) (model.Group, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetByID", ctx, id)
+	ret0, _ := ret[0].(model.Group)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetByID indicates an expected call of GetByID.
+func (mr *MockGroupMockRecorder) GetByID(ctx, id any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByID", reflect.TypeOf((*MockGroup)(nil).GetByID), ctx, id)
+}

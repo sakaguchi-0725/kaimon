@@ -50,11 +50,13 @@ func TestGroupPersistence(t *testing.T) {
 						ID:          group1ID,
 						Name:        "テストグループ1",
 						Description: "テスト用のグループ1です",
+						Members:     []model.GroupMember{},
 					},
 					{
 						ID:          group2ID,
 						Name:        "テストグループ2",
 						Description: "テスト用のグループ2です",
+						Members:     []model.GroupMember{},
 					},
 				},
 				wantErr: nil,
@@ -146,6 +148,91 @@ func TestGroupPersistence(t *testing.T) {
 						}
 						assert.True(t, found, "期待されたグループが見つかりません: %s", wantGroup.ID)
 					}
+				}
+			})
+		}
+	})
+
+	t.Run("GetByID", func(t *testing.T) {
+		existingGroupID := model.NewGroupID()
+		nonExistentGroupID := model.NewGroupID()
+
+		tests := []struct {
+			name           string
+			groupID        model.GroupID
+			existingGroups []model.Group
+			want           model.Group
+			wantErr        error
+		}{
+			{
+				name:    "存在するグループを取得",
+				groupID: existingGroupID,
+				existingGroups: []model.Group{
+					{
+						ID:          existingGroupID,
+						Name:        "テストグループ",
+						Description: "テスト用のグループです",
+					},
+				},
+				want: model.Group{
+					ID:          existingGroupID,
+					Name:        "テストグループ",
+					Description: "テスト用のグループです",
+					Members:     []model.GroupMember{}, // メンバーなしのグループ
+				},
+				wantErr: nil,
+			},
+			{
+				name:    "存在するグループを取得（Descriptionが空）",
+				groupID: existingGroupID,
+				existingGroups: []model.Group{
+					{
+						ID:          existingGroupID,
+						Name:        "説明なしグループ",
+						Description: "",
+					},
+				},
+				want: model.Group{
+					ID:          existingGroupID,
+					Name:        "説明なしグループ",
+					Description: "",
+					Members:     []model.GroupMember{}, // メンバーなしのグループ
+				},
+				wantErr: nil,
+			},
+			{
+				name:           "存在しないグループID",
+				groupID:        nonExistentGroupID,
+				existingGroups: []model.Group{},
+				want:           model.Group{},
+				wantErr:        persistence.ErrRecordNotFound,
+			},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				// テストデータをクリア
+				defer CleanupTestData()
+
+				// テストデータを事前に作成
+				for _, group := range tt.existingGroups {
+					err := CreateTestGroup(group.ID, group.Name, group.Description)
+					assert.NoError(t, err)
+				}
+
+				got, err := groupRepo.GetByID(context.Background(), tt.groupID)
+
+				if tt.wantErr != nil {
+					assert.Error(t, err)
+					assert.ErrorIs(t, err, tt.wantErr)
+					assert.Equal(t, model.Group{}, got)
+				} else {
+					assert.NoError(t, err)
+					assert.Equal(t, tt.want.ID, got.ID)
+					assert.Equal(t, tt.want.Name, got.Name)
+					assert.Equal(t, tt.want.Description, got.Description)
+					assert.Equal(t, tt.want.Members, got.Members)
+					// CreatedAt, UpdatedAtは自動生成なので検証しない
 				}
 			})
 		}

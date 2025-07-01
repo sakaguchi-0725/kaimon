@@ -35,7 +35,7 @@ export const AddItemModal = ({
   const [selectedGroup, setSelectedGroup] = useState<{
     id: string
     name: string
-  } | null>(groups.length > 0 ? groups[0] : null)
+  } | null>(groups.length > 0 ? groups[0] || null : null)
 
   const handleAddItem = () => {
     if (!itemName.trim() || !selectedCategory || !selectedGroup) return

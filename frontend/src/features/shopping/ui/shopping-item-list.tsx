@@ -54,7 +54,10 @@ export const ShoppingItemList = ({
     ]
     const currentIndex = statuses.indexOf(item.status)
     const nextIndex = (currentIndex + 1) % statuses.length
-    onStatusChange(item, statuses[nextIndex])
+    const nextStatus = statuses[nextIndex]
+    if (nextStatus) {
+      onStatusChange(item, nextStatus)
+    }
   }
 
   return (

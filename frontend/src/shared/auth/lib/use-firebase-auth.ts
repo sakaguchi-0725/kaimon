@@ -79,6 +79,7 @@ export const useFirebaseAuth = () => {
             return { data: undefined, error: 'ユーザーが見つかりません。' }
         }
       }
+      console.error(error)
       return { data: undefined, error: '予期せぬエラーが発生しました。' }
     } finally {
       setIsLoading(false)

@@ -13,10 +13,10 @@ export const MemberList = ({ members }: MemberListProps) => {
     return (
       <View style={styles.item}>
         <View style={styles.nameArea}>
-          <MemberRoleIcon role={member.role as any} />
+          <MemberRoleIcon role={member.role} />
           <Text style={styles.nameText}>{member.name}</Text>
         </View>
-        <StatusLabel status="active" />
+        <StatusLabel status={member.status} />
       </View>
     )
   }

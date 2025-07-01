@@ -227,7 +227,7 @@ export interface components {
       profileImageUrl?: string
     }
     GetJoinedGroupsResponse: {
-      groups?: components['schemas']['JoinedGroup'][]
+      groups: components['schemas']['JoinedGroup'][]
     }
     JoinedGroup: {
       /** @description グループID */
@@ -251,28 +251,28 @@ export interface components {
     }
     GetGroupResponse: {
       /** @description グループID */
-      id?: string
+      id: string
       /** @description グループ名 */
-      name?: string
+      name: string
       /** @description グループ説明 */
-      description?: string
+      description: string
       /**
        * Format: date-time
        * @description グループ作成日時
        */
-      createdAt?: string
+      createdAt: string
       /** @description グループメンバー一覧 */
-      members?: components['schemas']['Member'][]
+      members: components['schemas']['Member'][]
     }
     Member: {
       /** @description メンバーID */
-      id?: string
+      id: string
       /** @description メンバー名 */
-      name?: string
+      name: string
       /** @description メンバーの役割 */
-      role?: components['schemas']['MemberRole']
+      role: components['schemas']['MemberRole']
       /** @description メンバーのステータス */
-      status?: components['schemas']['MemberStatus']
+      status: components['schemas']['MemberStatus']
     }
     /**
      * @description メンバーの役割
@@ -285,26 +285,26 @@ export interface components {
      */
     MemberStatus: 'active' | 'pending'
     GetShoppingItemsResponse: {
-      items?: components['schemas']['ShoppingItem'][]
+      items: components['schemas']['ShoppingItem'][]
       /**
        * Format: int64
        * @description 全アイテム数
        */
-      totalCount?: number
+      totalCount: number
       /** @description 次のページがあるかどうか */
-      hasNext?: boolean
+      hasNext: boolean
     }
     ShoppingItem: {
       /**
        * Format: int64
        * @description アイテムID
        */
-      id?: number
+      id: number
       /** @description アイテム名 */
-      name?: string
+      name: string
       /** @description 登録者ID */
-      memberId?: string
-      status?: components['schemas']['ShoppingItemStatus']
+      memberId: string
+      status: components['schemas']['ShoppingItemStatus']
     }
     /**
      * @description 買い物メモのステータス

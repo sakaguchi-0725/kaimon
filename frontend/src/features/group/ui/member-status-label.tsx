@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { MemberStatus } from '../model'
-import { StatusColors, StatusLabels } from '../model/constants'
+import { MemberStatus, StatusColors, StatusLabels } from '../model'
 
 type StatusLabelProps = {
   status: MemberStatus

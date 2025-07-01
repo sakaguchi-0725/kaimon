@@ -161,52 +161,6 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/groups/{id}/members': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * グループメンバー一覧取得
-     * @description 指定されたグループのメンバー一覧を取得します
-     */
-    get: {
-      parameters: {
-        query?: never
-        header?: never
-        path: {
-          /** @description グループID */
-          id: string
-        }
-        cookie?: never
-      }
-      requestBody?: never
-      responses: {
-        /** @description グループメンバー一覧取得成功 */
-        200: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['GetGroupMembersResponse']
-          }
-        }
-        401: components['responses']['Unauthorized']
-        403: components['responses']['Forbidden']
-        404: components['responses']['NotFound']
-        500: components['responses']['InternalServerError']
-      }
-    }
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
   '/groups/{id}/items': {
     parameters: {
       query?: never
@@ -273,7 +227,7 @@ export interface components {
       profileImageUrl?: string
     }
     GetJoinedGroupsResponse: {
-      groups?: components['schemas']['JoinedGroup'][]
+      groups: components['schemas']['JoinedGroup'][]
     }
     JoinedGroup: {
       /** @description グループID */
@@ -297,34 +251,28 @@ export interface components {
     }
     GetGroupResponse: {
       /** @description グループID */
-      id?: string
+      id: string
       /** @description グループ名 */
-      name?: string
+      name: string
       /** @description グループ説明 */
-      description?: string
+      description: string
       /**
        * Format: date-time
        * @description グループ作成日時
        */
-      createdAt?: string
-    }
-    GetGroupMembersResponse: {
-      members?: components['schemas']['Member'][]
+      createdAt: string
+      /** @description グループメンバー一覧 */
+      members: components['schemas']['Member'][]
     }
     Member: {
       /** @description メンバーID */
-      id?: string
+      id: string
       /** @description メンバー名 */
-      name?: string
+      name: string
       /** @description メンバーの役割 */
-      role?: components['schemas']['MemberRole']
+      role: components['schemas']['MemberRole']
       /** @description メンバーのステータス */
-      status?: components['schemas']['MemberStatus']
-      /**
-       * Format: date-time
-       * @description メンバー参加日時
-       */
-      joinedAt?: string
+      status: components['schemas']['MemberStatus']
     }
     /**
      * @description メンバーの役割
@@ -337,26 +285,26 @@ export interface components {
      */
     MemberStatus: 'active' | 'pending'
     GetShoppingItemsResponse: {
-      items?: components['schemas']['ShoppingItem'][]
+      items: components['schemas']['ShoppingItem'][]
       /**
        * Format: int64
        * @description 全アイテム数
        */
-      totalCount?: number
+      totalCount: number
       /** @description 次のページがあるかどうか */
-      hasNext?: boolean
+      hasNext: boolean
     }
     ShoppingItem: {
       /**
        * Format: int64
        * @description アイテムID
        */
-      id?: number
+      id: number
       /** @description アイテム名 */
-      name?: string
+      name: string
       /** @description 登録者ID */
-      memberId?: string
-      status?: components['schemas']['ShoppingItemStatus']
+      memberId: string
+      status: components['schemas']['ShoppingItemStatus']
     }
     /**
      * @description 買い物メモのステータス

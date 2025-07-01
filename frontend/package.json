@@ -10,7 +10,7 @@
     "lint": "expo lint",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "prepare": "cd .. && husky frontend/.husky",
-    "gen:openapi": "openapi-typescript ../docs/openapi.yml -o ./src/shared/api/schema.ts"
+    "gen:openapi": "openapi-typescript ../docs/openapi.yml -o ./src/shared/api/schema.ts --properties-required-by-default"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",

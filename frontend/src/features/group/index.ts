@@ -1,2 +1,6 @@
 export { GroupList } from './ui/list'
 export { GroupDetail } from './ui/detail'
+export { MemberList } from './ui/member-list'
+export { useGroupDetail } from './lib/use-group-detail'
+export { useJoinedGroups } from './lib/use-joined-groups'
+export type { GroupInfo, Member, MemberRole, MemberStatus } from './model'

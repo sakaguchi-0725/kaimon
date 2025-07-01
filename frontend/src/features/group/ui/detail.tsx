@@ -2,19 +2,17 @@ import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { GroupInfo } from '../model'
 import { Colors } from '@/shared/constants'
+import { formatDate } from '@/shared/lib'
 import { Edit2 } from 'react-native-feather'
 
-export const GroupDetail = () => {
-  const data: GroupInfo = {
-    id: '1',
-    name: 'グループ1',
-    description: 'テスト用のグループです',
-    createdAt: '2025-01-02',
-  }
+interface GroupDetailProps {
+  data: GroupInfo
+  onEdit: () => void
+}
 
+export const GroupDetail = ({ data, onEdit }: GroupDetailProps) => {
   const handleEdit = () => {
-    // 編集処理
-    console.log('編集ボタンがタップされました')
+    onEdit()
   }
 
   return (
@@ -35,7 +33,7 @@ export const GroupDetail = () => {
         <View style={styles.section}>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>作成日</Text>
-            <Text style={styles.infoValue}>{data.createdAt}</Text>
+            <Text style={styles.infoValue}>{formatDate(data.createdAt)}</Text>
           </View>
         </View>
       </View>

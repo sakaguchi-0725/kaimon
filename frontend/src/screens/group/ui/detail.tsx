@@ -2,8 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { GroupStackParamList } from './stack-navigator'
-import { GroupDetail } from '@/features/group'
-import { MemberList } from '@/features/member'
+import { GroupDetail, MemberList, useGroupDetail } from '@/features/group'
 import { Container } from '@/shared/ui/container'
 import { Colors } from '@/shared/constants'
 import { UserPlus } from 'react-native-feather'
@@ -11,17 +10,39 @@ import { UserPlus } from 'react-native-feather'
 type Props = NativeStackScreenProps<GroupStackParamList, 'GroupDetail'>
 
 export const GroupDetailScreen = ({ route }: Props) => {
-  const { groupId, groupName } = route.params
+  const { groupId } = route.params
+  const { data: groupData, isLoading, error } = useGroupDetail(groupId)
 
   const handleAddMember = () => {
     console.log('メンバー追加ボタンがタップされました')
     // ここにメンバー追加の処理を実装
   }
 
+  const handleEdit = () => {
+    console.log('編集ボタンがタップされました')
+    // ここに編集の処理を実装
+  }
+
+  if (isLoading) {
+    return (
+      <Container>
+        <Text>読み込み中...</Text>
+      </Container>
+    )
+  }
+
+  if (error || !groupData) {
+    return (
+      <Container>
+        <Text>エラーが発生しました: {error}</Text>
+      </Container>
+    )
+  }
+
   return (
     <>
       <Container>
-        <GroupDetail />
+        <GroupDetail data={groupData} onEdit={handleEdit} />
       </Container>
 
       <Container style={styles.membersContainer}>
@@ -31,7 +52,7 @@ export const GroupDetailScreen = ({ route }: Props) => {
             <UserPlus stroke={Colors.primary} width={20} height={20} />
           </TouchableOpacity>
         </View>
-        <MemberList />
+        <MemberList members={groupData.members || []} />
       </Container>
     </>
   )

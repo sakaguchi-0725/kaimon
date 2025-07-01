@@ -161,52 +161,6 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/groups/{id}/members': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /**
-     * グループメンバー一覧取得
-     * @description 指定されたグループのメンバー一覧を取得します
-     */
-    get: {
-      parameters: {
-        query?: never
-        header?: never
-        path: {
-          /** @description グループID */
-          id: string
-        }
-        cookie?: never
-      }
-      requestBody?: never
-      responses: {
-        /** @description グループメンバー一覧取得成功 */
-        200: {
-          headers: {
-            [name: string]: unknown
-          }
-          content: {
-            'application/json': components['schemas']['GetGroupMembersResponse']
-          }
-        }
-        401: components['responses']['Unauthorized']
-        403: components['responses']['Forbidden']
-        404: components['responses']['NotFound']
-        500: components['responses']['InternalServerError']
-      }
-    }
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
   '/groups/{id}/items': {
     parameters: {
       query?: never
@@ -307,8 +261,7 @@ export interface components {
        * @description グループ作成日時
        */
       createdAt?: string
-    }
-    GetGroupMembersResponse: {
+      /** @description グループメンバー一覧 */
       members?: components['schemas']['Member'][]
     }
     Member: {
@@ -320,11 +273,6 @@ export interface components {
       role?: components['schemas']['MemberRole']
       /** @description メンバーのステータス */
       status?: components['schemas']['MemberStatus']
-      /**
-       * Format: date-time
-       * @description メンバー参加日時
-       */
-      joinedAt?: string
     }
     /**
      * @description メンバーの役割

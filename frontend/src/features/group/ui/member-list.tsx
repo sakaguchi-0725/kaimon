@@ -1,24 +1,22 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { Member } from '../model'
-import { MemberRoleIcon } from './role-icon'
-import { StatusLabel } from './status-label'
+import { MemberRoleIcon } from './member-role-icon'
+import { StatusLabel } from './member-status-label'
 import { Colors } from '@/shared/constants'
 
-const members: Member[] = [
-  { id: '1', name: 'メンバー1', role: 'admin', status: 'active' },
-  { id: '2', name: 'メンバー2', role: 'member', status: 'active' },
-  { id: '3', name: 'メンバー3', role: 'member', status: 'pending' },
-]
+interface MemberListProps {
+  members: Member[]
+}
 
-export const MemberList = () => {
+export const MemberList = ({ members }: MemberListProps) => {
   const renderItem = (member: Member) => {
     return (
       <View style={styles.item}>
         <View style={styles.nameArea}>
-          <MemberRoleIcon role={member.role} />
+          <MemberRoleIcon role={member.role as any} />
           <Text style={styles.nameText}>{member.name}</Text>
         </View>
-        <StatusLabel status={member.status} />
+        <StatusLabel status="active" />
       </View>
     )
   }
@@ -26,7 +24,7 @@ export const MemberList = () => {
   return (
     <FlatList
       data={members}
-      keyExtractor={(member) => member.id}
+      keyExtractor={(member) => member.id || ''}
       renderItem={({ item }) => renderItem(item)}
     />
   )

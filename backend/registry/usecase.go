@@ -9,7 +9,6 @@ type UseCase struct {
 	GetJoinedGroups        usecase.GetJoinedGroups
 	CreateGroup            usecase.CreateGroup
 	GetGroup               usecase.GetGroup
-	GetGroupMembers        usecase.GetGroupMembers
 	GetShoppingItems       usecase.GetShoppingItems
 }
 
@@ -20,8 +19,7 @@ func NewUseCase(repo *Repository) UseCase {
 		VerifyToken:            usecase.NewVerifyToken(repo.Authenticator),
 		GetJoinedGroups:        usecase.NewGetJoinedGroups(repo.Account, repo.GroupMember, repo.Group),
 		CreateGroup:            usecase.NewCreateGroup(),
-		GetGroup:               usecase.NewGetGroup(),
-		GetGroupMembers:        usecase.NewGetGroupMembers(repo.Account, repo.Group),
+		GetGroup:               usecase.NewGetGroup(repo.Account, repo.Group),
 		GetShoppingItems:       usecase.NewGetShoppingItems(),
 	}
 }

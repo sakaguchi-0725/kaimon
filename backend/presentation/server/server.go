@@ -52,7 +52,6 @@ func (s *Server) MapRoutes(frontendURL string, logger core.Logger, uc registry.U
 	groups.GET("", handler.NewGetJoinedGroups(uc.GetJoinedGroups))
 	groups.POST("", handler.NewCreateGroup(uc.CreateGroup))
 	groups.GET("/:id", handler.NewGetGroup(uc.GetGroup))
-	groups.GET("/:id/members", handler.NewGetGroupMembers(uc.GetGroupMembers))
 	groups.GET("/:id/items", handler.NewGetShoppingItems(uc.GetShoppingItems))
 }
 

@@ -1,5 +1,4 @@
-import { GroupList } from '@/features/group'
-import { useJoinedGroups } from '@/features/group/lib/use-joined-groups'
+import { GroupList, useJoinedGroups } from '@/features/group'
 import { View, StyleSheet, ActivityIndicator, Text } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { GroupStackParamList } from './stack-navigator'

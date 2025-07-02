@@ -1,3 +1,5 @@
 export * from './client'
 export * from './error'
 export * from './types'
+export * from './query-client'
+export * from './react-query'

@@ -237,4 +237,64 @@ func TestGroupPersistence(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("Store", func(t *testing.T) {
+		tests := []struct {
+			name    string
+			group   model.Group
+			wantErr error
+		}{
+			{
+				name: "新しいグループを正常に保存",
+				group: model.Group{
+					ID:          model.NewGroupID(),
+					Name:        "新しいテストグループ",
+					Description: "新しく作成されるグループです",
+				},
+				wantErr: nil,
+			},
+			{
+				name: "Descriptionが空のグループを保存",
+				group: model.Group{
+					ID:          model.NewGroupID(),
+					Name:        "説明なしグループ",
+					Description: "",
+				},
+				wantErr: nil,
+			},
+			{
+				name: "長い名前のグループを保存",
+				group: model.Group{
+					ID:          model.NewGroupID(),
+					Name:        "とても長い名前のグループですがこれでも保存できるはずです",
+					Description: "長い名前のテストケース",
+				},
+				wantErr: nil,
+			},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				// テストデータをクリア
+				defer CleanupTestData()
+
+				// Storeメソッドを実行
+				err := groupRepo.Store(context.Background(), &tt.group)
+
+				if tt.wantErr != nil {
+					assert.Error(t, err)
+					assert.ErrorIs(t, err, tt.wantErr)
+				} else {
+					assert.NoError(t, err)
+					
+					// 保存されたデータを検証
+					stored, err := groupRepo.GetByID(context.Background(), tt.group.ID)
+					assert.NoError(t, err)
+					assert.Equal(t, tt.group.ID, stored.ID)
+					assert.Equal(t, tt.group.Name, stored.Name)
+					assert.Equal(t, tt.group.Description, stored.Description)
+				}
+			})
+		}
+	})
 }

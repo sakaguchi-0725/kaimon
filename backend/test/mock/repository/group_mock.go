@@ -70,3 +70,17 @@ func (mr *MockGroupMockRecorder) GetByID(ctx, id any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByID", reflect.TypeOf((*MockGroup)(nil).GetByID), ctx, id)
 }
+
+// Store mocks base method.
+func (m *MockGroup) Store(ctx context.Context, group *model.Group) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Store", ctx, group)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Store indicates an expected call of Store.
+func (mr *MockGroupMockRecorder) Store(ctx, group any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Store", reflect.TypeOf((*MockGroup)(nil).Store), ctx, group)
+}

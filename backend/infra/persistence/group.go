@@ -15,6 +15,11 @@ type groupPersistence struct {
 	conn *db.Conn
 }
 
+func (g *groupPersistence) Store(ctx context.Context, group *model.Group) error {
+	groupDTO := dto.ToGroupDto(*group)
+	return g.conn.WithContext(ctx).Create(&groupDTO).Error
+}
+
 func (g *groupPersistence) GetByID(ctx context.Context, id model.GroupID) (model.Group, error) {
 	var groupDTO dto.Group
 	err := g.conn.WithContext(ctx).Preload("Members").Where("id = ?", id.String()).First(&groupDTO).Error

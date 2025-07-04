@@ -18,7 +18,7 @@ func NewUseCase(repo *Repository) UseCase {
 		ResendConfirmationCode: usecase.NewResendConfirmationCode(),
 		VerifyToken:            usecase.NewVerifyToken(repo.Authenticator),
 		GetJoinedGroups:        usecase.NewGetJoinedGroups(repo.Account, repo.GroupMember, repo.Group),
-		CreateGroup:            usecase.NewCreateGroup(),
+		CreateGroup:            usecase.NewCreateGroup(repo.Account, repo.Group),
 		GetGroup:               usecase.NewGetGroup(repo.Account, repo.Group),
 		GetShoppingItems:       usecase.NewGetShoppingItems(),
 	}

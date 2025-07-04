@@ -14,7 +14,7 @@ type Group struct {
 	CreatedAt   time.Time
 }
 
-func NewGroup(id GroupID, name string, description string) (Group, error) {
+func NewGroup(id GroupID, name string, description string, members []GroupMember) (Group, error) {
 	if name == "" {
 		return Group{}, core.NewInvalidError(fmt.Errorf("name is required"))
 	}
@@ -23,6 +23,7 @@ func NewGroup(id GroupID, name string, description string) (Group, error) {
 		ID:          id,
 		Name:        name,
 		Description: description,
+		Members:     members,
 		CreatedAt:   core.NowJST(),
 	}, nil
 }

@@ -16,6 +16,7 @@ func TestNewGroup(t *testing.T) {
 		id          GroupID
 		groupName   string
 		description string
+		members     []GroupMember
 		wantErr     bool
 		errMsg      string
 	}{
@@ -24,6 +25,7 @@ func TestNewGroup(t *testing.T) {
 			id:          NewGroupID(),
 			groupName:   "テストグループ",
 			description: "テスト用のグループです",
+			members:     []GroupMember{},
 			wantErr:     false,
 		},
 		{
@@ -31,13 +33,31 @@ func TestNewGroup(t *testing.T) {
 			id:          NewGroupID(),
 			groupName:   "説明なしグループ",
 			description: "",
+			members:     []GroupMember{},
 			wantErr:     false,
+		},
+		{
+			name:        "正常系：メンバー付きでグループを作成",
+			id:          NewGroupID(),
+			groupName:   "メンバー付きグループ",
+			description: "メンバーがいるグループです",
+			members: []GroupMember{
+				{
+					ID:        NewGroupMemberID(),
+					GroupID:   NewGroupID(),
+					AccountID: NewAccountID(),
+					Role:      MemberRoleAdmin,
+					Status:    MemberStatusActive,
+				},
+			},
+			wantErr: false,
 		},
 		{
 			name:        "異常系：グループ名が空文字",
 			id:          NewGroupID(),
 			groupName:   "",
 			description: "説明があってもグループ名が空",
+			members:     []GroupMember{},
 			wantErr:     true,
 			errMsg:      "name is required at",
 		},
@@ -45,7 +65,7 @@ func TestNewGroup(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			group, err := NewGroup(tt.id, tt.groupName, tt.description)
+			group, err := NewGroup(tt.id, tt.groupName, tt.description, tt.members)
 
 			if tt.wantErr {
 				if err == nil {
@@ -72,6 +92,9 @@ func TestNewGroup(t *testing.T) {
 			}
 			if group.Description != tt.description {
 				t.Errorf("期待された説明: %s, 実際: %s", tt.description, group.Description)
+			}
+			if len(group.Members) != len(tt.members) {
+				t.Errorf("期待されたメンバー数: %d, 実際: %d", len(tt.members), len(group.Members))
 			}
 
 			// CreatedAtがJSTで設定されていることを確認

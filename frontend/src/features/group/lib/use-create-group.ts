@@ -10,6 +10,7 @@ type UseCreateGroupReturn = {
 export const useCreateGroup = (): UseCreateGroupReturn => {
   const { mutateAsync, isPending, error } = api.useMutation('post', '/groups', {
     onError: (error) => {
+      // TODO: 本番環境では適切なログ管理ツールを使用
       console.error('グループ作成エラー:', error)
     },
   })
@@ -27,7 +28,6 @@ export const useCreateGroup = (): UseCreateGroupReturn => {
   return {
     createGroup,
     isLoading: isPending,
-    error:
-      error?.message || (error ? 'グループの作成に失敗しました' : undefined),
+    error: error?.message || undefined,
   }
 }

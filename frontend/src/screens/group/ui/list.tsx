@@ -38,10 +38,12 @@ export const GroupListScreen = ({ navigation }: Props) => {
 
   const handleJoinGroup = () => {
     closeActionModal()
+    // TODO: 本番環境では適切なログ管理ツールを使用
     console.log('グループに参加')
   }
 
   const handleCreateSuccess = () => {
+    // TODO: 本番環境では適切なログ管理ツールを使用
     console.log('グループ作成成功')
   }
 
@@ -71,6 +73,9 @@ export const GroupListScreen = ({ navigation }: Props) => {
         style={styles.addButton}
         onPress={openActionModal}
         activeOpacity={0.8}
+        accessible={true}
+        accessibilityLabel="グループを追加"
+        accessibilityHint="新しいグループを作成するか、既存のグループに参加できます"
       >
         <Plus width={24} height={24} stroke={Colors.white} />
       </TouchableOpacity>
@@ -85,6 +90,9 @@ export const GroupListScreen = ({ navigation }: Props) => {
             style={styles.actionButton}
             onPress={handleCreateGroup}
             activeOpacity={0.8}
+            accessible={true}
+            accessibilityLabel="グループを作成"
+            accessibilityRole="button"
           >
             <Text style={styles.actionButtonText}>グループを作成</Text>
           </TouchableOpacity>
@@ -92,6 +100,9 @@ export const GroupListScreen = ({ navigation }: Props) => {
             style={styles.actionButton}
             onPress={handleJoinGroup}
             activeOpacity={0.8}
+            accessible={true}
+            accessibilityLabel="グループに参加"
+            accessibilityRole="button"
           >
             <Text style={styles.actionButtonText}>グループに参加</Text>
           </TouchableOpacity>

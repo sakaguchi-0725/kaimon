@@ -59,7 +59,12 @@ export const CreateGroupModal = ({
     <BottomSheetModal isVisible={isVisible} onClose={handleClose}>
       <View style={styles.modalHeader}>
         <Text style={styles.title}>グループを作成</Text>
-        <TouchableOpacity onPress={handleClose}>
+        <TouchableOpacity
+          onPress={handleClose}
+          accessible={true}
+          accessibilityLabel="モーダルを閉じる"
+          accessibilityRole="button"
+        >
           <X width={24} height={24} stroke={Colors.mainText} />
         </TouchableOpacity>
       </View>
@@ -98,7 +103,16 @@ export const CreateGroupModal = ({
         />
 
         {/* エラーメッセージ */}
-        {error && <Text style={styles.errorText}>{error}</Text>}
+        {error && (
+          <Text
+            style={styles.errorText}
+            accessible={true}
+            accessibilityLabel={`エラー: ${error}`}
+            accessibilityRole="alert"
+          >
+            {error}
+          </Text>
+        )}
       </View>
 
       {/* 作成ボタン */}

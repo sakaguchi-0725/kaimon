@@ -2,14 +2,14 @@ package persistence
 
 import (
 	"backend/domain/repository"
-	"backend/infra/firebase"
+	"backend/infra/external"
 	"context"
 
 	"firebase.google.com/go/v4/errorutils"
 )
 
 type authenticator struct {
-	firebaseClient firebase.Client
+	firebaseClient external.FirebaseClient
 }
 
 func (a *authenticator) VerifyToken(ctx context.Context, token string) (uid, email string, err error) {
@@ -39,6 +39,6 @@ func (a *authenticator) VerifyToken(ctx context.Context, token string) (uid, ema
 	return uid, email, nil
 }
 
-func NewAuthenticator(firebaseClient firebase.Client) repository.Authenticator {
+func NewAuthenticator(firebaseClient external.FirebaseClient) repository.Authenticator {
 	return &authenticator{firebaseClient: firebaseClient}
 }

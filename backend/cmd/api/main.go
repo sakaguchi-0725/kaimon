@@ -19,7 +19,7 @@ func main() {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	repo, err := registry.NewRepository(db)
+	repo, err := registry.NewRepository(db, cfg.Redis)
 	if err != nil {
 		log.Fatalf("Failed to create repository: %v", err)
 	}

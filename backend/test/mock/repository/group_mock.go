@@ -71,6 +71,20 @@ func (mr *MockGroupMockRecorder) GetByID(ctx, id any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByID", reflect.TypeOf((*MockGroup)(nil).GetByID), ctx, id)
 }
 
+// Invitation mocks base method.
+func (m *MockGroup) Invitation(ctx context.Context, invitation model.Invitation) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Invitation", ctx, invitation)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Invitation indicates an expected call of Invitation.
+func (mr *MockGroupMockRecorder) Invitation(ctx, invitation any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Invitation", reflect.TypeOf((*MockGroup)(nil).Invitation), ctx, invitation)
+}
+
 // Store mocks base method.
 func (m *MockGroup) Store(ctx context.Context, group *model.Group) error {
 	m.ctrl.T.Helper()

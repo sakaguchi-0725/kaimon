@@ -1,4 +1,5 @@
 export * from './use-group-detail'
 export * from './use-joined-groups'
+export * from './use-create-group'
 export * from './query-keys'
 export * from './invalidation'

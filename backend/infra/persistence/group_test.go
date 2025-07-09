@@ -3,14 +3,22 @@ package persistence_test
 import (
 	"backend/domain/model"
 	"backend/infra/persistence"
+	mock "backend/test/mock/external"
 	"context"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/mock/gomock"
 )
 
 func TestGroupPersistence(t *testing.T) {
-	groupRepo := persistence.NewGroup(testDB)
+	var (
+		ctrl            = gomock.NewController(t)
+		mockRedisClient = mock.NewMockRedisClient(ctrl)
+		groupRepo       = persistence.NewGroup(testDB, mockRedisClient)
+	)
+	defer ctrl.Finish()
 
 	t.Run("FindByIDs", func(t *testing.T) {
 		group1ID := model.NewGroupID()
@@ -134,7 +142,7 @@ func TestGroupPersistence(t *testing.T) {
 				} else {
 					assert.NoError(t, err)
 					assert.Equal(t, len(tt.want), len(got))
-					
+
 					// 結果を検証（順序に依存しない比較）
 					for _, wantGroup := range tt.want {
 						found := false
@@ -286,13 +294,65 @@ func TestGroupPersistence(t *testing.T) {
 					assert.ErrorIs(t, err, tt.wantErr)
 				} else {
 					assert.NoError(t, err)
-					
+
 					// 保存されたデータを検証
 					stored, err := groupRepo.GetByID(context.Background(), tt.group.ID)
 					assert.NoError(t, err)
 					assert.Equal(t, tt.group.ID, stored.ID)
 					assert.Equal(t, tt.group.Name, stored.Name)
 					assert.Equal(t, tt.group.Description, stored.Description)
+				}
+			})
+		}
+	})
+
+	t.Run("Invitation", func(t *testing.T) {
+		tests := []struct {
+			name       string
+			invitation model.Invitation
+			setupMock  func(*mock.MockRedisClient)
+			wantErr    bool
+		}{
+			{
+				name: "招待コードを正常に保存",
+				invitation: model.Invitation{
+					Code:      "ABC123XY",
+					GroupID:   model.NewGroupID(),
+					ExpiresAt: time.Now().Add(7 * 24 * time.Hour),
+				},
+				setupMock: func(mockRedis *mock.MockRedisClient) {
+					mockRedis.EXPECT().Set(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(nil)
+				},
+				wantErr: false,
+			},
+			{
+				name: "Redisエラーが発生した場合",
+				invitation: model.Invitation{
+					Code:      "DEF456ZW",
+					GroupID:   model.NewGroupID(),
+					ExpiresAt: time.Now().Add(7 * 24 * time.Hour),
+				},
+				setupMock: func(mockRedis *mock.MockRedisClient) {
+					mockRedis.EXPECT().Set(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(assert.AnError)
+				},
+				wantErr: true,
+			},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				// テストデータをクリア
+				defer CleanupTestData()
+
+				// モックのセットアップ
+				tt.setupMock(mockRedisClient)
+
+				err := groupRepo.Invitation(context.Background(), tt.invitation)
+
+				if tt.wantErr {
+					assert.Error(t, err)
+				} else {
+					assert.NoError(t, err)
 				}
 			})
 		}

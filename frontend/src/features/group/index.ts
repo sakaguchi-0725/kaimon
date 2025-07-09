@@ -1,6 +1,8 @@
 export { GroupList } from './ui/list'
 export { GroupDetail } from './ui/detail'
 export { MemberList } from './ui/member-list'
+export { CreateGroupModal } from './ui/create-group-modal'
 export { useGroupDetail } from './lib/use-group-detail'
 export { useJoinedGroups } from './lib/use-joined-groups'
+export { useCreateGroup } from './lib/use-create-group'
 export type { GroupInfo, Member, MemberRole, MemberStatus } from './model'

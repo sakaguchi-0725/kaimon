@@ -1,5 +1,5 @@
-//go:generate mockgen -source=client.go -destination=../../test/mock/firebase/client_mock.go -package=mock
-package firebase
+//go:generate mockgen -source=firebase.go -destination=../../test/mock/external/firebase_mock.go -package=mock
+package external
 
 import (
 	"context"
@@ -10,16 +10,16 @@ import (
 )
 
 type (
-	Client interface {
+	FirebaseClient interface {
 		VerifyIDToken(ctx context.Context, idToken string) (*auth.Token, error)
 	}
 
-	client struct {
+	firebaseClient struct {
 		*auth.Client
 	}
 )
 
-func (c *client) VerifyIDToken(ctx context.Context, idToken string) (*auth.Token, error) {
+func (c *firebaseClient) VerifyIDToken(ctx context.Context, idToken string) (*auth.Token, error) {
 	token, err := c.Client.VerifyIDToken(ctx, idToken)
 	if err != nil {
 		return nil, err
@@ -27,7 +27,7 @@ func (c *client) VerifyIDToken(ctx context.Context, idToken string) (*auth.Token
 	return token, nil
 }
 
-func NewClient(ctx context.Context) (Client, error) {
+func NewFirebaseClient(ctx context.Context) (FirebaseClient, error) {
 	// GOOGLE_APPLICATION_CREDENTIALS を使用して認証情報を設定
 	app, err := firebase.NewApp(ctx, nil)
 	if err != nil {
@@ -39,5 +39,5 @@ func NewClient(ctx context.Context) (Client, error) {
 		return nil, fmt.Errorf("failed to initialize firebase auth client: %w", err)
 	}
 
-	return &client{authClient}, nil
+	return &firebaseClient{authClient}, nil
 }

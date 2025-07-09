@@ -47,6 +47,7 @@ func (s *Server) MapRoutes(frontendURL string, logger core.Logger, uc registry.U
 	})
 
 	api.POST("/signup", handler.NewSignUp(uc.SignUp))
+	api.GET("/accounts", handler.NewGetAccount(uc.GetAccount))
 
 	groups := api.Group("/groups")
 	groups.GET("", handler.NewGetJoinedGroups(uc.GetJoinedGroups))

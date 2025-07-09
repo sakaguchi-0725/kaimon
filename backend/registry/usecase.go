@@ -11,6 +11,7 @@ type UseCase struct {
 	GetGroup               usecase.GetGroup
 	GetShoppingItems       usecase.GetShoppingItems
 	GroupInvitation        usecase.GroupInvitation
+	GetAccount             usecase.GetAccount
 }
 
 func NewUseCase(repo *Repository) UseCase {
@@ -23,5 +24,6 @@ func NewUseCase(repo *Repository) UseCase {
 		GetGroup:               usecase.NewGetGroup(repo.Account, repo.Group),
 		GetShoppingItems:       usecase.NewGetShoppingItems(),
 		GroupInvitation:        usecase.NewGroupInvitation(repo.Account, repo.Group),
+		GetAccount:             usecase.NewGetAccount(repo.Account),
 	}
 }

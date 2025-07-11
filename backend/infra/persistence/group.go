@@ -26,12 +26,33 @@ func (g *groupPersistence) Invitation(ctx context.Context, invitation model.Invi
 		return err
 	}
 
-	err = g.redisClient.Set(ctx, g.generateInvitationKey(invitation), invitationJSON, invitation.ExpiresAt.Sub(core.NowJST()))
+	key := g.generateGroupInvitationKey(invitation.GroupID)
+	err = g.redisClient.Set(ctx, key, invitationJSON, invitation.ExpiresAt.Sub(core.NowJST()))
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (g *groupPersistence) GetInvitation(ctx context.Context, groupID model.GroupID) (*model.Invitation, error) {
+	key := g.generateGroupInvitationKey(groupID)
+	result, err := g.redisClient.Get(ctx, key)
+	if err != nil {
+		return nil, err
+	}
+
+	if result == "" {
+		return nil, nil // 招待コードが存在しない
+	}
+
+	var invitation model.Invitation
+	err = json.Unmarshal([]byte(result), &invitation)
+	if err != nil {
+		return nil, err
+	}
+
+	return &invitation, nil
 }
 
 func (g *groupPersistence) Store(ctx context.Context, group *model.Group) error {
@@ -78,8 +99,8 @@ func (g *groupPersistence) FindByIDs(ctx context.Context, ids []model.GroupID) (
 	return groups, nil
 }
 
-func (g *groupPersistence) generateInvitationKey(invitation model.Invitation) string {
-	return fmt.Sprintf("invitation:%s", invitation.Code)
+func (g *groupPersistence) generateGroupInvitationKey(groupID model.GroupID) string {
+	return fmt.Sprintf("group_invitation:%s", groupID.String())
 }
 
 func NewGroup(c *db.Conn, redisClient external.RedisClient) repository.Group {

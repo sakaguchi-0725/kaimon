@@ -51,6 +51,21 @@ func (g *groupInvitationInteractor) Execute(ctx context.Context, input GroupInvi
 			WithMessage("管理者権限がありません")
 	}
 
+	// 既存の招待コードを確認
+	existingInvitation, err := g.groupRepo.GetInvitation(ctx, groupID)
+	if err != nil {
+		return GroupInvitationOutput{}, err
+	}
+
+	// 既存の招待コードがある場合はそれを返す
+	if existingInvitation != nil {
+		return GroupInvitationOutput{
+			Code:      existingInvitation.Code,
+			ExpiresAt: core.FormatWithLayout(existingInvitation.ExpiresAt, core.LayoutISO8601),
+		}, nil
+	}
+
+	// 既存の招待コードがない場合は新規生成
 	invitation := group.Invitation()
 
 	err = g.groupRepo.Invitation(ctx, invitation)

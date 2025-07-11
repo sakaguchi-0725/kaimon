@@ -11,4 +11,5 @@ type Group interface {
 	FindByIDs(ctx context.Context, ids []model.GroupID) ([]model.Group, error)
 	Store(ctx context.Context, group *model.Group) error
 	Invitation(ctx context.Context, invitation model.Invitation) error
+	GetInvitation(ctx context.Context, groupID model.GroupID) (*model.Invitation, error)
 }

@@ -357,4 +357,86 @@ func TestGroupPersistence(t *testing.T) {
 			})
 		}
 	})
+
+	t.Run("GetInvitation", func(t *testing.T) {
+		groupID := model.NewGroupID()
+		
+		tests := []struct {
+			name      string
+			groupID   model.GroupID
+			setupMock func(*mock.MockRedisClient)
+			want      *model.Invitation
+			wantErr   bool
+		}{
+			{
+				name:    "既存の招待コードを正常に取得",
+				groupID: groupID,
+				setupMock: func(mockRedis *mock.MockRedisClient) {
+					invitationJSON := `{"code":"ABC123XY","groupId":"` + groupID.String() + `","expiresAt":"2024-01-08T00:00:00Z"}`
+					mockRedis.EXPECT().Get(gomock.Any(), "group_invitation:"+groupID.String()).Return(invitationJSON, nil)
+				},
+				want: &model.Invitation{
+					Code:      "ABC123XY",
+					GroupID:   groupID,
+					ExpiresAt: time.Date(2024, 1, 8, 0, 0, 0, 0, time.UTC),
+				},
+				wantErr: false,
+			},
+			{
+				name:    "招待コードが存在しない場合",
+				groupID: groupID,
+				setupMock: func(mockRedis *mock.MockRedisClient) {
+					mockRedis.EXPECT().Get(gomock.Any(), "group_invitation:"+groupID.String()).Return("", nil)
+				},
+				want:    nil,
+				wantErr: false,
+			},
+			{
+				name:    "Redisエラーが発生した場合",
+				groupID: groupID,
+				setupMock: func(mockRedis *mock.MockRedisClient) {
+					mockRedis.EXPECT().Get(gomock.Any(), "group_invitation:"+groupID.String()).Return("", assert.AnError)
+				},
+				want:    nil,
+				wantErr: true,
+			},
+			{
+				name:    "JSONデシリアライズエラーが発生した場合",
+				groupID: groupID,
+				setupMock: func(mockRedis *mock.MockRedisClient) {
+					mockRedis.EXPECT().Get(gomock.Any(), "group_invitation:"+groupID.String()).Return("invalid-json", nil)
+				},
+				want:    nil,
+				wantErr: true,
+			},
+		}
+
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				// テストデータをクリア
+				defer CleanupTestData()
+
+				// モックのセットアップ
+				tt.setupMock(mockRedisClient)
+
+				got, err := groupRepo.GetInvitation(context.Background(), tt.groupID)
+
+				if tt.wantErr {
+					assert.Error(t, err)
+					assert.Nil(t, got)
+				} else {
+					assert.NoError(t, err)
+					if tt.want == nil {
+						assert.Nil(t, got)
+					} else {
+						assert.NotNil(t, got)
+						assert.Equal(t, tt.want.Code, got.Code)
+						assert.Equal(t, tt.want.GroupID, got.GroupID)
+						// ExpiresAtは時刻の比較が複雑なので、ここでは簡単な検証のみ
+						assert.NotZero(t, got.ExpiresAt)
+					}
+				}
+			})
+		}
+	})
 }

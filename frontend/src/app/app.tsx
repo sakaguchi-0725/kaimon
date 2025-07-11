@@ -4,6 +4,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/shared/api'
+import { AccountContextProvider } from './context'
 
 const AppTheme = {
   ...DefaultTheme,
@@ -16,11 +17,13 @@ const AppTheme = {
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView style={styles.container}>
-        <NavigationContainer theme={AppTheme}>
-          <AppNavigator />
-        </NavigationContainer>
-      </GestureHandlerRootView>
+      <AccountContextProvider>
+        <GestureHandlerRootView style={styles.container}>
+          <NavigationContainer theme={AppTheme}>
+            <AppNavigator />
+          </NavigationContainer>
+        </GestureHandlerRootView>
+      </AccountContextProvider>
     </QueryClientProvider>
   )
 }

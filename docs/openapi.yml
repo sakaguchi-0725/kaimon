@@ -9,6 +9,8 @@ servers:
 tags:
   - name: Auth
     description: 認証関連のAPI
+  - name: Account
+    description: アカウント関連のAPI
   - name: Group
     description: グループ関連のAPI
 paths:
@@ -32,6 +34,27 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /account:
+    get:
+      tags:
+        - Account
+      summary: アカウント情報取得
+      description: 認証されたユーザーのアカウント情報を取得します
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: アカウント情報取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAccountResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /groups:
@@ -363,6 +386,18 @@ components:
       type: string
       description: 買い物メモのステータス
       enum: [UNPURCHASED, PURCHASED, IN_CART]
+    GetAccountResponse:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          description: アカウントID
+        name:
+          type: string
+          description: アカウント名
   securitySchemes:
     bearerAuth:
       type: http

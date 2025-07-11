@@ -1,18 +1,37 @@
 package persistence
 
 import (
+	"backend/core"
 	"backend/domain/model"
 	"backend/domain/repository"
 	"backend/infra/db"
 	"backend/infra/dto"
+	"backend/infra/external"
 	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
 
 type groupPersistence struct {
-	conn *db.Conn
+	conn        *db.Conn
+	redisClient external.RedisClient
+}
+
+func (g *groupPersistence) Invitation(ctx context.Context, invitation model.Invitation) error {
+	invitationJSON, err := json.Marshal(invitation)
+	if err != nil {
+		return err
+	}
+
+	err = g.redisClient.Set(ctx, g.generateInvitationKey(invitation), invitationJSON, invitation.ExpiresAt.Sub(core.NowJST()))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (g *groupPersistence) Store(ctx context.Context, group *model.Group) error {
@@ -59,6 +78,13 @@ func (g *groupPersistence) FindByIDs(ctx context.Context, ids []model.GroupID) (
 	return groups, nil
 }
 
-func NewGroup(c *db.Conn) repository.Group {
-	return &groupPersistence{conn: c}
+func (g *groupPersistence) generateInvitationKey(invitation model.Invitation) string {
+	return fmt.Sprintf("invitation:%s", invitation.Code)
+}
+
+func NewGroup(c *db.Conn, redisClient external.RedisClient) repository.Group {
+	return &groupPersistence{
+		conn:        c,
+		redisClient: redisClient,
+	}
 }

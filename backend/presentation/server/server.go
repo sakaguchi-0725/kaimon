@@ -47,12 +47,14 @@ func (s *Server) MapRoutes(frontendURL string, logger core.Logger, uc registry.U
 	})
 
 	api.POST("/signup", handler.NewSignUp(uc.SignUp))
+	api.GET("/accounts", handler.NewGetAccount(uc.GetAccount))
 
 	groups := api.Group("/groups")
 	groups.GET("", handler.NewGetJoinedGroups(uc.GetJoinedGroups))
 	groups.POST("", handler.NewCreateGroup(uc.CreateGroup))
 	groups.GET("/:id", handler.NewGetGroup(uc.GetGroup))
 	groups.GET("/:id/items", handler.NewGetShoppingItems(uc.GetShoppingItems))
+	groups.POST("/:id/invitations", handler.NewGroupInvitation(uc.GroupInvitation))
 }
 
 func (s *Server) Run() {

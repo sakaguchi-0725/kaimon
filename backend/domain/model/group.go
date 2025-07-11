@@ -37,3 +37,18 @@ func (g Group) IsMember(accountID AccountID) bool {
 	}
 	return false
 }
+
+// 管理者かどうかを判定する
+func (g Group) IsAdmin(accountID AccountID) bool {
+	for _, member := range g.Members {
+		if member.AccountID == accountID && member.Role == MemberRoleAdmin {
+			return true
+		}
+	}
+	return false
+}
+
+// 招待コードを生成する
+func (g Group) Invitation() Invitation {
+	return NewInvitation(g.ID)
+}

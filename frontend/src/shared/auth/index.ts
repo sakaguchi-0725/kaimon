@@ -1,2 +1,5 @@
 export * from './lib/use-auth'
 export * from './lib/use-firebase-auth'
+export { useAccount } from './lib/use-account'
+export { useAccountApi } from './lib/use-account-api'
+export * from './model'

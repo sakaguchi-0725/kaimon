@@ -45,6 +45,48 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/account': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * アカウント情報取得
+     * @description 認証されたユーザーのアカウント情報を取得します
+     */
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description アカウント情報取得成功 */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['GetAccountResponse']
+          }
+        }
+        401: components['responses']['Unauthorized']
+        404: components['responses']['NotFound']
+        500: components['responses']['InternalServerError']
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/groups': {
     parameters: {
       query?: never
@@ -311,6 +353,12 @@ export interface components {
      * @enum {string}
      */
     ShoppingItemStatus: 'UNPURCHASED' | 'PURCHASED' | 'IN_CART'
+    GetAccountResponse: {
+      /** @description アカウントID */
+      id: string
+      /** @description アカウント名 */
+      name: string
+    }
   }
   responses: {
     /** @description リクエスト不正 */

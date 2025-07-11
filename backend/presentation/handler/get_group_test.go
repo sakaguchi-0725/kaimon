@@ -42,16 +42,18 @@ func TestGetGroup(t *testing.T) {
 					CreatedAt:   "2023-01-01T00:00:00Z",
 					Members: []usecase.Member{
 						{
-							ID:     "member1",
-							Name:   "メンバー1",
-							Role:   "admin",
-							Status: "active",
+							ID:        "member1",
+							AccountID: "account1",
+							Name:      "メンバー1",
+							Role:      "admin",
+							Status:    "active",
 						},
 						{
-							ID:     "member2",
-							Name:   "メンバー2",
-							Role:   "member",
-							Status: "active",
+							ID:        "member2",
+							AccountID: "account2",
+							Name:      "メンバー2",
+							Role:      "member",
+							Status:    "active",
 						},
 					},
 				}, nil)
@@ -65,12 +67,14 @@ func TestGetGroup(t *testing.T) {
 				"members": [
 					{
 						"id": "member1",
+						"accountId": "account1",
 						"name": "メンバー1",
 						"role": "admin",
 						"status": "active"
 					},
 					{
 						"id": "member2",
+						"accountId": "account2",
 						"name": "メンバー2",
 						"role": "member",
 						"status": "active"
@@ -93,10 +97,11 @@ func TestGetGroup(t *testing.T) {
 					CreatedAt:   "2023-01-01T00:00:00Z",
 					Members: []usecase.Member{
 						{
-							ID:     "member1",
-							Name:   "作成者",
-							Role:   "admin",
-							Status: "active",
+							ID:        "member1",
+							AccountID: "account1",
+							Name:      "作成者",
+							Role:      "admin",
+							Status:    "active",
 						},
 					},
 				}, nil)
@@ -110,6 +115,7 @@ func TestGetGroup(t *testing.T) {
 				"members": [
 					{
 						"id": "member1",
+						"accountId": "account1",
 						"name": "作成者",
 						"role": "admin",
 						"status": "active"

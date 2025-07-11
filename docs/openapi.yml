@@ -368,6 +368,9 @@ components:
         id:
           type: string
           description: メンバーID
+        accountId:
+          type: string
+          description: アカウントID
         name:
           type: string
           description: メンバー名

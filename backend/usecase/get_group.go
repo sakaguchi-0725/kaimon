@@ -28,10 +28,11 @@ type (
 	}
 
 	Member struct {
-		ID     string
-		Name   string
-		Role   string
-		Status string
+		ID        string
+		AccountID string
+		Name      string
+		Role      string
+		Status    string
 	}
 
 	getGroupInteractor struct {
@@ -97,10 +98,11 @@ func (g *getGroupInteractor) makeOutput(group model.Group, accounts []model.Acco
 		}
 
 		members = append(members, Member{
-			ID:     member.ID.String(),
-			Name:   account.Name,
-			Role:   member.Role.String(),
-			Status: member.Status.String(),
+			ID:        member.ID.String(),
+			AccountID: member.AccountID.String(),
+			Name:      account.Name,
+			Role:      member.Role.String(),
+			Status:    member.Status.String(),
 		})
 	}
 

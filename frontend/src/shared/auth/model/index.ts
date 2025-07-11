@@ -1,2 +1,8 @@
-export type { GetAccountResponse, AccountContextType } from './types'
+export type {
+  GetAccountResponse,
+  AccountContextType,
+  SignUpResponse,
+  SignInWithEmailAndPasswordResponse,
+  GoogleSignInResponse,
+} from './types'
 export { AccountContext } from './types'

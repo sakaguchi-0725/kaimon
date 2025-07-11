@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { GroupStackParamList } from './stack-navigator'
-import { GroupDetail, MemberList, useGroupDetail } from '@/features/group'
+import {
+  GroupDetail,
+  MemberList,
+  useGroupDetail,
+  GroupInvitationModal,
+} from '@/features/group'
 import { Container } from '@/shared/ui/container'
 import { Colors } from '@/shared/constants'
 import { UserPlus } from 'react-native-feather'
@@ -12,10 +17,11 @@ type Props = NativeStackScreenProps<GroupStackParamList, 'GroupDetail'>
 export const GroupDetailScreen = ({ route }: Props) => {
   const { groupId } = route.params
   const { data: groupData, isLoading, error } = useGroupDetail(groupId)
+  const [isInvitationModalVisible, setIsInvitationModalVisible] =
+    useState(false)
 
   const handleAddMember = () => {
-    console.log('メンバー追加ボタンがタップされました')
-    // ここにメンバー追加の処理を実装
+    setIsInvitationModalVisible(true)
   }
 
   const handleEdit = () => {
@@ -54,6 +60,11 @@ export const GroupDetailScreen = ({ route }: Props) => {
         </View>
         <MemberList members={groupData.members || []} />
       </Container>
+
+      <GroupInvitationModal
+        isVisible={isInvitationModalVisible}
+        onClose={() => setIsInvitationModalVisible(false)}
+      />
     </>
   )
 }

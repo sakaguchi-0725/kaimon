@@ -21,12 +21,58 @@ func TestGroupInvitation(t *testing.T) {
 	groupRepo := mock.NewMockGroup(ctrl)
 
 	tests := []struct {
-		name    string
-		input   usecase.GroupInvitationInput
-		setup   func()
-		wantErr bool
-		errMsg  string
+		name         string
+		input        usecase.GroupInvitationInput
+		setup        func()
+		wantErr      bool
+		errMsg       string
+		expectedCode string // 期待される招待コード（既存コードの場合に使用）
 	}{
+		{
+			name: "正常系：既存の招待コードを取得",
+			input: usecase.GroupInvitationInput{
+				GroupID: "01234567-89ab-cdef-0123-456789abcdef",
+				UserID:  "test-user-id",
+			},
+			setup: func() {
+				accountID := model.NewAccountID()
+				account := model.Account{
+					ID:     accountID,
+					UserID: "test-user-id",
+					Name:   "テスト管理者",
+				}
+				
+				groupID, _ := model.ParseGroupID("01234567-89ab-cdef-0123-456789abcdef")
+				group := model.Group{
+					ID:          groupID,
+					Name:        "テストグループ",
+					Description: "テスト用グループ",
+					Members: []model.GroupMember{
+						{
+							ID:        model.NewGroupMemberID(),
+							AccountID: accountID,
+							Role:      model.MemberRoleAdmin,
+							Status:    model.MemberStatusActive,
+						},
+					},
+					CreatedAt: core.NowJST(),
+				}
+
+				// 既存の招待コードを設定
+				existingInvitation := &model.Invitation{
+					Code:      "EXISTING123",
+					GroupID:   groupID,
+					ExpiresAt: time.Now().Add(7 * 24 * time.Hour),
+				}
+
+				accountRepo.EXPECT().FindByUserID(gomock.Any(), "test-user-id").Return(account, nil)
+				groupRepo.EXPECT().GetByID(gomock.Any(), groupID).Return(group, nil)
+				groupRepo.EXPECT().GetInvitation(gomock.Any(), groupID).Return(existingInvitation, nil)
+				// Invitation()メソッドは呼ばれないことを確認（既存コードがあるため）
+			},
+			wantErr:      false,
+			expectedCode: "EXISTING123",
+		},
 		{
 			name: "正常系：管理者が招待コードを生成",
 			input: usecase.GroupInvitationInput{
@@ -59,6 +105,7 @@ func TestGroupInvitation(t *testing.T) {
 
 				accountRepo.EXPECT().FindByUserID(gomock.Any(), "test-user-id").Return(account, nil)
 				groupRepo.EXPECT().GetByID(gomock.Any(), groupID).Return(group, nil)
+				groupRepo.EXPECT().GetInvitation(gomock.Any(), groupID).Return(nil, nil) // 既存の招待コードがない
 				groupRepo.EXPECT().Invitation(gomock.Any(), gomock.Any()).Return(nil)
 			},
 			wantErr: false,
@@ -177,6 +224,7 @@ func TestGroupInvitation(t *testing.T) {
 
 				accountRepo.EXPECT().FindByUserID(gomock.Any(), "test-user-id").Return(account, nil)
 				groupRepo.EXPECT().GetByID(gomock.Any(), groupID).Return(group, nil)
+				groupRepo.EXPECT().GetInvitation(gomock.Any(), groupID).Return(nil, nil) // 既存の招待コードがない
 				groupRepo.EXPECT().Invitation(gomock.Any(), gomock.Any()).Return(assert.AnError)
 			},
 			wantErr: true,
@@ -201,6 +249,11 @@ func TestGroupInvitation(t *testing.T) {
 				assert.NoError(t, err)
 				assert.NotEmpty(t, output.Code)
 				assert.NotEmpty(t, output.ExpiresAt)
+				
+				// 期待される招待コードが指定されている場合はそれを確認
+				if tt.expectedCode != "" {
+					assert.Equal(t, tt.expectedCode, output.Code)
+				}
 				
 				// ExpiresAtが有効なISO8601フォーマットであることを確認
 				_, parseErr := time.Parse(core.LayoutISO8601, output.ExpiresAt)

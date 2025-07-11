@@ -186,6 +186,38 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /groups/{id}/invitations:
+    get:
+      tags:
+        - Group
+      summary: 招待コード取得
+      description: 指定されたグループの招待コードを取得します。有効なコードがあれば返し、なければ新規生成します（管理者のみ）
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: グループID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 招待コード取得成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateInvitationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
   responses:
     BadRequest:
@@ -336,6 +368,9 @@ components:
         id:
           type: string
           description: メンバーID
+        accountId:
+          type: string
+          description: アカウントID
         name:
           type: string
           description: メンバー名
@@ -398,6 +433,21 @@ components:
         name:
           type: string
           description: アカウント名
+    CreateInvitationResponse:
+      type: object
+      required:
+        - invitation_code
+        - expires_at
+      properties:
+        invitation_code:
+          type: string
+          description: 招待コード
+          example: "ABC123XY"
+        expires_at:
+          type: string
+          format: date-time
+          description: 有効期限（ISO8601形式）
+          example: "2024-01-08T00:00:00Z"
   securitySchemes:
     bearerAuth:
       type: http

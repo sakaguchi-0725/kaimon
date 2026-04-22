@@ -49,10 +49,5 @@
         ]
       }
     ]
-  },
-  "permissions": {
-    "allow": [
-      "Bash(git check-ignore *)"
-    ]
   }
 }

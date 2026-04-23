@@ -1,0 +1,127 @@
+<mxfile host="65bd71144e">
+    <diagram id="yLH0rR3r6cBe4ttQTuLq" name="ページ1">
+        <mxGraphModel dx="1319" dy="896" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="sb" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="350" y="90" width="500" height="680" as="geometry"/>
+                </mxCell>
+                <mxCell id="sb-title" value="買い物管理サービス" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=14;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="100" width="300" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="g-account" value="【アカウント】" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="140" width="300" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc1" value="サインアップする" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="165" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc2" value="ログインする" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="200" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="g-family" value="【家族グループ】" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="245" width="300" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc3" value="家族グループを作成する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="270" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc4" value="家族メンバーを招待する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="305" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc5" value="招待を承諾する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="340" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="g-list" value="【買い物リスト】" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="385" width="300" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc6" value="買い物リストを作成する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="410" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc7" value="買い物アイテムを追加する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="445" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="g-session" value="【買い物セッション】" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=12;fontColor=#B85450;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="490" width="300" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc8" value="買い物セッションを開始する" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="515" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc9" value="買い物アイテムをカートに入れる" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="550" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;" parent="1" source="uc10" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="210" y="430" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uc10" value="買い物アイテムを購入済みにする" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="585" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" style="edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;" parent="1" source="uc11" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="210" y="430" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uc11" value="買い物セッションを終了する" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="620" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="g-master" value="【マスターデータ】" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="665" width="300" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" source="uc12" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="210" y="720" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="uc12" value="商品マスタを管理する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="690" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="uc13" value="カテゴリマスタを管理する" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="725" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="user" value="ユーザー" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="390" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="admin" value="管理者" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="690" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="note-session" value="メイン機能:&lt;div&gt;未購入 → カート → 購入済み&lt;/div&gt;&lt;div&gt;の状態遷移を家族間でリアルタイム共有&lt;/div&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=13;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="870" y="540" width="220" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="note-session-edge" style="edgeStyle=none;html=1;endArrow=none;endFill=0;dashed=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="note-session" target="uc10" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="user" target="uc1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="user" target="uc2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e3" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="user" target="uc3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="user" target="uc4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="user" target="uc5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e6" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="user" target="uc6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e7" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="user" target="uc7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e8" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="user" target="uc8" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e9" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="user" target="uc9" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e13" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="admin" target="uc13" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

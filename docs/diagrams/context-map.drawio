@@ -1,0 +1,142 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram id="context-map" name="コンテキストマップ">
+    <mxGraphModel dx="2030" dy="1183" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1100" math="0" shadow="0" adaptiveColors="auto">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=18;fontStyle=1;" value="買い物管理サービス (kaimon) - コンテキストマップ" vertex="1">
+          <mxGeometry height="40" width="900" x="400" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=12;" value="集約間の依存方向を明示する。U=Upstream（契約を定義する側）/ D=Downstream（契約に従う側）。Go パッケージ間の依存方向と一致させる。" vertex="1">
+          <mxGeometry height="30" width="1200" x="250" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ctx-frame" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;strokeColor=#666666;verticalAlign=top;fontStyle=1;fontSize=13;fontColor=#333333;" value="買い物管理サービス (単一コンテキスト)" vertex="1">
+          <mxGeometry height="260" width="1520" x="80" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="ag-user" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;" value="&lt;b&gt;ユーザー&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;cognito_sub を保持&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="180" x="120" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="ag-account" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;" value="&lt;b&gt;アカウント&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;プロフィール情報&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="180" x="400" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="ag-family" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;" value="&lt;b&gt;家族&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;家族グループ / メンバー / 招待&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="200" x="680" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="ag-list" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;" value="&lt;b&gt;買い物リスト&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;リスト / アイテム&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="200" x="980" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="ag-session" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;" value="&lt;b&gt;買い物セッション&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;買い物の実施単位&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="200" x="1280" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-cognito" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#e1d5e7;strokeColor=#9673a6;" value="&lt;b&gt;認証サービス&lt;/b&gt;&lt;div&gt;(AWS Cognito)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="180" x="120" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ext-ses" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#e1d5e7;strokeColor=#9673a6;" value="&lt;b&gt;メール通知サービス&lt;/b&gt;&lt;div&gt;(AWS SES)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="200" x="680" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="dep-account-user" edge="1" parent="1" source="ag-account" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;endFill=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="ag-user">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dep-account-user-d" connectable="0" parent="dep-account-user" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="D" vertex="1">
+          <mxGeometry x="-0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dep-account-user-u" connectable="0" parent="dep-account-user" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="U" vertex="1">
+          <mxGeometry x="0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dep-family-account" edge="1" parent="1" source="ag-family" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;endFill=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="ag-account">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dep-family-account-d" connectable="0" parent="dep-family-account" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="D" vertex="1">
+          <mxGeometry x="-0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dep-family-account-u" connectable="0" parent="dep-family-account" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="U" vertex="1">
+          <mxGeometry x="0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dep-list-family" edge="1" parent="1" source="ag-list" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;endFill=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="ag-family">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dep-list-family-d" connectable="0" parent="dep-list-family" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="D" vertex="1">
+          <mxGeometry x="-0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dep-list-family-u" connectable="0" parent="dep-list-family" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="U" vertex="1">
+          <mxGeometry x="0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dep-session-list" edge="1" parent="1" source="ag-session" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;endFill=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="ag-list">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dep-session-list-d" connectable="0" parent="dep-session-list" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="D" vertex="1">
+          <mxGeometry x="-0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dep-session-list-u" connectable="0" parent="dep-session-list" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="U" vertex="1">
+          <mxGeometry x="0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dep-user-cognito" edge="1" parent="1" source="ag-user" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="ext-cognito">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dep-user-cognito-d" connectable="0" parent="dep-user-cognito" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="D" vertex="1">
+          <mxGeometry x="0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dep-user-cognito-u" connectable="0" parent="dep-user-cognito" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="U" vertex="1">
+          <mxGeometry x="-0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dep-family-ses" edge="1" parent="1" source="ag-family" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="ext-ses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dep-family-ses-u" connectable="0" parent="dep-family-ses" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="U" vertex="1">
+          <mxGeometry x="-0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dep-family-ses-d" connectable="0" parent="dep-family-ses" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=12;fontStyle=1;" value="D" vertex="1">
+          <mxGeometry x="0.8" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note-single-ctx" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=13;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;単一コンテキストとする理由&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;各集約間でユビキタス言語の&lt;/div&gt;&lt;div&gt;意味が変わらないため境界を切らない。&lt;/div&gt;&lt;div&gt;本図の依存方向は、backend の&lt;/div&gt;&lt;div&gt;Go パッケージ依存方向にそのまま&lt;/div&gt;&lt;div&gt;反映する。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="150" width="240" x="1170" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="note-category" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=13;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;カテゴリーの扱い（Lookup Master）&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;カテゴリーは集約にせず、専用テーブル&lt;/div&gt;&lt;div&gt;で管理する（運用で追加・改名あり）。&lt;/div&gt;&lt;div&gt;買い物アイテム（買い物リスト集約内）&lt;/div&gt;&lt;div&gt;から FK で参照するが、API とドメイン層&lt;/div&gt;&lt;div&gt;では文字列 code を enum として扱う。&lt;/div&gt;&lt;div&gt;詳細: .claude/rules/backend/database-design.md&lt;/div&gt;" vertex="1">
+          <mxGeometry height="170" width="320" x="1190" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="note-admin" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=13;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;管理者機能&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;現状はカテゴリーマスターの管理のみ。&lt;/div&gt;&lt;div&gt;家族・アカウントへの操作は行わないため&lt;/div&gt;&lt;div&gt;独立したコンテキストは作らない。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="130" width="260" x="80" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="note-auth" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=13;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;認証の方針&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;システム内の「ユーザー」集約が&lt;/div&gt;&lt;div&gt;cognito_sub を保持する。&lt;/div&gt;&lt;div&gt;アカウントは cognito_sub を直接&lt;/div&gt;&lt;div&gt;持たず、user_id 経由で参照する。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="260" x="360" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="note-ses-scope" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=13;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;通知の発火範囲&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;現状は家族招待メールのみ。&lt;/div&gt;&lt;div&gt;他集約からの利用は想定していない。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="240" x="920" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="note-external-principle" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=13;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;外部サービス連携の原則&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;使用者側の内部ドメインが interface を定義し、&lt;/div&gt;&lt;div&gt;外部サービス（Cognito / SES）がその interface を&lt;/div&gt;&lt;div&gt;実装する（DIP / Ports &amp;amp; Adapters）。&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- ユーザー集約 が認証 interface を定義 → Cognito 実装&lt;/div&gt;&lt;div&gt;- 家族集約 が招待メール送信 interface を定義 → SES 実装&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;内部ドメインが外部サービスを直接利用することはない。&lt;/b&gt;&lt;/div&gt;&lt;div&gt;よって契約の支配者 = 内部 = U、外部 = D。&lt;/div&gt;" vertex="1">
+          <mxGeometry height="230" width="430" x="80" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="note-legend" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;size=13;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;凡例&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;U = Upstream（契約を定義する側）&lt;/div&gt;&lt;div&gt;D = Downstream（契約に従う側）&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;紫の矩形 = 外部システム&lt;/div&gt;&lt;div&gt;破線枠 = 単一コンテキスト境界&lt;/div&gt;" vertex="1">
+          <mxGeometry height="170" width="240" x="1420" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="review-01" parent="1" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=11;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;spacingRight=5;" value="[HIGH] ユーザー集約 ↔ Cognito の U/D ラベル位置を再確認。note-external-principle では『内部=U / 外部=D』と規定されているが、図上の dep-user-cognito-u は内部側と逆の位置に配置されている疑いあり。" vertex="1">
+          <mxGeometry height="130" width="260" x="540" y="830" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

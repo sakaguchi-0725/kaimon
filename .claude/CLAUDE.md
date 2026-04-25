@@ -67,3 +67,7 @@
 - [設計ドキュメント](../docs/design/README.md) - ドメインごとの設計ドキュメント入口
 - [フロントエンド ADR](../docs/adr/frontend/0001-architecture.md) - FSD アーキテクチャの決定記録
 - [API 仕様書](../docs/api/openapi.yml) - OpenAPI 定義
+
+## その他
+- MUST: ユーザーへの質問は、AskUserQuestionsを使用すること
+- MUST: permissionやallowの設定はsettings.local.jsonに追記すること
